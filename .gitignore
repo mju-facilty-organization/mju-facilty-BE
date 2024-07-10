@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+# Ensure Docker files are included
+!Dockerfile
+!docker-compose.yml
+!.dockerignore
