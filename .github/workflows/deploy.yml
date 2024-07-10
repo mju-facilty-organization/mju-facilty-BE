@@ -42,7 +42,7 @@ jobs:
     - name: docker login
       uses: docker/login-action@v2
       with:
-        username: ${{secrets.DOCKERHUB_ID}}
+        username: ${{secrets.DOCKERHUB_USERNAME}}
         password: ${{secrets.DOCKERHUB_PW}}
       
     # 5. Docker Hub 이미지 푸시
