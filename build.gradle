@@ -18,7 +18,7 @@ repositories {
 dependencies {
 //	개발 도구
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.project lombok:lombok'
+	implementation 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 //	swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
