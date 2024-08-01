@@ -2,48 +2,47 @@ package com.example.rentalSystem.global.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@JsonPropertyOrder({"code", "message", "data"})
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ApiResponse<T> {
-
-  private final int code;
-  private final String message;
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private T data;
-
-  public static ApiResponse<?> success(SuccessType successType) {
-    return new ApiResponse<>(successType.getHttpStatusCode(), successType.getMessage());
-  }
+@Builder
+@JsonPropertyOrder({"httpStatusCode", "message", "data"})
+public record ApiResponse<T>(
+    int httpStatusCode,
+    String message,
+    @JsonInclude(JsonInclude.Include.NON_NULL) T data
+) {
 
   public static <T> ApiResponse<T> success(SuccessType successType, T data) {
-    return new ApiResponse<T>(successType.getHttpStatusCode(), successType.getMessage(), data);
+    return ApiResponse.<T>builder()
+        .httpStatusCode(successType.getHttpStatusCode())
+        .message(successType.getMessage())
+        .data(data)
+        .build();
   }
 
-  public static ApiResponse<?> error(ErrorType errorType) {
-    return new ApiResponse<>(errorType.getHttpStatusCode(), errorType.getMessage());
-  }
-
-  public static ApiResponse<?> error(ErrorType errorType, String message) {
-    return new ApiResponse<>(errorType.getHttpStatusCode(), message);
+  public static ApiResponse<?> success(SuccessType successType) {
+    return success(successType, null);
   }
 
   public static <T> ApiResponse<T> error(ErrorType errorType, String message, T data) {
-    return new ApiResponse<>(errorType.getHttpStatusCode(), message, data);
+    return ApiResponse.<T>builder()
+        .httpStatusCode(errorType.getHttpStatusCode())
+        .message(message)
+        .data(data)
+        .build();
   }
 
-  public static <T> ApiResponse<Exception> error(ErrorType errorType, Exception e) {
-    return new ApiResponse<>(errorType.getHttpStatusCode(), errorType.getMessage(), e);
+  public static ApiResponse<?> error(ErrorType errorType) {
+    return error(errorType, errorType.getMessage(), null);
+  }
+
+  public static ApiResponse<?> error(ErrorType errorType, String message) {
+    return error(errorType, message, null);
   }
 
   public static <T> ApiResponse<T> error(ErrorType errorType, T data) {
-    return new ApiResponse<>(errorType.getHttpStatusCode(), errorType.getMessage(), data);
+    return error(errorType, errorType.getMessage(), data);
   }
 }
