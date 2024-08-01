@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active: ${profile}
+
+springdoc:
+  api-docs:
+    path: /rental-system/api-docs
+    groups:
+      enabled: true
+  swagger-ui:
+    path: /rental-system/api-docs.html
+    enabled: true
+    groups-order: ASC
+    tags-sorter: alpha
+    operations-sorter: method
+    display-request-duration: true
+    doc-expansion: none
