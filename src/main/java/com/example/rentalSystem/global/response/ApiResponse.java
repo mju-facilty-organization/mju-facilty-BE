@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter
 @Builder
 @JsonPropertyOrder({"httpStatusCode", "message", "data"})
 public record ApiResponse<T>(

@@ -19,6 +19,7 @@ dependencies {
 	//	개발 도구
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	//	swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
@@ -30,7 +31,7 @@ dependencies {
 	//	security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	//	infra
-	runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
+//	runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
 	//	test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
