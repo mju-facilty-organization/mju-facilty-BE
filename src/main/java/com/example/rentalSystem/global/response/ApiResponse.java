@@ -8,13 +8,16 @@ import lombok.Getter;
 @Builder
 @JsonPropertyOrder({"httpStatusCode", "message", "data"})
 public record ApiResponse<T>(
+    ResultType resultType,
     int httpStatusCode,
     String message,
-    @JsonInclude(JsonInclude.Include.NON_NULL) T data
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    T data
 ) {
 
   public static <T> ApiResponse<T> success(SuccessType successType, T data) {
     return ApiResponse.<T>builder()
+        .resultType(ResultType.SUCCESS)
         .httpStatusCode(successType.getHttpStatusCode())
         .message(successType.getMessage())
         .data(data)
@@ -27,6 +30,7 @@ public record ApiResponse<T>(
 
   public static <T> ApiResponse<T> error(ErrorType errorType, String message, T data) {
     return ApiResponse.<T>builder()
+        .resultType(ResultType.FAIL)
         .httpStatusCode(errorType.getHttpStatusCode())
         .message(message)
         .data(data)
