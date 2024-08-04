@@ -13,4 +13,9 @@ public class UserController{
     public String hello() {
         return "eroom 배포 자동화 테스트";
     }
+
+    @GetMapping("hi")
+    public String hi() {
+    return "hi";
+    }
 }
