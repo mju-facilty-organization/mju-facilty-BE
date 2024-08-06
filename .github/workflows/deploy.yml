@@ -28,7 +28,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-
+        
     - name: make application.yml
       if: contains(github.ref, 'develop')
       run: |
@@ -70,7 +70,7 @@ jobs:
   run-docker-image-on-ec2:
     # build-docker-image (위)과정이 완료되어야 실행됩니다.
     needs: build-docker-image
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       # 1. 최신 이미지를 풀받습니다
