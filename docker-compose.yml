@@ -6,8 +6,6 @@ services:    # 컨테이너 정의(컨테이너의 집합체를 보주로 서비
     environment:   # 환경 변수 설정
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: rental_local_db
-      MYSQL_USER: ${LOCAL_MYSQL_USERNAME}
-      MYSQL_PASSWORD: ${LOCAL_MYSQL_PASSWORD}
       MYSQL_CHARSET: utf8mb4
       MYSQL_COLLATION: utf8mb4_unicode_ci
       TZ: Asia/Seoul

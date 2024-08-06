@@ -1,6 +1,12 @@
 spring:
   profiles:
     active: ${PROFILE}
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
 
 springdoc:
   api-docs:
