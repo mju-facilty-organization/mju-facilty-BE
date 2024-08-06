@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: "Facility-Rental-System"
+server:
+  port: 7000
