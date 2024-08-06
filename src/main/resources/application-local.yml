@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: "Facility-Rental-System"
+  datasource:
+    url: ${LOCAL_MYSQL_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${LOCAL_MYSQL_USERNAME}
+    password: ${LOCAL_MYSQL_PASSWORD}
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8080
