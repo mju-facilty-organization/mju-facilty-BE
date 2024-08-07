@@ -30,8 +30,6 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	//	security
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
-	//	infra
-	runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
 
 	//	test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
