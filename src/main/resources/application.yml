@@ -7,9 +7,6 @@ spring:
         format_sql: true
         highlight_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
-  docker:
-    compose:
-      file: ./docker-compose.yml
 
 springdoc:
   api-docs:
