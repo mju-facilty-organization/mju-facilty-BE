@@ -10,8 +10,7 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+
     
 permissions:
   contents: read
@@ -30,7 +29,6 @@ jobs:
         distribution: 'temurin'
         
     - name: make application.yml
-      if: contains(github.ref, 'develop')
       run: |
         cd ./src/main/resources
         touch ./application.yml
@@ -39,7 +37,6 @@ jobs:
 
       # 환경별 yml 파일 생성 - dev
     - name: make application-dev.yml
-      if: contains(github.ref, 'develop')
       run: |
         cd ./src/main/resources
         touch ./application-dev.yml
@@ -70,7 +67,7 @@ jobs:
   run-docker-image-on-ec2:
     # build-docker-image (위)과정이 완료되어야 실행됩니다.
     needs: build-docker-image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       # 1. 최신 이미지를 풀받습니다
