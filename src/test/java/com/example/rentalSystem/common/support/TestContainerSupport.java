@@ -5,12 +5,17 @@ import static lombok.AccessLevel.PROTECTED;
 import lombok.NoArgsConstructor;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @NoArgsConstructor(access = PROTECTED)
+@TestPropertySource(properties = {
+    "spring.jpa.hibernate.ddl-auto=create-drop",
+    "spring.jpa.show-sql=true"
+})
 public abstract class TestContainerSupport {
 
   private static final String MYSQL_IMAGE = "mysql:8";

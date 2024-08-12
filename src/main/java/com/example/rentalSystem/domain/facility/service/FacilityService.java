@@ -26,4 +26,17 @@ public class FacilityService {
     Facility updateFacility = requestDto.toFacility();
     originFacility.update(updateFacility);
   }
+
+  public void delete(Long facilityId) {
+    Facility facility = facilityFinder.findById(facilityId);
+    facilityRemover.delete(facility);
+  }
+
+  public List<FacilityResponse> getAllFacility() {
+    List<Facility> facilities = facilityReader.getAll();
+
+    return facilities.stream()
+        .map(FacilityResponse::fromFacility)
+        .toList();
+  }
 }

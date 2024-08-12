@@ -19,4 +19,13 @@ public interface FacilityApi {
   @Operation(summary = "[Admin 전용] 시설 수정하기")
   @PutMapping("/{facilityId}")
   ApiResponse<?> updateFacility(@RequestBody UpdateFacilityRequestDto updateFacilityRequestDto, @PathVariable Long facilityId);
+
+  @Operation(summary = "[Admin 전용] 시설 삭제하기")
+  @DeleteMapping("/{facilityId}")
+  ApiResponse<?> deleteFacility(@PathVariable Long facilityId);
+
+  @Operation(summary = "[Admin 전용] 시설 전체 조회하기")
+  @GetMapping
+  ApiResponse<List<FacilityResponse>> getAllFacility();
+
 }

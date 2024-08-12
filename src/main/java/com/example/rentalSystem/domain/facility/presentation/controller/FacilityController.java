@@ -33,4 +33,18 @@ public class FacilityController implements FacilityApi {
     facilityService.update(requestDto, facilityId);
     return ApiResponse.success(SuccessType.SUCCESS);
   }
+
+  @Override
+  @ResponseStatus(HttpStatus.OK)
+  public ApiResponse<?> deleteFacility(Long facilityId) {
+    facilityService.delete(facilityId);
+    return ApiResponse.success(SuccessType.SUCCESS);
+  }
+
+  @Override
+  @ResponseStatus(HttpStatus.OK)
+  public ApiResponse<List<FacilityResponse>> getAllFacility() {
+    List<FacilityResponse> facilityResponses = facilityService.getAllFacility();
+    return ApiResponse.success(SuccessType.SUCCESS, facilityResponses);
+  }
 }
