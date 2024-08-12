@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.util.ArrayList;
+import java.time.LocalTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,22 +34,49 @@ public class Facility extends BaseTimeEntity {
   private Long capacity;
 
   @Column(nullable = false)
-  private String responsibility;
+  private String chargeProfessor;
 
   @Column(nullable = false)
   private boolean isAvailable;
+
+  @Column(nullable = false)
+  private LocalTime startTime;
+
+  @Column(nullable = false)
+  private LocalTime endTime;
+
+  @Convert(converter = StringListConverter.class)
+  private List<String> possibleDays;
+
+  @Convert(converter = StringListConverter.class)
+  private List<String> supportFacilities;
 
   @Convert(converter = StringListConverter.class)
   private List<String> images;
 
 
   @Builder
-  public Facility(String name, String location, List<String> images, Long capacity, String responsibility, boolean isAvailable) {
+  public Facility(
+      String name,
+      String location,
+      List<String> images,
+      Long capacity,
+      String chargeProfessor,
+      LocalTime startTime,
+      LocalTime endTime,
+      List<String> supportFacilities,
+      List<String> possibleDays,
+      boolean isAvailable) {
+
     this.name = name;
     this.location = location;
     this.images = images;
     this.capacity = capacity;
-    this.responsibility = responsibility;
+    this.chargeProfessor = chargeProfessor;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.supportFacilities = supportFacilities;
+    this.possibleDays = possibleDays;
     this.isAvailable = isAvailable;
   }
 }
