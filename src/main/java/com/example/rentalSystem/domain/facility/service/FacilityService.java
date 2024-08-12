@@ -19,4 +19,11 @@ public class FacilityService {
     Facility facility = createFacilityRequestDto.toFacility();
     facilityJpaRepository.save(facility);
   }
+
+  @Transactional
+  public void update(UpdateFacilityRequestDto requestDto, Long facilityId) {
+    Facility originFacility = facilityFinder.findById(facilityId);
+    Facility updateFacility = requestDto.toFacility();
+    originFacility.update(updateFacility);
+  }
 }

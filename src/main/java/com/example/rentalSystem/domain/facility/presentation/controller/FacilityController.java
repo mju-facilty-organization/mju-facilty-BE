@@ -22,11 +22,15 @@ public class FacilityController implements FacilityApi {
 
   @Override
   @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping
-  public ApiResponse<?> createFacility(
-      CreateFacilityRequestDto requestDto
-  ) {
+  public ApiResponse<?> createFacility(CreateFacilityRequestDto requestDto) {
     facilityService.create(requestDto);
     return ApiResponse.success(SuccessType.CREATED);
+  }
+
+  @Override
+  @ResponseStatus(HttpStatus.OK)
+  public ApiResponse<?> updateFacility(UpdateFacilityRequestDto requestDto, Long facilityId) {
+    facilityService.update(requestDto, facilityId);
+    return ApiResponse.success(SuccessType.SUCCESS);
   }
 }

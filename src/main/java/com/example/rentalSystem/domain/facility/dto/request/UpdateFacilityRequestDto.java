@@ -4,7 +4,7 @@ import com.example.rentalSystem.domain.facility.entity.Facility;
 import java.time.LocalTime;
 import java.util.List;
 
-public record CreateFacilityRequestDto(
+public record UpdateFacilityRequestDto(
     String name,
     Long capacity,
     String location,
@@ -14,7 +14,6 @@ public record CreateFacilityRequestDto(
     LocalTime startTime,
     LocalTime endTime,
     boolean isAvailable
-    //이미지
 ) {
 
   public Facility toFacility() {

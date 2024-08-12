@@ -13,5 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface FacilityApi {
 
   @Operation(summary = "[Admin 전용] 시설 생성하기")
+  @PostMapping
   ApiResponse<?> createFacility(@RequestBody CreateFacilityRequestDto createFacilityRequestDto);
+
+  @Operation(summary = "[Admin 전용] 시설 수정하기")
+  @PutMapping("/{facilityId}")
+  ApiResponse<?> updateFacility(@RequestBody UpdateFacilityRequestDto updateFacilityRequestDto, @PathVariable Long facilityId);
 }

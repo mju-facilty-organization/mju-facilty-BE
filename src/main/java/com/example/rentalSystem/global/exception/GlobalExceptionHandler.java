@@ -2,6 +2,7 @@ package com.example.rentalSystem.global.exception;
 
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.ErrorType;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,5 +18,12 @@ public class GlobalExceptionHandler {
   public ApiResponse<?> handleException(Exception e) {
     log.warn(e.getMessage(), e);
     return ApiResponse.error(ErrorType.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(EntityNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ApiResponse<?> handleEntityNotFoundException(EntityNotFoundException e) {
+    log.warn(e.getMessage(), e);
+    return ApiResponse.error(ErrorType.ENTITY_NOT_FOUND, e.getMessage());
   }
 }
