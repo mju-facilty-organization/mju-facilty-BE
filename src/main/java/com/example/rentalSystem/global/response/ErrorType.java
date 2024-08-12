@@ -8,9 +8,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorType {
 
-  BAD_REQUEST(HttpStatusCode.BAD_REQUEST, "GLOBAL-001","[ERROR] 잘못된 요청입니다.");
+  BAD_REQUEST(400, "잘못된 요청입니다.");
 
   private final int httpStatusCode;
-  private final String errorCode;
   private final String message;
 }

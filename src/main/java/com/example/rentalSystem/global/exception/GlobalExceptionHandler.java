@@ -1,7 +1,7 @@
 package com.example.rentalSystem.global.exception;
 
+import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.ErrorType;
-import com.example.rentalSystem.global.response.ExceptionResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,8 +14,8 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ExceptionResponse handleException(Exception e) {
+  public ApiResponse<?> handleException(Exception e) {
     log.warn(e.getMessage(), e);
-    return ExceptionResponse.of(ErrorType.BAD_REQUEST);
+    return ApiResponse.error(ErrorType.BAD_REQUEST);
   }
 }
