@@ -1,8 +1,12 @@
 package com.example.rentalSystem.domain.facility.service;
 
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
+import com.example.rentalSystem.domain.facility.implement.FacilityFinder;
+import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,12 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class FacilityService {
 
-  private final FacilityJpaRepository facilityJpaRepository;
+  private final FacilityReader facilityReader;
+  private final FacilitySaver facilitySaver;
+  private final FacilityFinder facilityFinder;
+  private final FacilityRemover facilityRemover;
 
   @Transactional
   public void create(CreateFacilityRequestDto createFacilityRequestDto) {
     Facility facility = createFacilityRequestDto.toFacility();
-    facilityJpaRepository.save(facility);
+    facilitySaver.save(facility);
   }
 
   @Transactional

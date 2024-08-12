@@ -1,13 +1,37 @@
 package com.example.rentalSystem.common.fixture;
 
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FacilityFixture {
+
+  public static Facility createFacility() {
+    return Facility.builder()
+        .name("강의실")
+        .location("s1353")
+        .capacity(5L)
+        .chargeProfessor("교수")
+        .isAvailable(true)
+        .startTime(LocalTime.now())
+        .endTime(LocalTime.now().plusHours(2))
+        .build();
+  }
+
+  public static Facility createUpdateFacility() {
+    return Facility.builder()
+        .name("수정된 강의실")
+        .location("수정된 s1353")
+        .capacity(10L)
+        .chargeProfessor("수정된 교수")
+        .isAvailable(true)
+        .startTime(LocalTime.now().minusHours(2))
+        .endTime(LocalTime.now().plusHours(4))
+        .build();
+  }
 
   public static CreateFacilityRequestDto createFacilityRequestDto() {
     return new CreateFacilityRequestDto(
