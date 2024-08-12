@@ -9,9 +9,5 @@ public class UserController{
     public String getHello(){
     return "hello";
     }
-    @GetMapping("/")
-    public String hello() {
-        return "eroom 배포 자동화 테스트";
-    }
-    }
+
 }
