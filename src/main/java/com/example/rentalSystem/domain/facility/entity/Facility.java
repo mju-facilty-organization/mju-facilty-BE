@@ -21,9 +21,9 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@SQLDelete(sql = "update FACILITY set isDeleted = true where id=?")
-@SQLRestriction("isDeleted = false")
-@Table(name = "FACILITY")
+@SQLDelete(sql = "update facility set is_deleted = true where id=?")
+@SQLRestriction("is_deleted = false")
+@Table(name = "facility")
 public class Facility extends BaseTimeEntity {
 
   @Id
