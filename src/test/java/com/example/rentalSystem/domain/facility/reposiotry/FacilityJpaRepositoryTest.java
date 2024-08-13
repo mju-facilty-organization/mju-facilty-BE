@@ -27,4 +27,17 @@ class FacilityJpaRepositoryTest extends DataJpaTestSupport {
     Assertions.assertThat(findFacility.getName()).isEqualTo("강의실");
     Assertions.assertThat(findFacility.getLocation()).isEqualTo("s1353");
   }
+
+  @DisplayName("soft delete가 되는 것을 확인한다.")
+  @Test
+  void soft_delete() {
+    // given
+    Facility facility = FacilityFixture.createFacility();
+    facilityJpaRepository.save(facility);
+    // when
+    facilityJpaRepository.delete(facility);
+    // then
+    Assertions.assertThat(facilityJpaRepository.findAll()).isEmpty();
+    Assertions.assertThat(facility.isDeleted()).isEqualTo(true);
+  }
 }
