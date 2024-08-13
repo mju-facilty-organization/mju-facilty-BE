@@ -3,19 +3,18 @@ package com.example.rentalSystem.common.support;
 import static lombok.AccessLevel.PROTECTED;
 
 import lombok.NoArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @NoArgsConstructor(access = PROTECTED)
-@TestPropertySource(properties = {
-    "spring.jpa.hibernate.ddl-auto=create-drop",
-    "spring.jpa.show-sql=true"
-})
+@ActiveProfiles("test")
 public abstract class TestContainerSupport {
 
   private static final String MYSQL_IMAGE = "mysql:8";
@@ -24,6 +23,9 @@ public abstract class TestContainerSupport {
   private static final int REDIS_PORT = 6379;
   private static final JdbcDatabaseContainer<?> MYSQL;
   private static final GenericContainer<?> REDIS;
+
+  @Autowired
+  private DataInitializer dataInitializer;
 
   // 싱글톤
   static {
@@ -52,4 +54,8 @@ public abstract class TestContainerSupport {
     registry.add("spring.datasource.password", MYSQL::getPassword);
   }
 
+  @BeforeEach
+  void delete() {
+    dataInitializer.deleteAll();
+  }
 }
