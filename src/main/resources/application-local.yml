@@ -1,6 +1,9 @@
 spring:
   application:
     name: "Facility-Rental-System"
+  config:
+    activate:
+      on-profile: local
   datasource:
     url: ${LOCAL_MYSQL_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver

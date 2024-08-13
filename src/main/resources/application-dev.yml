@@ -1,6 +1,10 @@
 spring:
   application:
     name: "Facility-Rental-System"
+  config:
+    activate:
+      on-profile: dev
+
   datasource:
     url: ${MYSQL_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -11,5 +15,6 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: false
+
 server:
   port: 8080
