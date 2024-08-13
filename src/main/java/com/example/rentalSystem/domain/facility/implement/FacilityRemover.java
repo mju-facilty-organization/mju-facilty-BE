@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.facility.service;
+package com.example.rentalSystem.domain.facility.implement;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
