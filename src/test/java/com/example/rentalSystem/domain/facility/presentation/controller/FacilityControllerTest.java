@@ -18,6 +18,7 @@ import com.example.rentalSystem.global.response.ResultType;
 import com.example.rentalSystem.global.response.SuccessType;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,7 +31,8 @@ class FacilityControllerTest extends ApiTestSupport {
 
 
   @Test
-  void createFacility_ShouldReturnCreatedStatus() throws Exception {
+  @DisplayName("시설을 생성할 수 있다.")
+  void 시설_생성_API() throws Exception {
     // Given
     CreateFacilityRequestDto requestDto = FacilityFixture.createFacilityRequestDto();
 
@@ -47,7 +49,8 @@ class FacilityControllerTest extends ApiTestSupport {
   }
 
   @Test
-  void updateFacility_ShouldReturnOkStatus() throws Exception {
+  @DisplayName("시설을 수정할 수 있다.")
+  void 시설_수정_API() throws Exception {
     // Given
     Long facilityId = 1L;
     Facility facility = FacilityFixture.createFacility();
@@ -68,7 +71,8 @@ class FacilityControllerTest extends ApiTestSupport {
   }
 
   @Test
-  void deleteFacility_ShouldReturnOkStatus() throws Exception {
+  @DisplayName("시설을 삭제할 수 있다.")
+  void 시설_삭제_API() throws Exception {
     // Given
     Long facilityId = 1L;
     Facility facility = FacilityFixture.createFacility();
@@ -84,7 +88,8 @@ class FacilityControllerTest extends ApiTestSupport {
   }
 
   @Test
-  void getAllFacility_ShouldReturnListOfFacilities() throws Exception {
+  @DisplayName("시설을 전체 조회할 수 있다.")
+  void 시설_전체조회_API() throws Exception {
     // Given
     Facility facility = FacilityFixture.createFacility();
     Facility facility1 = FacilityFixture.createUpdateFacility();

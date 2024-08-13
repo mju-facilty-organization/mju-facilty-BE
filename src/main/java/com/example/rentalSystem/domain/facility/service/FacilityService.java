@@ -36,6 +36,7 @@ public class FacilityService {
     originFacility.update(updateFacility);
   }
 
+  @Transactional
   public void delete(Long facilityId) {
     Facility facility = facilityFinder.findById(facilityId);
     facilityRemover.delete(facility);
