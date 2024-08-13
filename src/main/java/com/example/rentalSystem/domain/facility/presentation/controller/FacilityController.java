@@ -43,7 +43,7 @@ public class FacilityController implements FacilityApi {
   @Override
   @ResponseStatus(HttpStatus.OK)
   public ApiResponse<List<FacilityResponse>> getAllFacility() {
-    List<FacilityResponse> facilityResponses = facilityService.getAllFacility();
+    List<FacilityResponse> facilityResponses = facilityService.getAll();
     return ApiResponse.success(SuccessType.SUCCESS, facilityResponses);
   }
 }

@@ -5,6 +5,8 @@ import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityReques
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.implement.FacilityFinder;
+import com.example.rentalSystem.domain.facility.implement.FacilityReader;
+import com.example.rentalSystem.domain.facility.implement.FacilityRemover;
 import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +41,7 @@ public class FacilityService {
     facilityRemover.delete(facility);
   }
 
-  public List<FacilityResponse> getAllFacility() {
+  public List<FacilityResponse> getAll() {
     List<Facility> facilities = facilityReader.getAll();
 
     return facilities.stream()
