@@ -13,7 +13,10 @@ spring:
     open-in-view: true
     hibernate:
       ddl-auto: update
-    show-sql: true
+    properties:
+      hibernate :
+        show-sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
 
 server:
   port: 8000
