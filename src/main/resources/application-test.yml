@@ -1,0 +1,11 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show-sql: true
+        dialect: org.hibernate.dialect.MySQLDialect

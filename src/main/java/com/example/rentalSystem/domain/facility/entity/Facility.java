@@ -8,16 +8,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.LocalTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@SQLDelete(sql = "update facility set is_deleted = true where id=?")
+@SQLRestriction("is_deleted = false")
+@Table(name = "facility")
 public class Facility extends BaseTimeEntity {
 
   @Id
@@ -54,6 +60,7 @@ public class Facility extends BaseTimeEntity {
   @Convert(converter = StringListConverter.class)
   private List<String> images;
 
+  boolean isDeleted = false;
 
   @Builder
   public Facility(
@@ -78,5 +85,18 @@ public class Facility extends BaseTimeEntity {
     this.supportFacilities = supportFacilities;
     this.possibleDays = possibleDays;
     this.isAvailable = isAvailable;
+  }
+
+  public void update(Facility updateFacility) {
+    this.name = updateFacility.getName();
+    this.location = updateFacility.getLocation();
+    this.images = updateFacility.getImages();
+    this.capacity = updateFacility.getCapacity();
+    this.chargeProfessor = updateFacility.getChargeProfessor();
+    this.startTime = updateFacility.getStartTime();
+    this.endTime = updateFacility.getEndTime();
+    this.supportFacilities = updateFacility.getSupportFacilities();
+    this.possibleDays = updateFacility.possibleDays;
+    this.isAvailable = updateFacility.isAvailable();
   }
 }
