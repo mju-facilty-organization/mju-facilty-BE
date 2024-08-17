@@ -42,9 +42,6 @@ jobs:
         touch ./application-dev.yml
         echo "${{ secrets.YML_DEV }}" > ./application-dev.yml
       shell: bash
-
-    - name: Build with Gradle
-      run: ./gradlew clean build
       
      # 2. Spring Boot 애플리케이션 빌드
     - name: Build with Gradle
