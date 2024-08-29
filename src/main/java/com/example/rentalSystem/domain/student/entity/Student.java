@@ -1,39 +1,26 @@
 package com.example.rentalSystem.domain.student.entity;
 
+import com.example.rentalSystem.domain.member.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-public class Student {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
-  @Column(nullable = false)
-  private String name;
+@SuperBuilder
+@AllArgsConstructor
+public class Student extends Member {
 
   @Column(nullable = false)
   private String studentNumber;
 
-  @Column(nullable = false)
-  private String password;
-
-  @Column(nullable = false)
   private String major;
 
-  @Column(nullable = false)
   private String email;
 
-  @Column(nullable = false)
   private Long warningTime;
-
 }
