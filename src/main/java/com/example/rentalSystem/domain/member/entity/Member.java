@@ -1,8 +1,11 @@
 package com.example.rentalSystem.domain.member.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,9 +25,20 @@ public abstract class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)  // or GenerationType.AUTO
-
     private Long id;
 
-    private String name,password,loginId,phoneNumber,role,affiliation;
+    @Column(nullable = false, unique = true)
+    private String email;
 
+    @Column(nullable = false, unique = true)
+    private String loginId;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    private String name;
+    private String password;
+    private String phoneNumber;
+    private String affiliation;
+    
 }
