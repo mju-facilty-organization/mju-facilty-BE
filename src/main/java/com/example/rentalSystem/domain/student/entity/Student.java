@@ -15,12 +15,10 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Student extends Member {
 
-  @Column(nullable = false)
-  private String studentNumber;
+    @Column(nullable = false)
+    private String studentNumber;
 
-  private String major;
+    private String major;
 
-  private String email;
-
-  private Long warningTime;
+    private Long warningTime;
 }
