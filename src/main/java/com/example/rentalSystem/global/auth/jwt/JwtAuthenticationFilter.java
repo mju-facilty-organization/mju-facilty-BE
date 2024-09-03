@@ -13,7 +13,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @RequiredArgsConstructor
@@ -27,11 +26,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         @NonNull HttpServletResponse servletResponse,
         FilterChain filterChain) throws ServletException, IOException {
         try {
-            String token = resolveToken((HttpServletRequest) servletRequest);
+            String token = resolveToken(servletRequest);
             jwtTokenProvider.checkValidToken(token);
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (CustomException e) {
-            handleException((HttpServletResponse) servletResponse, e);
+            handleException(servletResponse, e);
             // 예외 처리 로직
         }
     }
