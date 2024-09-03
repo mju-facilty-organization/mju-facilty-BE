@@ -35,6 +35,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class JwtTokenProvider {
+
     private final Key key;
     private static final long ACCESS_TIME = 10 * 60 * 1000L; // 10분
     private static final long REFRESH_TIME = 30 * 60 * 1000L; //30분
@@ -45,7 +46,7 @@ public class JwtTokenProvider {
     }
 
     public void checkValidToken(String token) {
-        if (token != null && validateToken(token)&& checkAccessToken(token)) {
+        if (token != null && validateToken(token) && checkAccessToken(token)) {
             // 유효한 엑세스 토큰이 있는 경우
             Authentication authentication = getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -54,8 +55,9 @@ public class JwtTokenProvider {
 
     public JwtToken generateToken(Authentication authentication) {
         // 권한 가져오기
-        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(
-            Collectors.joining(","));
+        String authorities = authentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority).collect(
+                Collectors.joining(","));
 
         TokenDto tokenDto = createAllToken(authentication.getName(), authorities);
 
@@ -65,9 +67,12 @@ public class JwtTokenProvider {
             .refreshToken(tokenDto.refreshToken())
             .build();
     }
+
     public TokenDto createAllToken(String email, String role) {
-        return new TokenDto(createToken(email, role, ACCESS_TOKEN), createToken(email, role, REFRESH_TOKEN));
+        return new TokenDto(createToken(email, role, ACCESS_TOKEN),
+            createToken(email, role, REFRESH_TOKEN));
     }
+
     private String createToken(String email, String authorities, String type) {
         long now = new Date().getTime();
         long expiration = type.equals("Access") ? ACCESS_TIME : REFRESH_TIME;
@@ -79,6 +84,7 @@ public class JwtTokenProvider {
             .signWith(key, SignatureAlgorithm.HS256)
             .compact();
     }
+
     public boolean validateToken(String token) {
 
         try {
@@ -108,6 +114,7 @@ public class JwtTokenProvider {
         }
         return false;
     }
+
     public boolean checkAccessToken(String token) {
         String tokenType = (String) parseClaims(token).get("type");
         return ACCESS_TOKEN.equals(tokenType);
