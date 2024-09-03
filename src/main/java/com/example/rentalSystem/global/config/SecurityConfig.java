@@ -11,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,7 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
-    public static final String SERVER = "/api/v1";
+    public static final String SERVER_PREFIX = "/api/v1";
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -37,12 +36,12 @@ public class SecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
                 // 해당 API에 대해서는 모든 요청을 허가
-                .requestMatchers(SERVER+"/members/sign-in").permitAll()
-                .requestMatchers(SERVER+"/members/sign-up/**").permitAll()
-                .requestMatchers(SERVER+"/members/refresh").permitAll()
+                .requestMatchers(SERVER_PREFIX + "/members/sign-in").permitAll()
+                .requestMatchers(SERVER_PREFIX + "/members/sign-up/**").permitAll()
+                .requestMatchers(SERVER_PREFIX + "/members/refresh").permitAll()
                 .requestMatchers("/swagger-ui/**").permitAll()
                 // USER 권한이 있어야 요청할 수 있음
-                .requestMatchers(SERVER+"/members/test").hasAnyRole("ADMIN","USER")
+                .requestMatchers(SERVER_PREFIX + "/members/test").hasAnyRole("ADMIN", "USER")
                 // 이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
                 .anyRequest().permitAll()
             )
@@ -57,12 +56,4 @@ public class SecurityConfig {
         // BCrypt Encoder 사용
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-    public static String getCurrentUserName(){
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null || authentication.getName() == null){
-            throw new RuntimeException("No authentication information");
-        }
-        return authentication.getName();
-    }
-
 }

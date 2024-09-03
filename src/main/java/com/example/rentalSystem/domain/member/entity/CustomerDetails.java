@@ -11,9 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class CustomerDetails implements UserDetails {
 
     private final Member member;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(member.getRole()));
+        return List.of(new SimpleGrantedAuthority(member.getRole().name()));
     }
 
     @Override

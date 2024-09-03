@@ -5,7 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -15,12 +14,10 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Student extends Member {
 
-  @Column(nullable = false)
-  private String studentNumber;
+    @Column(nullable = false)
+    private String studentNumber;
 
-  private String major;
+    private String major;
 
-  private String email;
-
-  private Long warningTime;
+    private Long warningTime;
 }
