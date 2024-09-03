@@ -21,3 +21,6 @@ springdoc:
     operations-sorter: method
     display-request-duration: true
     doc-expansion: none
+
+jwt:
+  secret: ${JWT_SECRET}

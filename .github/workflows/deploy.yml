@@ -50,7 +50,9 @@ jobs:
         arguments: clean bootJar
     # 3. Docker 이미지 빌드
     - name: docker image build
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-demo .
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      run: docker build -t ${DOCKER_USERNAME}/big-brother-demo:latest .
 
   # 4. DockerHub 로그인
     - name: docker login
@@ -70,18 +72,21 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      # 1. 최신 이미지를 풀받습니다
-      - name: docker pull
-        run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-demo
 
       # 2. 기존의 컨테이너를 중지시킵니다
       - name: docker stop container
         run: sudo docker stop $(sudo docker ps -q) 2>/dev/null || true
 
+      # 4. 미사용 이미지를 정리합니다
+      - name: delete old docker image
+        run: sudo docker system prune -f
+
+
+      # 1. 최신 이미지를 풀받습니다
+      - name: docker pull
+        run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-demo
+
       # 3. 최신 이미지를 컨테이너화하여 실행시킵니다
       - name: docker run new container
         run: sudo docker run --name github-actions-demo --rm -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/github-actions-demo
 
-      # 4. 미사용 이미지를 정리합니다
-      - name: delete old docker image
-        run: sudo docker system prune -f
