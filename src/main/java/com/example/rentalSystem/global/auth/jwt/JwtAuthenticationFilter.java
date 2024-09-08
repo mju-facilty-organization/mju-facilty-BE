@@ -12,6 +12,8 @@ import java.io.IOException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -27,7 +29,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = resolveToken(servletRequest);
-            jwtTokenProvider.checkValidToken(token);
+            if (jwtTokenProvider.checkValidToken(token)) {
+                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (CustomException e) {
             handleException(servletResponse, e);

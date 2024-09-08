@@ -36,9 +36,12 @@ public abstract class Member {
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
-    private String name;
+    protected String name;
     private String password;
     private String phoneNumber;
     private String affiliation;
-    
+
+    public String getRoles() {
+        return role.getRoles();
+    }
 }
