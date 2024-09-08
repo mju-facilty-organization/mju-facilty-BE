@@ -1,7 +1,6 @@
 package com.example.rentalSystem.domain.student.entity;
 
 import com.example.rentalSystem.domain.member.entity.Member;
-import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentUpdateRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

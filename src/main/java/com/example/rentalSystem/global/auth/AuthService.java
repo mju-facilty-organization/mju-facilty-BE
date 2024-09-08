@@ -5,7 +5,6 @@ import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.ErrorType;
 import com.example.rentalSystem.global.auth.jwt.component.JwtTokenProvider;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
-import java.util.Scanner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

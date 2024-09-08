@@ -1,6 +1,5 @@
 package com.example.rentalSystem.domain.student.service;
 
-import com.example.rentalSystem.domain.member.entity.Member;
 import com.example.rentalSystem.domain.member.implement.MemberLoader;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentUpdateRequest;

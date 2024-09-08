@@ -8,7 +8,6 @@ import com.example.rentalSystem.domain.student.dto.request.StudentSignInRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentUpdateRequest;
 import com.example.rentalSystem.domain.student.dto.response.StudentListResponse;
-import com.example.rentalSystem.domain.student.dto.response.StudentResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentSignUpResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentUpdateResponse;
 import com.example.rentalSystem.domain.student.presentation.api.StudentApi;
@@ -19,7 +18,6 @@ import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
