@@ -3,6 +3,7 @@ package com.example.rentalSystem.global.auth.jwt.component;
 import static com.example.rentalSystem.global.auth.jwt.entity.TokenDto.ACCESS_TOKEN;
 import static com.example.rentalSystem.global.auth.jwt.entity.TokenDto.REFRESH_TOKEN;
 
+import com.example.rentalSystem.global.auth.security.CustomerDetailsService;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.ErrorType;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
@@ -16,8 +17,6 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +24,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -37,20 +33,20 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
     private final Key key;
+    private final CustomerDetailsService customerDetailsService;
     private static final long ACCESS_TIME = 10 * 60 * 1000L; // 10분
     private static final long REFRESH_TIME = 30 * 60 * 1000L; //30분
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey,
+        CustomerDetailsService customerDetailsService) {
+        this.customerDetailsService = customerDetailsService;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public void checkValidToken(String token) {
-        if (token != null && validateToken(token) && checkAccessToken(token)) {
-            // 유효한 엑세스 토큰이 있는 경우
-            Authentication authentication = getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+    public boolean checkValidToken(String token) {
+        // 유효한 엑세스 토큰이 있는 경우
+        return token != null && validateToken(token) && checkAccessToken(token);
     }
 
     public JwtToken generateToken(Authentication authentication) {
@@ -127,14 +123,11 @@ public class JwtTokenProvider {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
-        Collection<? extends GrantedAuthority> authorities =
-            Arrays.stream(claims.get("auth").toString().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        UserDetails userDetails = customerDetailsService.loadUserByUsername(
+            claims.getSubject());
 
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
-        log.info("Authorities from token: {}", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        return new UsernamePasswordAuthenticationToken(userDetails, token,
+            userDetails.getAuthorities());
     }
 
 
