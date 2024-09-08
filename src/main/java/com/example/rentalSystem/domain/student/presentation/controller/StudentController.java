@@ -3,10 +3,14 @@ package com.example.rentalSystem.domain.student.presentation.controller;
 import com.example.rentalSystem.domain.email.dto.request.EmailRequest;
 import com.example.rentalSystem.domain.email.dto.response.EmailVerificationResult;
 import com.example.rentalSystem.domain.email.service.EmailFacade;
+import com.example.rentalSystem.domain.member.entity.CustomerDetails;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignInRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.student.dto.request.StudentUpdateRequest;
 import com.example.rentalSystem.domain.student.dto.response.StudentListResponse;
+import com.example.rentalSystem.domain.student.dto.response.StudentResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentSignUpResponse;
+import com.example.rentalSystem.domain.student.dto.response.StudentUpdateResponse;
 import com.example.rentalSystem.domain.student.presentation.api.StudentApi;
 import com.example.rentalSystem.domain.student.service.StudentFacade;
 import com.example.rentalSystem.global.response.ApiResponse;
@@ -15,6 +19,7 @@ import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +42,7 @@ public class StudentController implements StudentApi {
     public ApiResponse<JwtToken> signIn(StudentSignInRequest studentSignInRequest) {
         String loginId = studentSignInRequest.loginId();
         String password = studentSignInRequest.password();
-        JwtToken jwtToken = studentFacade.userSignIN(loginId, password);
+        JwtToken jwtToken = studentFacade.userSignIn(loginId, password);
         return ApiResponse.success(SuccessType.SUCCESS, jwtToken);
     }
 
@@ -69,4 +74,11 @@ public class StudentController implements StudentApi {
         return ApiResponse.success(SuccessType.SUCCESS, emailVerificationResult);
     }
 
+    @Override
+    public ApiResponse<?> modifyStudentInfo(StudentUpdateRequest studentUpdateRequest,
+        CustomerDetails customerDetails) {
+        StudentUpdateResponse studentUpdateResponse = studentFacade.updateStudentInfo(
+            studentUpdateRequest, customerDetails.getUsername());
+        return ApiResponse.success(SuccessType.SUCCESS, studentUpdateResponse);
+    }
 }

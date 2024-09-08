@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -38,7 +39,7 @@ public class SecurityConfig {
                 // 해당 API에 대해서는 모든 요청을 허가
                 .requestMatchers(SERVER_PREFIX + "/members/sign-in").permitAll()
                 .requestMatchers(SERVER_PREFIX + "/members/sign-up/**").permitAll()
-                .requestMatchers(SERVER_PREFIX + "/members/refresh").permitAll()
+                .requestMatchers(HttpMethod.PATCH, (SERVER_PREFIX + "/members")).hasRole("USER")
                 .requestMatchers("/swagger-ui/**").permitAll()
                 // USER 권한이 있어야 요청할 수 있음
                 .requestMatchers(SERVER_PREFIX + "/members/test").hasAnyRole("ADMIN", "USER")
