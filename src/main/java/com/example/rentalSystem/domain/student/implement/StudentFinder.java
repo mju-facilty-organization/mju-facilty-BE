@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class StudentLoader {
+public class StudentFinder {
 
     private final StudentRepository studentRepository;
-    
+
     public List<StudentResponse> retrieveAllStdent() {
         return getStudentAll().stream()
             .map(this::toStudentResponse)
@@ -27,4 +27,5 @@ public class StudentLoader {
     private StudentResponse toStudentResponse(Student student) {
         return new StudentResponse(student.getName());
     }
+    
 }
