@@ -41,6 +41,17 @@ public abstract class Member {
     private String phoneNumber;
     private String affiliation;
 
+    public Member(String email, String loginId, Role role, String name,
+        String password, String phoneNumber, String affiliation) {
+        this.email = email;
+        this.loginId = loginId;
+        this.role = role;
+        this.name = name;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.affiliation = affiliation;
+    }
+
     public String getRoles() {
         return role.getRoles();
     }
