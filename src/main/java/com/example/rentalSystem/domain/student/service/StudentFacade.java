@@ -28,7 +28,6 @@ public class StudentFacade {
 
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
-    private final MemberLoader memberLoader;
     private final StudentFinder studentFinder;
     private final StudentChecker studentChecker;
     private final StudentSaver studentSaver;
@@ -55,9 +54,8 @@ public class StudentFacade {
     @Transactional
     public StudentUpdateResponse updateStudentInfo(StudentUpdateRequest studentUpdateRequest,
         String memberLoginId) {
-        Student student = (Student) memberLoader.findByLoginId(memberLoginId);
-        student.updateInfo(studentUpdateRequest);
+        Student student = studentFinder.findByLoginId(memberLoginId);
+        student.updateInfo(studentUpdateRequest.name(), studentUpdateRequest.major());
         return StudentUpdateResponse.from(student.getName(), student.getMajor());
     }
-
 }
