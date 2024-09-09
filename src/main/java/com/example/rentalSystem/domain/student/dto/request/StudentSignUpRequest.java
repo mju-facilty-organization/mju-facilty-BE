@@ -1,6 +1,5 @@
 package com.example.rentalSystem.domain.student.dto.request;
 
-import com.example.rentalSystem.domain.member.entity.Role;
 import com.example.rentalSystem.domain.student.entity.Student;
 
 public record StudentSignUpRequest(
