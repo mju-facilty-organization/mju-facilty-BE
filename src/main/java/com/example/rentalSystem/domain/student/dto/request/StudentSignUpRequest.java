@@ -17,7 +17,6 @@ public record StudentSignUpRequest(
         return Student.builder()
             .name(name)
             .password(encodePassword)
-            .role(Role.STUDENT)
             .phoneNumber(phoneNumber)
             .affiliation(affiliation)
             .loginId(loginId)
