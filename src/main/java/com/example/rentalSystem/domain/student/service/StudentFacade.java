@@ -55,6 +55,6 @@ public class StudentFacade {
         String memberLoginId) {
         Student student = studentFinder.findByLoginId(memberLoginId);
         student.updateInfo(studentUpdateRequest.name(), studentUpdateRequest.major());
-        return StudentUpdateResponse.from(student.getName(), student.getMajor());
+        return StudentUpdateResponse.of(student.getName(), student.getMajor());
     }
 }
