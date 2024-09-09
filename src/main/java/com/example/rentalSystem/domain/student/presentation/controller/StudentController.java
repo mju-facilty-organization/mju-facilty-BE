@@ -73,7 +73,7 @@ public class StudentController implements StudentApi {
     }
 
     @Override
-    public ApiResponse<?> modifyStudentInfo(StudentUpdateRequest studentUpdateRequest,
+    public ApiResponse<?> updateStudentInfo(StudentUpdateRequest studentUpdateRequest,
         CustomerDetails customerDetails) {
         StudentUpdateResponse studentUpdateResponse = studentFacade.updateStudentInfo(
             studentUpdateRequest, customerDetails.getUsername());

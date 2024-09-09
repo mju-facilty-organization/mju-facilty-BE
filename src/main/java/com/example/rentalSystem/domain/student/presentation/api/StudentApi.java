@@ -52,6 +52,6 @@ public interface StudentApi {
 
     @PatchMapping
     @Operation(summary = "학생 정보 변경")
-    ApiResponse<?> modifyStudentInfo(@RequestBody StudentUpdateRequest studentUpdateRequest,
+    ApiResponse<?> updateStudentInfo(@RequestBody StudentUpdateRequest studentUpdateRequest,
         @AuthenticationPrincipal CustomerDetails customerDetails);
 }
