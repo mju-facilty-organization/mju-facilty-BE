@@ -16,7 +16,8 @@ public enum ErrorType {
     FAIL_SEND_EMAIL(400, "이메일 전송에 실패하였습니다."),
     FAIL_CREATE_AUTH_CODE(400, "인증 코드 생성에 실패하였습니다."),
     EXPIRED_AUTH_TIME(401, "이메일 인증 코드가 만료되었습니다."),
-    MISMATCH_VERIFIED_CODE(401, "이메일 인증 코드가 일치하지 않습니다.");
+    MISMATCH_VERIFIED_CODE(401, "이메일 인증 코드가 일치하지 않습니다."),
+    NOT_VALID_TOKEN(401, "유효한 토큰이 아닙니다.");
 
     private final int httpStatusCode;
     private final String message;

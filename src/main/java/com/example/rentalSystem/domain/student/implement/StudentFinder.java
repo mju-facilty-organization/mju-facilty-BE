@@ -3,6 +3,8 @@ package com.example.rentalSystem.domain.student.implement;
 import com.example.rentalSystem.domain.student.dto.response.StudentResponse;
 import com.example.rentalSystem.domain.student.entity.Student;
 import com.example.rentalSystem.domain.student.repository.StudentRepository;
+import com.example.rentalSystem.global.exception.custom.CustomException;
+import com.example.rentalSystem.global.response.ErrorType;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -10,13 +12,13 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class StudentLoader {
+public class StudentFinder {
 
     private final StudentRepository studentRepository;
-    
+
     public List<StudentResponse> retrieveAllStdent() {
         return getStudentAll().stream()
-            .map(this::toStudentResponse)
+            .map(StudentResponse::toStudentResponse)
             .collect(Collectors.toList());
     }
 
@@ -24,7 +26,8 @@ public class StudentLoader {
         return studentRepository.findAll();
     }
 
-    private StudentResponse toStudentResponse(Student student) {
-        return new StudentResponse(student.getName());
+    public Student findByLoginId(String memberLoginId) {
+        return studentRepository.findByLoginId(memberLoginId).orElseThrow(() -> new CustomException(
+            ErrorType.ENTITY_NOT_FOUND));
     }
 }

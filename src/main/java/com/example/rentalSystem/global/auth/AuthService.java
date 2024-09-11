@@ -21,13 +21,12 @@ public class AuthService {
     public JwtToken createAuthenticationToken(String loginId, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
             loginId, password);
-        Authentication authentication;
         try {
-            authentication = authenticationManagerBuilder.getObject()
+            Authentication authentication = authenticationManagerBuilder.getObject()
                 .authenticate(authenticationToken);
+            return jwtTokenProvider.generateToken(authentication);
         } catch (Exception e) {
             throw new CustomException(ErrorType.FAIL_AUTHENTICATION);
         }
-        return jwtTokenProvider.generateToken(authentication);
     }
 }

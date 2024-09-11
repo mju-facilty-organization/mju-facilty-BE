@@ -36,9 +36,23 @@ public abstract class Member {
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
-    private String name;
+    protected String name;
     private String password;
     private String phoneNumber;
     private String affiliation;
-    
+
+    public Member(String email, String loginId, Role role, String name,
+        String password, String phoneNumber, String affiliation) {
+        this.email = email;
+        this.loginId = loginId;
+        this.role = role;
+        this.name = name;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.affiliation = affiliation;
+    }
+
+    public String getRoles() {
+        return role.getRoles();
+    }
 }

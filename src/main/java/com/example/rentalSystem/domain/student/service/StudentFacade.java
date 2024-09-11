@@ -1,17 +1,20 @@
 package com.example.rentalSystem.domain.student.service;
 
 import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.student.dto.request.StudentUpdateRequest;
 import com.example.rentalSystem.domain.student.dto.response.StudentListResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentSignUpResponse;
+import com.example.rentalSystem.domain.student.dto.response.StudentUpdateResponse;
 import com.example.rentalSystem.domain.student.entity.Student;
 import com.example.rentalSystem.domain.student.implement.StudentChecker;
-import com.example.rentalSystem.domain.student.implement.StudentLoader;
+import com.example.rentalSystem.domain.student.implement.StudentFinder;
 import com.example.rentalSystem.domain.student.implement.StudentSaver;
 import com.example.rentalSystem.global.auth.AuthService;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
+@Slf4j
 public class StudentFacade {
 
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
-    private final StudentLoader studentLoader;
+    private final StudentFinder studentFinder;
     private final StudentChecker studentChecker;
     private final StudentSaver studentSaver;
 
@@ -37,13 +41,20 @@ public class StudentFacade {
     }
 
     @Transactional
-    public JwtToken userSignIN(String loginId, String password) {
+    public JwtToken userSignIn(String loginId, String password) {
         return authService.createAuthenticationToken(loginId, password);
     }
 
     public StudentListResponse retrieveAllStudent() {
-        List<StudentResponse> studentResponses = studentLoader.retrieveAllStdent();
+        List<StudentResponse> studentResponses = studentFinder.retrieveAllStdent();
         return new StudentListResponse(studentResponses);
     }
 
+    @Transactional
+    public StudentUpdateResponse updateStudentInfo(StudentUpdateRequest studentUpdateRequest,
+        String memberLoginId) {
+        Student student = studentFinder.findByLoginId(memberLoginId);
+        student.updateInfo(studentUpdateRequest.name(), studentUpdateRequest.major());
+        return StudentUpdateResponse.of(student.getName(), student.getMajor());
+    }
 }
