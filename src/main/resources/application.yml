@@ -1,0 +1,44 @@
+spring:
+  profiles:
+    active: ${PROFILE}
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+springdoc:
+  api-docs:
+    path: /rental-system/api-docs
+    groups:
+      enabled: true
+  swagger-ui:
+    path: /rental-system/api-docs.html
+    enabled: true
+    groups-order: ASC
+    tags-sorter: alpha
+    operations-sorter: method
+    display-request-duration: true
+    doc-expansion: none
+
+jwt:
+  secret: ${JWT_SECRET}
+
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: ${GOOGLE_ACCOUNT}
+  password: ${APP_PASSWORD}
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+          required: true
+        connection-timeout: 5000
+        timeout: 5000
+        write-timeout: 5000
+
+    auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
