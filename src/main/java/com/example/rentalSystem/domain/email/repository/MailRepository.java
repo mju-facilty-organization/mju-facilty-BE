@@ -1,15 +1,28 @@
 package com.example.rentalSystem.domain.email.repository;
 
-import com.example.rentalSystem.domain.email.entity.EMailVerification;
-import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.stereotype.Repository;
 
-public interface MailRepository extends JpaRepository<EMailVerification, Long> {
+@Repository
+public class MailRepository {
+
+    private final Map<String, String> mailRepository = new HashMap<>();
 
 
-    Optional<EMailVerification> findByEmailAddress(String emailAddress);
+    public void deleteByEmailAddress(String emailAddress) {
+        mailRepository.remove(emailAddress);
+    }
 
-    void deleteByEmailAddress(String emailAddress);
+    public void save(String emailAddress, String authCode) {
+        mailRepository.put(emailAddress, authCode);
+    }
 
-    void deleteByCertificationTrue();
+    public void deleteExpiredEmail() {
+        mailRepository.clear();
+    }
+
+    public String findByEmailAddress(String emailAddress) {
+        return mailRepository.get(emailAddress);
+    }
 }
