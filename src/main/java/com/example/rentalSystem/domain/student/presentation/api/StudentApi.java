@@ -38,18 +38,6 @@ public interface StudentApi {
     @GetMapping
     ApiResponse<StudentListResponse> retrieveAllStudent();
 
-    @GetMapping("/sign-up/emails/check-email")
-    @Operation(summary = "이메일 중복확인")
-    ApiResponse<?> checkDuplicatedEmail(@RequestBody EmailRequest emailRequest);
-
-    @PostMapping("/sign-up/emails/request-code")
-    @Operation(summary = "이메일 인증 코드 요청")
-    ApiResponse<?> sendCodeToEmail(@RequestBody EmailRequest emailRequest);
-
-    @GetMapping("/sign-up/emails/check-code")
-    @Operation(summary = "이메일 인증 코드 검증")
-    ApiResponse<?> checkCode(@RequestBody EmailRequest emailRequest);
-
     @PatchMapping
     @Operation(summary = "학생 정보 변경")
     ApiResponse<?> updateStudentInfo(@RequestBody StudentUpdateRequest studentUpdateRequest,
