@@ -10,6 +10,7 @@ import com.example.rentalSystem.domain.student.entity.Student;
 import com.example.rentalSystem.domain.student.implement.StudentChecker;
 import com.example.rentalSystem.domain.student.implement.StudentFinder;
 import com.example.rentalSystem.domain.student.implement.StudentSaver;
+import com.example.rentalSystem.domain.student.repository.StudentRepository;
 import com.example.rentalSystem.global.auth.AuthService;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import java.util.List;
@@ -23,20 +24,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 @Slf4j
-public class StudentFacade {
+public class StudentService {
 
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
     private final StudentFinder studentFinder;
     private final StudentChecker studentChecker;
-    private final StudentSaver studentSaver;
+    private final StudentRepository studentRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public StudentSignUpResponse studentSignUp(StudentSignUpRequest studentSignUpRequest) {
         studentChecker.checkExistUserEmail(studentSignUpRequest.email());
         String encodePassword = passwordEncoder.encode(studentSignUpRequest.password());
         Student student = studentSignUpRequest.toEntity(encodePassword);
-        Student savedMember = studentSaver.save(student);
+        Student savedMember = studentRepository.save(student);
         return StudentSignUpResponse.from(savedMember.getName());
     }
 
