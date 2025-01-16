@@ -2,6 +2,8 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.5'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'com.epages.restdocs-api-spec' version '0.18.2' //api-spec plugin for documentation
 }
 
 group = 'com.example'
@@ -11,8 +13,19 @@ java {
     sourceCompatibility = '17'
 }
 
+configurations {
+    asciidoctorExt
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 repositories {
     mavenCentral()
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
 }
 
 dependencies {
@@ -51,8 +64,35 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter:1.20.0'
     // mysql 컨테이너
     testImplementation 'org.testcontainers:mysql:1.20.0'
+
+    //document
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2'
+
+
+    //restdock
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+
+bootJar {  // (6)
+    dependsOn asciidoctor
+    doFirst {
+        delete file('static/docs')
+    }
+    from("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
+}
+openapi3 {
+    servers = [
+            { url = "http://localhost:8080" }
+    ]
+    title = "명지대 시설 대여"
+    description = "명지대 시설 대여 Rest api"
+    version = "1"
+    format = "yaml" // (json / yaml)
+//    outputDirectory = "src/main/resources/static"
+    outputFileNamePrefix = "openapi"
 }
