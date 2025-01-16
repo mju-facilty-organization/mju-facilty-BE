@@ -1,8 +1,5 @@
 package com.example.rentalSystem.domain.student.presentation.api;
 
-import static com.example.rentalSystem.global.config.SecurityConfig.SERVER_PREFIX;
-
-import com.example.rentalSystem.domain.email.dto.request.EmailRequest;
 import com.example.rentalSystem.domain.member.entity.CustomerDetails;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignInRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
@@ -20,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping(SERVER_PREFIX + "/students")
+@RequestMapping("/students")
 @Tag(name = "학생", description = "회원가입,로그인 API")
 public interface StudentApi {
 
