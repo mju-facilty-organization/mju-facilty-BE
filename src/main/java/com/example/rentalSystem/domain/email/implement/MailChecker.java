@@ -16,15 +16,12 @@ public class MailChecker {
 
     public void checkDuplicateEmail(String email) {
         if (memberLoader.checkExistEmail(email)) {
-            throw new CustomException(ErrorType.EXIST_MAIL);
+            throw new CustomException(ErrorType.DUPLICATE_EMAIL_RESOURCE);
         }
     }
 
-    public EmailVerificationResult checkAuthCode(String email, String code) {
-        if (!email.equals(code)) {
-            throw new CustomException(ErrorType.MISMATCH_VERIFIED_CODE);
-        }
-        return EmailVerificationResult.of(true);
+    public boolean checkAuthCode(String email, String code) {
+        return email.equals(code);
     }
 }
 
