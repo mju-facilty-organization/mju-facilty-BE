@@ -16,7 +16,7 @@ public class StudentChecker {
 
     public void checkExistUserEmail(String email) {
         if (studentRepository.findByEmail(email).isPresent()) {
-            throw new CustomException(ErrorType.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorType.DUPLICATE_EMAIL_RESOURCE);
         }
     }
 
