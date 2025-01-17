@@ -1,13 +1,15 @@
 package com.example.rentalSystem.common.fixture;
 
+import com.example.rentalSystem.domain.student.dto.request.StudentSignInRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
 import com.example.rentalSystem.domain.student.dto.response.StudentResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentSignUpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberFixture {
-    public static StudentSignUpRequest studentSignUpRequest(){
+public class StudentFixture {
+
+    public static StudentSignUpRequest studentSignUpRequest() {
         return new StudentSignUpRequest(
             "회원가입자",
             "60200000",
@@ -28,5 +30,12 @@ public class MemberFixture {
         List<StudentResponse> studentResponseList = new ArrayList<>();
         studentResponseList.add(new StudentResponse("회원가입자"));
         return studentResponseList;
+    }
+
+    public static StudentSignInRequest studentSignInReqquest() {
+        return new StudentSignInRequest(
+            "gkstkddbs99@mju.ac.kr",
+            "test1234!!"
+        );
     }
 }
