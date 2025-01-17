@@ -14,7 +14,8 @@ java {
 }
 
 configurations {
-    asciidoctorExt
+    asciidoctorExt // 2
+
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -24,9 +25,6 @@ repositories {
     mavenCentral()
 }
 
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
-}
 
 dependencies {
     //	개발 도구
@@ -68,31 +66,37 @@ dependencies {
     //document
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2'
-
-
     //restdock
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
 
-bootJar {  // (6)
+tasks.named('test') { // (6)
+    outputs.dir snippetsDir
+}
+
+asciidoctor { // (7)
+    configurations 'asciidoctorExt'
+    baseDirFollowsSourceDir()
+    inputs.dir snippetsDir // (8)
+    dependsOn test // (10)
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')  // (11)
+}
+
+task copyDocument(type: Copy) { // (12)
     dependsOn asciidoctor
-    doFirst {
-        delete file('static/docs')
-    }
-    from("${asciidoctor.outputDir}") {
-        into 'static/docs'
-    }
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
 }
-openapi3 {
-    servers = [
-            { url = "http://localhost:8080" }
-    ]
-    title = "명지대 시설 대여"
-    description = "명지대 시설 대여 Rest api"
-    version = "1"
-    format = "yaml" // (json / yaml)
-//    outputDirectory = "src/main/resources/static"
-    outputFileNamePrefix = "openapi"
+
+build {
+    dependsOn copyDocument
 }
+
