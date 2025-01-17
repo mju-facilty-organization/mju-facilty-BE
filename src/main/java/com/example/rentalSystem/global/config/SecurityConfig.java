@@ -38,6 +38,7 @@ public class SecurityConfig {
                 // 해당 API에 대해서는 모든 요청을 허가
                 .requestMatchers("/members/sign-in").permitAll()
                 .requestMatchers("/members/sign-up/**").permitAll()
+                .requestMatchers("/email/**").permitAll()
                 .requestMatchers(HttpMethod.PATCH, ("/members")).hasRole("USER")
                 .requestMatchers("/swagger-ui/**").permitAll()
                 // USER 권한이 있어야 요청할 수 있음
