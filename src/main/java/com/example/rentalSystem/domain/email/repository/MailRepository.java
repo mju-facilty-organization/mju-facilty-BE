@@ -25,4 +25,8 @@ public class MailRepository {
     public String findByEmailAddress(String emailAddress) {
         return mailRepository.get(emailAddress);
     }
+
+    public boolean checkExistEmail(String email) {
+        return mailRepository.containsKey(email);
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.email.presentation.controller;
+package com.example.rentalSystem.domain.email.controller;
 
 
 import com.example.rentalSystem.domain.email.dto.request.AuthCodeRequest;
@@ -7,9 +7,11 @@ import com.example.rentalSystem.domain.email.dto.response.EmailVerificationResul
 import com.example.rentalSystem.domain.email.service.EmailService;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.SuccessType;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,21 +25,22 @@ public class EmailController {
 
     private final EmailService emailService;
 
-    @GetMapping("/check-email")
+
+    @PostMapping("/check-duplicate")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<?> checkDuplicatedEmail(@RequestBody EmailRequest emailRequest) {
-        emailService.checkDuplicatedEmail(emailRequest.email());
+    public ApiResponse<?> checkDuplicatedEmail(@Valid @RequestBody EmailRequest emailRequest) {
+        emailService.checkDuplicatedEmail(emailRequest);
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 
     @PostMapping("/send-code")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<?> sendCodeToEmail(@RequestBody EmailRequest emailRequest) {
-        emailService.sendCodeToEmail(emailRequest.email());
+    public ApiResponse<?> sendCodeToEmail(@Valid @RequestBody EmailRequest emailRequest) {
+        emailService.sendCodeToEmail(emailRequest);
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 
-    @GetMapping("/sign-up/emails/check-code")
+    @PostMapping("/check-code")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<?> checkCode(@RequestBody AuthCodeRequest authCodeRequest) {
         EmailVerificationResult emailVerificationResult = emailService.verificationCode(

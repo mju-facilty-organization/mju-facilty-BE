@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.student.service;
 
+import com.example.rentalSystem.domain.student.dto.request.StudentSignInRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentUpdateRequest;
 import com.example.rentalSystem.domain.student.dto.response.StudentListResponse;
@@ -42,8 +43,9 @@ public class StudentService {
     }
 
     @Transactional
-    public JwtToken userSignIn(String loginId, String password) {
-        return authService.createAuthenticationToken(loginId, password);
+    public JwtToken userSignIn(StudentSignInRequest studentSignInRequest) {
+        return authService.createAuthenticationToken(studentSignInRequest.loginId(),
+            studentSignInRequest.password());
     }
 
     public StudentListResponse retrieveAllStudent() {
