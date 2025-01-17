@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.email.service;
 
+import com.example.rentalSystem.domain.email.dto.request.EmailRequest;
 import com.example.rentalSystem.domain.email.dto.response.EmailVerificationResult;
 import com.example.rentalSystem.domain.email.entity.Email;
 import com.example.rentalSystem.domain.email.implement.MailChecker;
@@ -28,17 +29,17 @@ public class EmailService {
 
     private final MailRepository mailRepository;
 
-    public void checkDuplicatedEmail(String email) {
-        mailChecker.checkDuplicateEmail(email);
+    public void checkDuplicatedEmail(EmailRequest emailRequest) {
+        mailChecker.checkDuplicateEmail(emailRequest.email());
     }
 
     @Transactional
-    public void sendCodeToEmail(String emailAddress) {
-        mailRepository.deleteByEmailAddress(emailAddress);
-        Email email = mailMaker.makeMail(emailAddress);
+    public void sendCodeToEmail(EmailRequest emailRequest) {
+        mailChecker.checkDuplicateSend(emailRequest.email());
+        Email email = mailMaker.makeMail(emailRequest.email());
         SimpleMailMessage emailForm = mailMaker.createEmailForm(email);
         sendEmail(emailForm);
-        mailRepository.save(emailAddress, email.authCode());
+        mailRepository.save(emailRequest.email(), email.authCode());
     }
 
     private void sendEmail(SimpleMailMessage emailForm) {
