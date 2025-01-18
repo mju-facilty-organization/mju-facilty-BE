@@ -44,3 +44,4 @@ out/
 
 # resource 무시
 /src/main/resources/**
+!/src/main/resources/
