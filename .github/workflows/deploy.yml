@@ -30,15 +30,15 @@ jobs:
         run: |
           cd ./src/main/resources
           touch ./application.yml
-          echo "${{ application.YML }}" > ./application.yml
+          echo "${{ APPLICATION_YML }}" > ./application.yml
         shell: bash
 
         # 환경별 yml 파일 생성 - dev
-      - name: make application-dev.yml
+      - name: make application-prod.yml
         run: |
           cd ./src/main/resources
           touch ./application-dev.yml
-          echo "${{ application-dev.YML }}" > ./application-dev.yml
+          echo "${{ APPLICATION_PROD }}" > ./application-prod.yml
         shell: bash
 
       - name: Gradle Caching
@@ -56,22 +56,34 @@ jobs:
         with:
           arguments: clean bootJar
 
-      # 3. Docker 이미지 빌드
-      - name: docker image build
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: docker build -t ${DOCKER_USERNAME}/dding-gi-rental:latest .
+      - name: Build Docker Image
+        run: |
+          docker build -t my-application:latest .
 
-      # 4. DockerHub 로그인
-      - name: docker login
-        uses: docker/login-action@v2
+      # 4. aws 자격 설정
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          username: ${{secrets.DOCKERHUB_USERNAME}}
-          password: ${{secrets.DOCKERHUB_PW}}
-      
-      # 5. Docker Hub 이미지 푸시
-      - name: docker Hub push
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/dding-gi-rental:latest
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      # ecr에 로그인
+      - name: Login to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          ECR_REPOSITORY: dding-gi/repo
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker tag my-application:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Logout from Amazon ECR
+        run: docker logout ${{ steps.ecr-login.outputs.registry }}
 
   # 위 과정에서 푸시한 이미지를 ec2에서 풀받아서 실행시키는 과정
   run-docker-image-on-ec2:
