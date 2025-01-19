@@ -180,6 +180,7 @@ jobs:
           chmod 600 ec2_key.pem
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@${{ secrets.SERVER_IP }} << 'EOF'
             cd /home/ubuntu
+            docker login -u AWS -p $(aws ecr get-login-password --region ap-northeast-2) ${{ steps.ecr-login.outputs.registry }}
             docker-compose -f docker-compose.yml pull
             docker-compose -f docker-compose.yml up -d
           EOF
