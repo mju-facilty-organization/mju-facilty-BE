@@ -43,5 +43,7 @@ out/
 !.dockerignore
 
 # resource 무시
-/src/main/resources/**
-!/src/main/resources/
+/src/main/resources/*.yml
+# resources 디렉토리 내 파일 모두 무시
+!/src/main/resources/static/**
+
