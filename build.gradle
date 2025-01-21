@@ -68,6 +68,10 @@ dependencies {
     testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2'
     //restdock
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    //aws
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.1'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.767'
+
 
 }
 
