@@ -1,33 +1,32 @@
 package com.example.rentalSystem.domain.facility.dto.request;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 public record CreateFacilityRequestDto(
     String name,
-    Long capacity,
     String location,
-    String chargeProfessor,
+    List<String> fileNames,
+    Long capacity,
+    String allowedBoundary,
     List<String> supportFacilities,
-    List<String> possibleDays,
-    LocalTime startTime,
-    LocalTime endTime,
+    String pic,
+    Map<String, List<String>> possibleTimes,
     boolean isAvailable
-    //이미지
 ) {
 
-  public Facility toFacility() {
-    return Facility.builder()
-        .name(name)
-        .capacity(capacity)
-        .location(location)
-        .chargeProfessor(chargeProfessor)
-        .supportFacilities(supportFacilities)
-        .possibleDays(possibleDays)
-        .startTime(startTime)
-        .endTime(endTime)
-        .isAvailable(isAvailable)
-        .build();
-  }
+    public Facility toFacility(List<String> imageUrlList) {
+        return Facility.builder()
+            .name(name)
+            .location(location)
+            .images(imageUrlList)
+            .capacity(capacity)
+            .allowedBoundary(allowedBoundary)
+            .supportFacilities(supportFacilities)
+            .pic(pic)
+            .possibleTimes(possibleTimes)
+            .isAvailable(isAvailable)
+            .build();
+    }
 }
