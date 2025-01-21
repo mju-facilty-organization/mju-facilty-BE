@@ -16,17 +16,17 @@ public record UpdateFacilityRequestDto(
     boolean isAvailable
 ) {
 
-  public Facility toFacility() {
-    return Facility.builder()
-        .name(name)
-        .capacity(capacity)
-        .location(location)
-        .chargeProfessor(chargeProfessor)
-        .supportFacilities(supportFacilities)
-        .possibleDays(possibleDays)
-        .startTime(startTime)
-        .endTime(endTime)
-        .isAvailable(isAvailable)
-        .build();
-  }
+    public Facility toFacility() {
+        return Facility.builder()
+            .name(name)
+            .capacity(capacity)
+            .location(location)
+//        .chargeProfessor(chargeProfessor)
+            .supportFacilities(supportFacilities)
+//            .possibleDays(possibleDays)
+//            .startTime(startTime)
+//            .endTime(endTime)
+            .isAvailable(isAvailable)
+            .build();
+    }
 }

@@ -32,8 +32,6 @@ dependencies {
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    //	swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
     //	validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     //	DB
@@ -68,6 +66,10 @@ dependencies {
     testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2'
     //restdock
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    //aws
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.1'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.767'
+
 
 }
 

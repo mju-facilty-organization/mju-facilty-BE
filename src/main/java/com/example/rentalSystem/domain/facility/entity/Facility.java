@@ -2,6 +2,7 @@ package com.example.rentalSystem.domain.facility.entity;
 
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.convert.StringListConverter;
+import com.example.rentalSystem.domain.facility.convert.WeekScheduleListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -9,8 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,77 +27,66 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "facility")
 public class Facility extends BaseTimeEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column(nullable = false)
-  private String name;
+    @Column(nullable = false)
+    private String name;
 
-  @Column(nullable = false)
-  private String location;
+    @Column(nullable = false)
+    private String location;
 
-  @Column(nullable = false)
-  private Long capacity;
+    @Convert(converter = StringListConverter.class)
+    private List<String> images;
 
-  @Column(nullable = false)
-  private String chargeProfessor;
+    @Column(nullable = false)
+    private Long capacity;
 
-  @Column(nullable = false)
-  private boolean isAvailable;
+    @Column(nullable = false)
+    private String allowedBoundary;
 
-  @Column(nullable = false)
-  private LocalTime startTime;
+    @Convert(converter = StringListConverter.class)
+    private List<String> supportFacilities;
 
-  @Column(nullable = false)
-  private LocalTime endTime;
+    @Column
+    private String pic; // 책임자
 
-  @Convert(converter = StringListConverter.class)
-  private List<String> possibleDays;
+    @Convert(converter = WeekScheduleListConverter.class)
+    private Map<String, List<String>> possibleTimes;
 
-  @Convert(converter = StringListConverter.class)
-  private List<String> supportFacilities;
+    @Column
+    private boolean isAvailable;
 
-  @Convert(converter = StringListConverter.class)
-  private List<String> images;
+    @Builder
+    public Facility(
+        String name,
+        String location,
+        List<String> images,
+        Long capacity,
+        String allowedBoundary,
+        List<String> supportFacilities,
+        String pic,
+        Map<String, List<String>> possibleTimes,
+        boolean isAvailable) {
 
-  boolean isDeleted = false;
+        this.name = name;
+        this.location = location;
+        this.images = images;
+        this.capacity = capacity;
+        this.allowedBoundary = allowedBoundary;
+        this.supportFacilities = supportFacilities;
+        this.pic = pic;
+        this.possibleTimes = possibleTimes;
+        this.isAvailable = isAvailable;
+    }
 
-  @Builder
-  public Facility(
-      String name,
-      String location,
-      List<String> images,
-      Long capacity,
-      String chargeProfessor,
-      LocalTime startTime,
-      LocalTime endTime,
-      List<String> supportFacilities,
-      List<String> possibleDays,
-      boolean isAvailable) {
-
-    this.name = name;
-    this.location = location;
-    this.images = images;
-    this.capacity = capacity;
-    this.chargeProfessor = chargeProfessor;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.supportFacilities = supportFacilities;
-    this.possibleDays = possibleDays;
-    this.isAvailable = isAvailable;
-  }
-
-  public void update(Facility updateFacility) {
-    this.name = updateFacility.getName();
-    this.location = updateFacility.getLocation();
-    this.images = updateFacility.getImages();
-    this.capacity = updateFacility.getCapacity();
-    this.chargeProfessor = updateFacility.getChargeProfessor();
-    this.startTime = updateFacility.getStartTime();
-    this.endTime = updateFacility.getEndTime();
-    this.supportFacilities = updateFacility.getSupportFacilities();
-    this.possibleDays = updateFacility.possibleDays;
-    this.isAvailable = updateFacility.isAvailable();
-  }
+    public void update(Facility updateFacility) {
+        this.name = updateFacility.getName();
+        this.location = updateFacility.getLocation();
+        this.images = updateFacility.getImages();
+        this.capacity = updateFacility.getCapacity();
+        this.supportFacilities = updateFacility.getSupportFacilities();
+        this.isAvailable = updateFacility.isAvailable();
+    }
 }
