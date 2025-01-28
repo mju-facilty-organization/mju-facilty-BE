@@ -2,6 +2,7 @@ package com.example.rentalSystem.domain.facility.entity;
 
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.convert.StringListConverter;
+import com.example.rentalSystem.domain.facility.convert.WeekScheduleListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -21,7 +22,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@SQLDelete(sql = "update facility set is_deleted = true where id=?")
+//@SQLDelete(sql = "update facility set is_deleted = true where id=?")
 @SQLRestriction("is_deleted = false")
 @Table(name = "facility")
 public class Facility extends BaseTimeEntity {

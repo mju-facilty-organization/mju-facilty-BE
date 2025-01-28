@@ -114,7 +114,7 @@ public class StudentControllerTest extends ApiTestSupport {
         doReturn(jwtToken).when(studentService).userSignIn(any(StudentSignInRequest.class));
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/students/sign-in")
+                MockMvcRequestBuilders.post("/students/sign-in")
                     .with(csrf())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(toJson(studentSignInRequest)))

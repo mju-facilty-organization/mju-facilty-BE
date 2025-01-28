@@ -35,7 +35,7 @@ public class StudentController {
         return ApiResponse.success(SuccessType.CREATED, studentSignUpResponse);
     }
 
-    @GetMapping("/sign-in")
+    @PostMapping("/sign-in")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<JwtToken> signIn(StudentSignInRequest studentSignInRequest) {
         JwtToken jwtToken = studentService.userSignIn(studentSignInRequest);
