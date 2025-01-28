@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.facility.presentation.controller;
+package com.example.rentalSystem.domain.facility.controller;
 
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
