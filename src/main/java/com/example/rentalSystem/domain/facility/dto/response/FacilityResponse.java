@@ -1,6 +1,7 @@
 package com.example.rentalSystem.domain.facility.dto.response;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.facility.entity.TimeTable;
 import java.util.List;
 import java.util.Map;
 import lombok.Builder;
@@ -15,8 +16,7 @@ public record FacilityResponse(
     Long capacity,
     String allowedBoundary,
     List<String> supportFacilities,
-    String pic,
-    Map<String, List<String>> possibleTimes
+    String pic
 ) {
 
     public static FacilityResponse fromFacility(Facility facility) {
@@ -28,7 +28,6 @@ public record FacilityResponse(
             .allowedBoundary(facility.getAllowedBoundary())
             .supportFacilities(facility.getSupportFacilities())
             .pic(facility.getPic())
-            .possibleTimes(facility.getPossibleTimes())
             .build();
     }
 }

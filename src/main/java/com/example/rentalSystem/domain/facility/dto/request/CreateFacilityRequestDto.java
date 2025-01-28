@@ -1,8 +1,8 @@
 package com.example.rentalSystem.domain.facility.dto.request;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 
 public record CreateFacilityRequestDto(
     String name,
@@ -12,7 +12,8 @@ public record CreateFacilityRequestDto(
     String allowedBoundary,
     List<String> supportFacilities,
     String pic,
-    Map<String, List<String>> possibleTimes,
+    LocalTime startTime,
+    LocalTime endTime,
     boolean isAvailable
 ) {
 
@@ -25,7 +26,8 @@ public record CreateFacilityRequestDto(
             .allowedBoundary(allowedBoundary)
             .supportFacilities(supportFacilities)
             .pic(pic)
-            .possibleTimes(possibleTimes)
+            .startTime(startTime)
+            .endTime(endTime)
             .isAvailable(isAvailable)
             .build();
     }

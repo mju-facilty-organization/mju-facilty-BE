@@ -10,8 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,11 +52,17 @@ public class Facility extends BaseTimeEntity {
     @Column
     private String pic; // 책임자
 
-    @Convert(converter = WeekScheduleListConverter.class)
-    private Map<String, List<String>> possibleTimes;
+    @Column
+    private LocalTime startTime;
+
+    @Column
+    private LocalTime endTime;
 
     @Column
     private boolean isAvailable;
+
+    @Column
+    private boolean isDeleted;
 
     @Builder
     public Facility(
@@ -67,7 +73,8 @@ public class Facility extends BaseTimeEntity {
         String allowedBoundary,
         List<String> supportFacilities,
         String pic,
-        Map<String, List<String>> possibleTimes,
+        LocalTime startTime,
+        LocalTime endTime,
         boolean isAvailable) {
 
         this.name = name;
@@ -77,8 +84,10 @@ public class Facility extends BaseTimeEntity {
         this.allowedBoundary = allowedBoundary;
         this.supportFacilities = supportFacilities;
         this.pic = pic;
-        this.possibleTimes = possibleTimes;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.isAvailable = isAvailable;
+        this.isDeleted = false;
     }
 
     public void update(Facility updateFacility) {

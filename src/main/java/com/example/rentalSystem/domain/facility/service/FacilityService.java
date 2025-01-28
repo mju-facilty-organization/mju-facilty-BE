@@ -5,12 +5,18 @@ import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityReques
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.facility.entity.TimeTable;
 import com.example.rentalSystem.domain.facility.implement.FacilityFinder;
 import com.example.rentalSystem.domain.facility.implement.FacilityReader;
 import com.example.rentalSystem.domain.facility.implement.FacilityRemover;
 import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
+import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
+import com.example.rentalSystem.domain.facility.reposiotry.TimeTableRepository;
 import com.example.rentalSystem.global.cloud.S3Service;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class FacilityService {
 
     private final FacilityReader facilityReader;
+    private final FacilityJpaRepository facilityJpaRepository;
+    private final TimeTableRepository timeTableRepository;
     private final FacilitySaver facilitySaver;
     private final FacilityFinder facilityFinder;
     private final FacilityRemover facilityRemover;
@@ -40,12 +48,22 @@ public class FacilityService {
         Facility facility = createFacilityRequestDto.toFacility(imageUrlList);
         facilitySaver.save(facility);
 
+        // 시작시간과 끝시간을 이용한 타임 테이블 생성
+        TimeTable timeTable = TimeTable.toEntity(
+            facility,
+            LocalDate.now(),
+            createFacilityRequestDto.startTime(),
+            createFacilityRequestDto.endTime());
+        timeTableRepository.save(timeTable);
+
+        // pre signed url을 반환. 업로드용
         List<String> presignedUrlList = imageUrlList
             .stream()
             .map(s3Service::generatePresignedUrl)
             .toList();
         return PresignUrlListResponse.from(presignedUrlList);
     }
+
 
     @Transactional
     public void update(UpdateFacilityRequestDto requestDto, Long facilityId) {
@@ -61,7 +79,7 @@ public class FacilityService {
     }
 
     public List<FacilityResponse> getAll() {
-        List<Facility> facilities = facilityReader.getAll();
+        List<Facility> facilities = facilityJpaRepository.findAll();
 
         return facilities.stream()
             .map(FacilityResponse::fromFacility)
