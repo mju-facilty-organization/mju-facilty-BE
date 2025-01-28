@@ -7,16 +7,13 @@ import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListRespo
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.entity.TimeTable;
 import com.example.rentalSystem.domain.facility.implement.FacilityFinder;
-import com.example.rentalSystem.domain.facility.implement.FacilityReader;
 import com.example.rentalSystem.domain.facility.implement.FacilityRemover;
 import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
 import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
 import com.example.rentalSystem.domain.facility.reposiotry.TimeTableRepository;
 import com.example.rentalSystem.global.cloud.S3Service;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class FacilityService {
 
-    private final FacilityReader facilityReader;
     private final FacilityJpaRepository facilityJpaRepository;
     private final TimeTableRepository timeTableRepository;
     private final FacilitySaver facilitySaver;

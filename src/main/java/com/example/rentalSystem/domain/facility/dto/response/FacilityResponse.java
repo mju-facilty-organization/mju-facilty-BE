@@ -1,9 +1,7 @@
 package com.example.rentalSystem.domain.facility.dto.response;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.TimeTable;
 import java.util.List;
-import java.util.Map;
 import lombok.Builder;
 
 @Builder

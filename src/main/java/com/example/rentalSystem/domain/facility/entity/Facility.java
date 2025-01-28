@@ -2,7 +2,6 @@ package com.example.rentalSystem.domain.facility.entity;
 
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.convert.StringListConverter;
-import com.example.rentalSystem.domain.facility.convert.WeekScheduleListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

@@ -25,7 +25,7 @@ public class TimeSlotConverter implements
     @Override
     public TimeSlot convertToEntityAttribute(String data) {
         try {
-            return mapper.readValue(data, new TypeReference<TimeSlot>() {
+            return mapper.readValue(data, new TypeReference<>() {
             });
         } catch (JsonProcessingException e) {
             throw new RuntimeException();
