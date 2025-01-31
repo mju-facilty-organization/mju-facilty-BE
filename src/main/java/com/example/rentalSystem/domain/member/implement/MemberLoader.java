@@ -16,9 +16,9 @@ public class MemberLoader {
         return memberRepository.existsByEmail(memberEmail);
     }
 
-    public Member findByLoginId(String memberLoginId) {
-        return memberRepository.findByLoginId(memberLoginId).orElseThrow(
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(
             (() -> new EntityNotFoundException(
-                "member not found :" + memberLoginId)));
+                "member not found :" + email)));
     }
 }

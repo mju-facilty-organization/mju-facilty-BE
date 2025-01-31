@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,14 +31,15 @@ public class StudentController {
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<StudentSignUpResponse> signUp(
-        StudentSignUpRequest signUpDto) {
+        @RequestBody StudentSignUpRequest signUpDto) {
         StudentSignUpResponse studentSignUpResponse = studentService.studentSignUp(signUpDto);
         return ApiResponse.success(SuccessType.CREATED, studentSignUpResponse);
     }
 
     @PostMapping("/sign-in")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<JwtToken> signIn(StudentSignInRequest studentSignInRequest) {
+    public ApiResponse<JwtToken> signIn(
+        @RequestBody StudentSignInRequest studentSignInRequest) {
         JwtToken jwtToken = studentService.userSignIn(studentSignInRequest);
         return ApiResponse.success(SuccessType.SUCCESS, jwtToken);
     }

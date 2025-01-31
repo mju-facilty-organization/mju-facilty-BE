@@ -23,9 +23,9 @@ public class Student extends Member {
 
     @Builder
     public Student(String studentNumber, String major, Long warningTime,
-        String email, String loginId, String name,
+        String email, String name,
         String password, String phoneNumber, String affiliation) {
-        super(email, loginId, Role.STUDENT, name, password, phoneNumber, affiliation);
+        super(email, Role.STUDENT, name, password, phoneNumber, affiliation);
         this.studentNumber = studentNumber;
         this.major = major;
         this.warningTime = warningTime != null ? warningTime : 0L;  // 기본값 설정

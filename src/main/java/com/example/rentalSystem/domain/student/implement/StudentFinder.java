@@ -26,8 +26,8 @@ public class StudentFinder {
         return studentRepository.findAll();
     }
 
-    public Student findByLoginId(String memberLoginId) {
-        return studentRepository.findByLoginId(memberLoginId).orElseThrow(() -> new CustomException(
+    public Student findByEmail(String email) {
+        return studentRepository.findByEmail(email).orElseThrow(() -> new CustomException(
             ErrorType.ENTITY_NOT_FOUND));
     }
 }
