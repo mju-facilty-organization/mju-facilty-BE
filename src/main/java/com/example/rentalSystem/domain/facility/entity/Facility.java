@@ -2,7 +2,6 @@ package com.example.rentalSystem.domain.facility.entity;
 
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.convert.StringListConverter;
-import com.example.rentalSystem.domain.facility.convert.WeekScheduleListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -16,7 +15,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Entity
@@ -32,10 +30,10 @@ public class Facility extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String facilityType;
 
     @Column(nullable = false)
-    private String location;
+    private String facilityNumber;
 
     @Convert(converter = StringListConverter.class)
     private List<String> images;
@@ -66,8 +64,8 @@ public class Facility extends BaseTimeEntity {
 
     @Builder
     public Facility(
-        String name,
-        String location,
+        FacilityType facilityType,
+        String facilityNumber,
         List<String> images,
         Long capacity,
         String allowedBoundary,
@@ -77,8 +75,8 @@ public class Facility extends BaseTimeEntity {
         LocalTime endTime,
         boolean isAvailable) {
 
-        this.name = name;
-        this.location = location;
+        this.facilityType = facilityType.getKoreanName();
+        this.facilityNumber = facilityNumber;
         this.images = images;
         this.capacity = capacity;
         this.allowedBoundary = allowedBoundary;
@@ -91,8 +89,8 @@ public class Facility extends BaseTimeEntity {
     }
 
     public void update(Facility updateFacility) {
-        this.name = updateFacility.getName();
-        this.location = updateFacility.getLocation();
+        this.facilityType = updateFacility.getFacilityType();
+        this.facilityNumber = updateFacility.getFacilityNumber();
         this.images = updateFacility.getImages();
         this.capacity = updateFacility.getCapacity();
         this.supportFacilities = updateFacility.getSupportFacilities();

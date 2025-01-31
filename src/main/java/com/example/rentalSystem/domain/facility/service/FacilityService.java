@@ -2,6 +2,7 @@ package com.example.rentalSystem.domain.facility.service;
 
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
@@ -12,6 +13,7 @@ import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
 import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
 import com.example.rentalSystem.domain.facility.reposiotry.TimeTableRepository;
 import com.example.rentalSystem.global.cloud.S3Service;
+import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -45,11 +47,13 @@ public class FacilityService {
         facilitySaver.save(facility);
 
         // 시작시간과 끝시간을 이용한 타임 테이블 생성
+
         TimeTable timeTable = TimeTable.toEntity(
             facility,
             LocalDate.now(),
             createFacilityRequestDto.startTime(),
             createFacilityRequestDto.endTime());
+
         timeTableRepository.save(timeTable);
 
         // pre signed url을 반환. 업로드용
@@ -80,5 +84,21 @@ public class FacilityService {
         return facilities.stream()
             .map(FacilityResponse::fromFacility)
             .toList();
+    }
+
+    public FacilityDetailResponse getFacilityDetail(Long facilityId, LocalDate localDate) {
+        Facility facility = findFacilityById(facilityId);
+        TimeTable timeTable = findTimeTableByFacilityAndDate(facility, localDate);
+        return FacilityDetailResponse.of(facility, timeTable);
+    }
+
+    private Facility findFacilityById(Long id) {
+        return facilityJpaRepository.findById(id)
+            .orElseThrow(EntityNotFoundException::new);
+    }
+
+    private TimeTable findTimeTableByFacilityAndDate(Facility facility, LocalDate date) {
+        return timeTableRepository.findByFacilityAndDate(facility, date)
+            .orElseThrow(EntityNotFoundException::new);
     }
 }

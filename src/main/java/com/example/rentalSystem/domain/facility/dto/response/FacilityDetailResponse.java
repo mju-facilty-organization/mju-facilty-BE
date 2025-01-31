@@ -1,12 +1,15 @@
 package com.example.rentalSystem.domain.facility.dto.response;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.facility.entity.RentalStatus;
+import com.example.rentalSystem.domain.facility.entity.TimeTable;
+import java.time.LocalTime;
+import java.util.LinkedHashMap;
 import java.util.List;
 import lombok.Builder;
 
 @Builder
-public record FacilityResponse(
-    //이미지
+public record FacilityDetailResponse(
     Long id,
     String facilityType,
     String facilityNumber,
@@ -15,11 +18,15 @@ public record FacilityResponse(
     Long capacity,
     String allowedBoundary,
     List<String> supportFacilities,
-    String pic
+    String pic,
+    String date,
+    LinkedHashMap<LocalTime, RentalStatus> timeSlot
+
 ) {
 
-    public static FacilityResponse fromFacility(Facility facility) {
-        return FacilityResponse.builder()
+    public static FacilityDetailResponse of(Facility facility, TimeTable timeTable) {
+        return FacilityDetailResponse
+            .builder()
             .id(facility.getId())
             .facilityType(facility.getFacilityType())
             .facilityNumber(facility.getFacilityNumber())
@@ -28,6 +35,8 @@ public record FacilityResponse(
             .allowedBoundary(facility.getAllowedBoundary())
             .supportFacilities(facility.getSupportFacilities())
             .pic(facility.getPic())
+            .date(timeTable.getDate().toString())
+            .timeSlot(timeTable.getTimeSlot())
             .build();
     }
 }

@@ -2,20 +2,24 @@ package com.example.rentalSystem.domain.facility.controller;
 
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
 import com.example.rentalSystem.domain.facility.service.FacilityService;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.SuccessType;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,5 +56,16 @@ public class FacilityController {
     public ApiResponse<List<FacilityResponse>> getAllFacility() {
         List<FacilityResponse> facilityResponses = facilityService.getAll();
         return ApiResponse.success(SuccessType.SUCCESS, facilityResponses);
+    }
+
+    @GetMapping("/{facilityId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<FacilityDetailResponse> getFacilityDetail(
+        @PathVariable("facilityId") Long facilityId,
+        @RequestParam(name = "date") LocalDate date
+    ) {
+        FacilityDetailResponse facilityDetailResponse = facilityService.getFacilityDetail(
+            facilityId, date);
+        return ApiResponse.success(SuccessType.SUCCESS, facilityDetailResponse);
     }
 }

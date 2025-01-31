@@ -58,9 +58,9 @@ public class JwtTokenProvider {
         TokenDto tokenDto = createAllToken(authentication.getName(), authorities);
 
         return JwtToken.builder()
-            .grantType("Bearer")
-            .accessToken(tokenDto.accessToken())
-            .refreshToken(tokenDto.refreshToken())
+            .grantType(authorities)
+            .accessToken("Bearer " + tokenDto.accessToken())
+            .refreshToken("Bearer " + tokenDto.refreshToken())
             .build();
     }
 
