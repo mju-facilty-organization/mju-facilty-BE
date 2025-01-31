@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FacilityJpaRepository extends JpaRepository<Facility, Long> {
 
-  Optional<Facility> findByNameAndLocation(String name, String location);
+//  Optional<Facility> findByNameAndLocation(String name, String location);
 }
