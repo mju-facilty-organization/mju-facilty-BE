@@ -11,47 +11,60 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.LinkedHashMap;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class TimeTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
     private Facility facility;
 
     @Column
-    private LocalDate today;
+    private LocalDate date;
 
     @Convert(converter = TimeSlotConverter.class)
-    private TimeSlot timeSlot;
+    private LinkedHashMap<LocalTime, RentalStatus> timeSlot;
 
     @Builder
     public TimeTable(
         Facility facility,
-        LocalDate today,
-        TimeSlot timeSlot
+        LocalDate date,
+        LinkedHashMap<LocalTime, RentalStatus> timeSlot
     ) {
         this.facility = facility;
-        this.today = today;
+        this.date = date;
         this.timeSlot = timeSlot;
     }
 
     public static TimeTable toEntity(
         Facility facility,
-        LocalDate today, LocalTime startTime,
+        LocalDate date,
+        LocalTime startTime,
         LocalTime endTime) {
-        TimeSlot timeSlot = TimeSlot.createTimeSlot(startTime, endTime);
 
         return TimeTable.builder()
             .facility(facility)
-            .today(today)
-            .timeSlot(timeSlot)
+            .date(date)
+            .timeSlot(createTimeSlot(startTime, endTime))
             .build();
+    }
+
+    private static LinkedHashMap<LocalTime, RentalStatus> createTimeSlot(LocalTime startTime,
+        LocalTime endTime) {
+        LinkedHashMap<LocalTime, RentalStatus> timeSlot = new LinkedHashMap<>();
+        while (startTime.isBefore(endTime)) {
+            timeSlot.put(startTime, RentalStatus.AVAILABLE);
+            startTime = startTime.plusMinutes(30);
+        }
+        return timeSlot;
     }
 }
