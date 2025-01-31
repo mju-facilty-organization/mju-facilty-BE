@@ -1,12 +1,13 @@
 package com.example.rentalSystem.domain.facility.dto.request;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.facility.entity.FacilityType;
 import java.time.LocalTime;
 import java.util.List;
 
 public record CreateFacilityRequestDto(
-    String name,
-    String location,
+    FacilityType facilityType,
+    String facilityNumber,
     List<String> fileNames,
     Long capacity,
     String allowedBoundary,
@@ -19,8 +20,8 @@ public record CreateFacilityRequestDto(
 
     public Facility toFacility(List<String> imageUrlList) {
         return Facility.builder()
-            .name(name)
-            .location(location)
+            .facilityType(facilityType)
+            .facilityNumber(facilityNumber)
             .images(imageUrlList)
             .capacity(capacity)
             .allowedBoundary(allowedBoundary)
