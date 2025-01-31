@@ -8,7 +8,6 @@ public record StudentSignUpRequest(
     String password,
     String email,
     String affiliation,
-    String loginId,
     String major,
     String phoneNumber) {
 
@@ -18,7 +17,6 @@ public record StudentSignUpRequest(
             .password(encodePassword)
             .phoneNumber(phoneNumber)
             .affiliation(affiliation)
-            .loginId(loginId)
             .studentNumber(studentNumber)
             .email(email)
             .major(major)
