@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FacilityFinder {
 
-  private final FacilityJpaRepository facilityJpaRepository;
+    private final FacilityJpaRepository facilityJpaRepository;
 
-  public Facility findById(Long id) {
-    return facilityJpaRepository.findById(id)
-        .orElseThrow(EntityNotFoundException::new);
-  }
+    public Facility findById(Long id) {
+        return facilityJpaRepository.findById(id)
+            .orElseThrow(EntityNotFoundException::new);
+    }
 
-  public Facility findByNameAndLocation(String facilityName, String location) {
-    return facilityJpaRepository.findByNameAndLocation(facilityName, location)
-        .orElseThrow(() -> new EntityNotFoundException("facility not found :" + facilityName + "," + location));
-  }
+//  public Facility findByNameAndLocation(String facilityName, String location) {
+//    return facilityJpaRepository.findByNameAndLocation(facilityName, location)
+//        .orElseThrow(() -> new EntityNotFoundException("facility not found :" + facilityName + "," + location));
+//  }
 }
