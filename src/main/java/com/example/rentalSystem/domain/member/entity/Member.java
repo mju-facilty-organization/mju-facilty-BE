@@ -30,9 +30,6 @@ public abstract class Member {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
-    private String loginId;
-
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -41,10 +38,9 @@ public abstract class Member {
     private String phoneNumber;
     private String affiliation;
 
-    public Member(String email, String loginId, Role role, String name,
+    public Member(String email, Role role, String name,
         String password, String phoneNumber, String affiliation) {
         this.email = email;
-        this.loginId = loginId;
         this.role = role;
         this.name = name;
         this.password = password;

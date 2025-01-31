@@ -10,7 +10,6 @@ import com.example.rentalSystem.domain.student.dto.response.StudentUpdateRespons
 import com.example.rentalSystem.domain.student.entity.Student;
 import com.example.rentalSystem.domain.student.implement.StudentChecker;
 import com.example.rentalSystem.domain.student.implement.StudentFinder;
-import com.example.rentalSystem.domain.student.implement.StudentSaver;
 import com.example.rentalSystem.domain.student.repository.StudentRepository;
 import com.example.rentalSystem.global.auth.AuthService;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
@@ -44,7 +43,7 @@ public class StudentService {
 
     @Transactional
     public JwtToken userSignIn(StudentSignInRequest studentSignInRequest) {
-        return authService.createAuthenticationToken(studentSignInRequest.loginId(),
+        return authService.createAuthenticationToken(studentSignInRequest.email(),
             studentSignInRequest.password());
     }
 
@@ -55,8 +54,8 @@ public class StudentService {
 
     @Transactional
     public StudentUpdateResponse updateStudentInfo(StudentUpdateRequest studentUpdateRequest,
-        String memberLoginId) {
-        Student student = studentFinder.findByLoginId(memberLoginId);
+        String email) {
+        Student student = studentFinder.findByEmail(email);
         student.updateInfo(studentUpdateRequest.name(), studentUpdateRequest.major());
         return StudentUpdateResponse.of(student.getName(), student.getMajor());
     }

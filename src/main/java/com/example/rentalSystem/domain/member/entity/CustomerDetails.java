@@ -1,7 +1,8 @@
 package com.example.rentalSystem.domain.member.entity;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +17,9 @@ public class CustomerDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(member.getRoles()));
+        return Arrays.stream(member.getRoles().split(","))
+            .map(SimpleGrantedAuthority::new)
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -26,7 +29,7 @@ public class CustomerDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return member.getLoginId();
+        return member.getEmail();
     }
 
     @Override
