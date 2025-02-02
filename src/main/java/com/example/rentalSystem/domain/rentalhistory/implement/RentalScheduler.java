@@ -14,19 +14,24 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class RentalScheduler {
 
-    private TimeTableRepository tableRepository;
+    final TimeTableRepository tableRepository;
 
-    public void checkSchedule(Facility facility, String startDateTime, String endDateTime) {
+    public void checkSchedule(
+        Facility facility,
+        LocalDateTime startDateTime,
+        LocalDateTime endDateTime) {
 
-        LocalDate startDate = LocalDate.parse(startDateTime);
-        LocalTime startTIme = LocalTime.parse(startDateTime);
-        LocalTime endTime = LocalTime.parse(endDateTime);
+        LocalDate startDate = startDateTime.toLocalDate();
+        LocalTime startTIme = startDateTime.toLocalTime();
+        LocalTime endTime = endDateTime.toLocalTime();
 
         TimeTable timeTable = tableRepository.findByFacilityAndDate(facility,
                 startDate)
