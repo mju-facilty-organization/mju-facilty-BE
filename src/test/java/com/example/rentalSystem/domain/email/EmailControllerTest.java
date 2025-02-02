@@ -31,7 +31,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 
-@AutoConfigureRestDocs
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = EmailController.class)
 public class EmailControllerTest extends ApiTestSupport {

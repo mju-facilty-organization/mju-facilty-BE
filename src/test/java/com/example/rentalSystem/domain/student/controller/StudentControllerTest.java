@@ -21,6 +21,7 @@ import com.example.rentalSystem.domain.student.service.StudentService;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.ResultType;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,11 +37,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-
 @Slf4j
-@WebMvcTest(controllers = StudentController.class)
 @ExtendWith(SpringExtension.class)
-@AutoConfigureRestDocs
+@WebMvcTest(controllers = StudentController.class)
 public class StudentControllerTest extends ApiTestSupport {
 
     @MockBean
@@ -68,7 +67,9 @@ public class StudentControllerTest extends ApiTestSupport {
                 preprocessResponse(prettyPrint())));
 
         // then
-        resultActions.andExpect(status().isCreated())
+        resultActions
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
             .andExpect(jsonPath("$.data.studentName", studentSignUpResponse).exists());
     }
 
@@ -144,3 +145,4 @@ public class StudentControllerTest extends ApiTestSupport {
 
 
 }
+

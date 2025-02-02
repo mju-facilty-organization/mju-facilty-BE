@@ -15,9 +15,8 @@ public class StudentFixture {
             "60200000",
             "test1234!!",
             "testEmail@mju.ac.kr",
-            "ICT",
-            "loginId",
             "응용소프트웨어전공",
+            "융합소프트웨어학부",
             "010-0000-0000"
         );
     }
