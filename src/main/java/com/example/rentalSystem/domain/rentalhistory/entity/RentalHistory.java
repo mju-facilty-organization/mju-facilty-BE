@@ -2,19 +2,19 @@ package com.example.rentalSystem.domain.rentalhistory.entity;
 
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.member.entity.Member;
+import com.example.rentalSystem.domain.student.entity.Student;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.joda.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -42,9 +42,13 @@ public class RentalHistory extends BaseTimeEntity {
     @Column(nullable = false)
     private RentalApplicationResult result;
 
+    @Column()
+    private LocalDateTime defineDateTime;
+
     @ManyToOne
-    private Member member;
+    private Student student;
 
     @ManyToOne
     private Facility facility;
+
 }

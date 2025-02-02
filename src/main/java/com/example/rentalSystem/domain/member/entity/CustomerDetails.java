@@ -1,5 +1,8 @@
 package com.example.rentalSystem.domain.member.entity;
 
+import com.example.rentalSystem.domain.student.entity.Student;
+import com.example.rentalSystem.global.exception.custom.CustomException;
+import com.example.rentalSystem.global.response.ErrorType;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -50,5 +53,13 @@ public class CustomerDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Student getStudent() {
+        if (member instanceof Student) {
+            return (Student) member;
+        }
+        throw new CustomException(ErrorType.ENTITY_NOT_FOUND);
+
     }
 }

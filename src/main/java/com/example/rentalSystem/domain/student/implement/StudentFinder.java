@@ -30,4 +30,10 @@ public class StudentFinder {
         return studentRepository.findByEmail(email).orElseThrow(() -> new CustomException(
             ErrorType.ENTITY_NOT_FOUND));
     }
+
+    public Student findById(String studentId) {
+        return studentRepository.findById(Long.valueOf(studentId))
+            .orElseThrow(() -> new CustomException(
+                ErrorType.ENTITY_NOT_FOUND));
+    }
 }

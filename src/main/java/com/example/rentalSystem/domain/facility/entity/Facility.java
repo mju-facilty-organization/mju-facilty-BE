@@ -48,9 +48,6 @@ public class Facility extends BaseTimeEntity {
     private List<String> supportFacilities;
 
     @Column
-    private String pic; // 책임자
-
-    @Column
     private LocalTime startTime;
 
     @Column
@@ -61,6 +58,9 @@ public class Facility extends BaseTimeEntity {
 
     @Column
     private boolean isDeleted;
+
+    @Column
+    private String pic; // 책임자
 
     @Builder
     public Facility(
