@@ -2,11 +2,13 @@ package com.example.rentalSystem.domain.facility.dto.request;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.entity.FacilityType;
+import com.example.rentalSystem.global.exception.custom.CustomException;
+import com.example.rentalSystem.global.response.ErrorType;
 import java.time.LocalTime;
 import java.util.List;
 
 public record UpdateFacilityRequestDto(
-    FacilityType facilityType,
+    String facilityType,
     String facilityNumber,
     String location,
     String chargeProfessor,
@@ -19,12 +21,15 @@ public record UpdateFacilityRequestDto(
 ) {
 
     public Facility toFacility() {
-        return Facility.builder()
-            .facilityType(this.facilityType)
-            .capacity(this.capacity)
-            .facilityNumber(facilityNumber)
-            .supportFacilities(supportFacilities)
-            .isAvailable(isAvailable)
-            .build();
+        if (FacilityType.existsByValue(facilityType)) {
+            return Facility.builder()
+                .facilityType((facilityType))
+                .capacity(capacity)
+                .facilityNumber(facilityNumber)
+                .supportFacilities(supportFacilities)
+                .isAvailable(isAvailable)
+                .build();
+        }
+        throw new CustomException(ErrorType.INVALID_REQUEST);
     }
 }

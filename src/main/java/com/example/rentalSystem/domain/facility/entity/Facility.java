@@ -64,7 +64,7 @@ public class Facility extends BaseTimeEntity {
 
     @Builder
     public Facility(
-        FacilityType facilityType,
+        String facilityType,
         String facilityNumber,
         List<String> images,
         Long capacity,
@@ -75,7 +75,7 @@ public class Facility extends BaseTimeEntity {
         LocalTime endTime,
         boolean isAvailable) {
 
-        this.facilityType = facilityType.getKoreanName();
+        this.facilityType = facilityType;
         this.facilityNumber = facilityNumber;
         this.images = images;
         this.capacity = capacity;

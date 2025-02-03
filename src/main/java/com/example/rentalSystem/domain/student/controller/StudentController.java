@@ -12,13 +12,11 @@ import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.SuccessType;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,7 +27,6 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping("/sign-up")
-    @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<StudentSignUpResponse> signUp(
         @RequestBody StudentSignUpRequest signUpDto) {
         StudentSignUpResponse studentSignUpResponse = studentService.studentSignUp(signUpDto);
@@ -37,7 +34,6 @@ public class StudentController {
     }
 
     @PostMapping("/sign-in")
-    @ResponseStatus(HttpStatus.OK)
     public ApiResponse<JwtToken> signIn(
         @RequestBody StudentSignInRequest studentSignInRequest) {
         JwtToken jwtToken = studentService.userSignIn(studentSignInRequest);
@@ -45,7 +41,6 @@ public class StudentController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public ApiResponse<StudentListResponse> retrieveAllStudent() {
         return ApiResponse.success(SuccessType.SUCCESS, studentService.retrieveAllStudent());
     }

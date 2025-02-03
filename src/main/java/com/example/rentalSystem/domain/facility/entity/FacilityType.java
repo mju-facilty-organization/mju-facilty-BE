@@ -3,9 +3,7 @@ package com.example.rentalSystem.domain.facility.entity;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.ErrorType;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -20,13 +18,19 @@ public enum FacilityType {
     LIBRARY("도서관"),
     OUTDOOR("야외");
 
-    private final String koreanName;
+    private final String value;
 
-    @JsonCreator
-    public static FacilityType fromKoreanName(String koreanNane) {
+//    @JsonCreator
+//    public static FacilityType fromKoreanName(String value) {
+//        return Arrays.stream(values())
+//            .filter(type -> type.value.equals(value))
+//            .findAny()
+//            .orElseThrow(() -> new CustomException(ErrorType.INVALID_REQUEST));
+//    }
+
+    public static boolean existsByValue(String value) {
         return Arrays.stream(values())
-            .filter(type -> type.koreanName.equals(koreanNane))
-            .findAny()
-            .orElseThrow(() -> new CustomException(ErrorType.INVALID_REQUEST));
+            .anyMatch(type -> type.value.equals(value));
     }
+
 }
