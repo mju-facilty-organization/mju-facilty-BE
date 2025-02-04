@@ -2,8 +2,7 @@ package com.example.rentalSystem.domain.rentalhistory.service;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.implement.FacilityFinder;
-import com.example.rentalSystem.domain.member.entity.Member;
-import com.example.rentalSystem.domain.rentalhistory.dto.CreateRentalRequest;
+import com.example.rentalSystem.domain.rentalhistory.dto.request.CreateRentalRequest;
 import com.example.rentalSystem.domain.rentalhistory.dto.response.RentalHistoryResponseDto;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.rentalhistory.implement.RentalScheduler;

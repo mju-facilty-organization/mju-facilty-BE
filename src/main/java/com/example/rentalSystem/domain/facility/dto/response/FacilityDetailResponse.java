@@ -1,8 +1,8 @@
 package com.example.rentalSystem.domain.facility.dto.response;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.RentalStatus;
-import com.example.rentalSystem.domain.facility.entity.TimeTable;
+import com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus;
+import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
 import java.time.LocalTime;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,7 +20,7 @@ public record FacilityDetailResponse(
     List<String> supportFacilities,
     String pic,
     String date,
-    LinkedHashMap<LocalTime, RentalStatus> timeSlot
+    LinkedHashMap<LocalTime, TimeStatus> timeSlot
 
 ) {
 
