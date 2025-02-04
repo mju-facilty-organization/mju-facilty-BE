@@ -1,14 +1,13 @@
-package com.example.rentalSystem.domain.rentalhistory.dto;
+package com.example.rentalSystem.domain.rentalhistory.dto.request;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.RentalStatus;
-import com.example.rentalSystem.domain.member.entity.Member;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.student.entity.Student;
 import java.time.LocalDateTime;
-import java.util.List;
+import lombok.Builder;
 
+@Builder
 public record CreateRentalRequest(
     String facilityId,
     LocalDateTime startTime,
