@@ -7,3 +7,5 @@
 
 include::members.adoc[]
 include::email.adoc[]
+include::facility.adoc[]
+include::rental.adoc[]

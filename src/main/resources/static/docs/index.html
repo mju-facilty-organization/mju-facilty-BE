@@ -460,6 +460,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_이메일_인증_코드_전송">이메일 인증 코드 전송</a></li>
 </ul>
 </li>
+<li><a href="#_시설_api">시설 API</a>
+<ul class="sectlevel2">
+<li><a href="#_시설_생성_성공">시설 생성 성공</a></li>
+<li><a href="#_시설_전체_조회">시설 전체 조회</a></li>
+<li><a href="#_시설_상세_조회">시설 상세 조회</a></li>
+</ul>
+</li>
+<li><a href="#_대여_api">대여 API</a>
+<ul class="sectlevel2">
+<li><a href="#_시설_대여_요청">시설 대여 요청</a></li>
+<li><a href="#_대여_내역_전체_조회">대여 내역 전체 조회</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -473,9 +486,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_회원가입_성공_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /students/sign-up?_csrf=V4ety53zv2VLemlczl0Puh2aQYZGyUMIpNRtegNQ0MPAA3cdNOGaqP7Gj1RmGVlv9nA7gi-pbORx_yIlkOYMHDFisfqjMEB_ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /students/sign-up?_csrf=S4HpSaox8aykgjJxyfs9lyMIu1p94rBnV3j3-CtsNOTTrg3JfbnecJ4CxJ-JugoS8dYJo0E6lmNJhIJKZU2RyxkOUoDhnm_7 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 256
+Content-Length: 255
 Host: localhost:8080
 
 {
@@ -483,9 +496,8 @@ Host: localhost:8080
   "studentNumber" : "60200000",
   "password" : "test1234!!",
   "email" : "testEmail@mju.ac.kr",
-  "affiliation" : "ICT",
-  "loginId" : "loginId",
-  "major" : "응용소프트웨어전공",
+  "affiliation" : "응용소프트웨어전공",
+  "major" : "융합소프트웨어학부",
   "phoneNumber" : "010-0000-0000"
 }</code></pre>
 </div>
@@ -775,11 +787,291 @@ Content-Length: 106
 </div>
 </div>
 </div>
+<h1 id="_시설_api" class="sect0">시설 API</h1>
+<div class="sect2">
+<h3 id="_시설_생성_성공">시설 생성 성공</h3>
+<div class="sect3">
+<h4 id="_시설_생성_성공_http_request">HTTP request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /admin/facilities?_csrf=JJyXkZWYnTkvYY2bcStuZ1htkPZ0Y_kUH3u-Wzwo5Zod952XRfikqaas-1wCWbWqFAZaAmxcvc8XBZs5Jk3YOFkY3Pl7z6Xx HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 343
+Host: localhost:8080
+
+{
+  "facilityType" : "본관",
+  "facilityNumber" : "1350",
+  "fileNames" : [ "test-file1" ],
+  "capacity" : 40,
+  "allowedBoundary" : "융합소프트웨어학부",
+  "supportFacilities" : [ "구비시설1", "구비시설2" ],
+  "pic" : "책임자",
+  "startTime" : "22:29:56.812635",
+  "endTime" : "22:29:56.812656",
+  "isAvailable" : true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_시설_생성_성공_http_response">HTTP response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=utf-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 188
+
+{
+  "httpStatusCode" : 201,
+  "message" : "성공적으로 생성하였습니다.",
+  "data" : {
+    "presignedUrlList" : [ "image1", "image2", "image3" ]
+  },
+  "resultType" : "SUCCESS"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_시설_전체_조회">시설 전체 조회</h3>
+<div class="sect3">
+<h4 id="_시설_전체_조회_http_request">HTTP request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /admin/facilities?_csrf=c5Qa4g0l7BWJwQWRfHpFigkcuVs3SHRBiIR9hF6r0b3QjTr3FaF52zgQ3yWkpTKhRVdxvjwllGMEcEZsvrEctWqd4tjp7A7G HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_시설_전체_조회_http_response">HTTP response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=utf-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 397
+
+{
+  "httpStatusCode" : 200,
+  "message" : "요청에 성공하였습니다.",
+  "data" : [ {
+    "id" : 1,
+    "facilityType" : "본관",
+    "facilityNumber" : "1350",
+    "images" : [ "test-file1" ],
+    "capacity" : 5,
+    "allowedBoundary" : "융합소프트웨어학부",
+    "supportFacilities" : [ "구비시설1", "구비시설2" ],
+    "pic" : "교수"
+  } ],
+  "resultType" : "SUCCESS"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_시설_상세_조회">시설 상세 조회</h3>
+<div class="sect3">
+<h4 id="_시설_상세_조회_http_request">HTTP request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /admin/facilities/1?date=2025-02-04&amp;_csrf=GlFw-4xZ59jl9UPWSf1pF4xvt16kaG9pStKaNUGTulDNUtksfjJFnbpsge_IzXTuLNBdI-hfmmadX1xEfOL_U3erjmioar1I HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_시설_상세_조회_http_response">HTTP response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=utf-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 701
+
+{
+  "httpStatusCode" : 200,
+  "message" : "요청에 성공하였습니다.",
+  "data" : {
+    "id" : 1,
+    "facilityType" : "본관",
+    "facilityNumber" : "1350",
+    "images" : [ "test-file1" ],
+    "capacity" : 5,
+    "allowedBoundary" : "융합소프트웨어학부",
+    "supportFacilities" : [ "구비시설1", "구비시설2" ],
+    "pic" : "교수",
+    "date" : "2025-02-04",
+    "timeSlot" : {
+      "11:00" : "예약가능",
+      "11:30" : "예약가능",
+      "12:00" : "예약가능",
+      "12:30" : "예약가능",
+      "13:00" : "예약가능",
+      "13:30" : "예약가능",
+      "14:00" : "예약가능",
+      "14:30" : "예약가능"
+    }
+  },
+  "resultType" : "SUCCESS"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<h1 id="_대여_api" class="sect0">대여 API</h1>
+<div class="sect2">
+<h3 id="_시설_대여_요청">시설 대여 요청</h3>
+<div class="sect3">
+<h4 id="_시설_대여_요청_http_request">HTTP request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /rental?_csrf=IQf5OMOgY8Q6yo90oyoEA2h7AZPTP-XS9-BlVVe9uMtTpIFtRWPADfbCUPIX_rsVkQcwMlBPLKuxW9H_koVRY2GLiK1mnbNa HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_시설_대여_요청_http_response">HTTP response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 350
+
+{
+  "httpStatusCode" : 200,
+  "message" : "요청에 성공하였습니다.",
+  "data" : [ {
+    "id" : null,
+    "organization" : "COW",
+    "purpose" : "동아리 활동",
+    "createAt" : null,
+    "defineDateTime" : null,
+    "result" : "WAITING",
+    "facilityResponse" : {
+      "facilityType" : "1350"
+    }
+  } ],
+  "resultType" : "SUCCESS"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_대여_내역_전체_조회">대여 내역 전체 조회</h3>
+<div class="sect3">
+<h4 id="_대여_내역_전체_조회_http_request">HTTP request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /rental?_csrf=MXpsTMYvmmOgsBnoC-wqAh70QMB5YaxPR9_trMDOvRNCOwreBU1VfvRNqAWNiCyNaMEeYCrDbfhNBZ5ic7rczqL-3yB6D2vt HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_대여_내역_전체_조회_http_response">HTTP response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 350
+
+{
+  "httpStatusCode" : 200,
+  "message" : "요청에 성공하였습니다.",
+  "data" : [ {
+    "id" : null,
+    "organization" : "COW",
+    "purpose" : "동아리 활동",
+    "createAt" : null,
+    "defineDateTime" : null,
+    "result" : "WAITING",
+    "facilityResponse" : {
+      "facilityType" : "1350"
+    }
+  } ],
+  "resultType" : "SUCCESS"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2025-01-17 19:12:12 +0900
+Last updated 2025-02-04 17:20:10 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
