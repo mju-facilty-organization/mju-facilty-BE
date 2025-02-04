@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.facility.convert;
 
-import com.example.rentalSystem.domain.facility.entity.RentalStatus;
+import com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -9,7 +9,7 @@ import java.time.LocalTime;
 import java.util.LinkedHashMap;
 
 public class TimeSlotConverter implements
-    AttributeConverter<LinkedHashMap<LocalTime, RentalStatus>, String> {
+    AttributeConverter<LinkedHashMap<LocalTime, TimeStatus>, String> {
 
     private final ObjectMapper mapper;
 
@@ -19,7 +19,7 @@ public class TimeSlotConverter implements
     }
 
     @Override
-    public String convertToDatabaseColumn(LinkedHashMap<LocalTime, RentalStatus> timeSlot) {
+    public String convertToDatabaseColumn(LinkedHashMap<LocalTime, TimeStatus> timeSlot) {
         try {
             return mapper.writeValueAsString(timeSlot);
         } catch (JsonProcessingException e) {
@@ -28,11 +28,11 @@ public class TimeSlotConverter implements
     }
 
     @Override
-    public LinkedHashMap<LocalTime, RentalStatus> convertToEntityAttribute(String data) {
+    public LinkedHashMap<LocalTime, TimeStatus> convertToEntityAttribute(String data) {
         try {
             return mapper.readValue(data,
                 mapper.getTypeFactory()
-                    .constructMapType(LinkedHashMap.class, LocalTime.class, RentalStatus.class));
+                    .constructMapType(LinkedHashMap.class, LocalTime.class, TimeStatus.class));
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error deserializing TimeSlot", e);
         }

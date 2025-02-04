@@ -1,13 +1,32 @@
 package com.example.rentalSystem.common.fixture;
 
+import static org.mockito.Mockito.doReturn;
+
 import com.example.rentalSystem.domain.student.dto.request.StudentSignInRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.student.dto.response.StudentListResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentSignUpResponse;
-import java.util.ArrayList;
+import com.example.rentalSystem.domain.student.entity.Student;
 import java.util.List;
+import org.mockito.Mockito;
 
 public class StudentFixture {
+
+    public static Student createStudent() {
+        Student student = new Student(
+            "60202489",
+            "응용소프트웨어전공",
+            0L,
+            "testEmail@mju.ac.kr",
+            "한상윤",
+            "testPassword",
+            "010-0000-0000",
+            "융합소프트웨어학부");
+        student = Mockito.spy(student);
+        doReturn(1L).when(student).getId();
+        return student;
+    }
 
     public static StudentSignUpRequest studentSignUpRequest() {
         return new StudentSignUpRequest(
@@ -25,10 +44,9 @@ public class StudentFixture {
         return new StudentSignUpResponse("회원가입자");
     }
 
-    public static List<StudentResponse> studentListResponse() {
-        List<StudentResponse> studentResponseList = new ArrayList<>();
-        studentResponseList.add(new StudentResponse("회원가입자"));
-        return studentResponseList;
+    public static StudentListResponse studentListResponse() {
+        List<StudentResponse> studentResponseList = List.of(new StudentResponse("회원가입자"));
+        return new StudentListResponse(studentResponseList);
     }
 
     public static StudentSignInRequest studentSignInReqquest() {

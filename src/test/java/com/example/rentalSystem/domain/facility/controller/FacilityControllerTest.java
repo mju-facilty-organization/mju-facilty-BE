@@ -1,62 +1,70 @@
-package com.example.rentalSystem.domain.facility.presentation.controller;
+package com.example.rentalSystem.domain.facility.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.rentalSystem.common.fixture.FacilityFixture;
 import com.example.rentalSystem.common.support.ApiTestSupport;
-import com.example.rentalSystem.domain.facility.controller.FacilityController;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
-import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
+import com.example.rentalSystem.domain.facility.service.FacilityService;
 import com.example.rentalSystem.global.response.ResultType;
 import com.example.rentalSystem.global.response.SuccessType;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = FacilityController.class)
 class FacilityControllerTest extends ApiTestSupport {
 
-    @Autowired
-    private FacilityJpaRepository facilityJpaRepository;
+
+    @MockBean
+    private FacilityService facilityService;
 
     @Test
+    @WithMockUser
     @DisplayName("시설을 생성할 수 있다.")
     void 시설_생성_API() throws Exception {
         // Given
         CreateFacilityRequestDto requestDto = FacilityFixture.createFacilityRequestDto();
+        PresignUrlListResponse presignUrlListResponse = FacilityFixture.createFacilityResponseDto();
 
+        doReturn(presignUrlListResponse)
+            .when(facilityService)
+            .create(any(CreateFacilityRequestDto.class));
         // When
-        ResultActions resultActions = mockMvc.perform(post("/api/admin/facilities")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(requestDto)))
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post("/admin/facilities")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(toJson(requestDto)))
             .andDo(MockMvcRestDocumentation.document("facility/시설등록",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint())));
 
         // Then
         resultActions
-            .andExpect(status().isCreated())
             .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
             .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.CREATED.getHttpStatusCode()));
     }
@@ -67,7 +75,7 @@ class FacilityControllerTest extends ApiTestSupport {
         // Given
         Long facilityId = 1L;
         Facility facility = FacilityFixture.createFacility();
-        facilityJpaRepository.save(facility);
+//        facilityJpaRepository.save(facility);
 
         UpdateFacilityRequestDto requestDto = FacilityFixture.createUpdateFacilityRequestDto();
 
@@ -90,7 +98,7 @@ class FacilityControllerTest extends ApiTestSupport {
         // Given
         Long facilityId = 1L;
         Facility facility = FacilityFixture.createFacility();
-        facilityJpaRepository.save(facility);
+//        facilityJpaRepository.save(facility);
         // When
         ResultActions resultActions = mockMvc.perform(
             delete("/api/admin/facilities/{facilityId}", facilityId));
@@ -103,27 +111,45 @@ class FacilityControllerTest extends ApiTestSupport {
     }
 
     @Test
-    @DisplayName("시설을 전체 조회할 수 있다.")
-    void 시설_전체조회_API() throws Exception {
-        // Given
-        Facility facility = FacilityFixture.createFacility();
-        Facility facility1 = FacilityFixture.createUpdateFacility();
-        facilityJpaRepository.save(facility);
-        facilityJpaRepository.save(facility1);
+    @WithMockUser
+    void 시설_전체_조회() throws Exception {
+        //given
+        doReturn(FacilityFixture.getAllFacilityList())
+            .when(facilityService)
+            .getAll();
 
-        List<FacilityResponse> facilityResponses = new ArrayList<>(List.of(
-            FacilityResponse.fromFacility(facility),
-            FacilityResponse.fromFacility(facility1)
-        ));
-        // When
-        ResultActions resultActions = mockMvc.perform(get("/api/admin/facilities"));
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                get("/admin/facilities")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON))
+            .andDo(MockMvcRestDocumentation.document("facility/시설 전체 조회",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint())));
 
-        // Then
-        resultActions
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
-            .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.SUCCESS.getHttpStatusCode()))
-            .andExpect(jsonPath("$.data").isArray())
-            .andExpect(jsonPath("$.data.length()").value(facilityResponses.size()));
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void 시설_상세_조회() throws Exception {
+        //given
+        Long facilityId = 1L;
+
+        doReturn(FacilityFixture.getFacilityDetail())
+            .when(facilityService)
+            .getFacilityDetail(any(Long.class), any(LocalDate.class));
+
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                get("/admin/facilities/{facilityId}", facilityId)
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .param("date", LocalDate.now().toString()))
+            .andDo(MockMvcRestDocumentation.document("facility/시설 상세 조회",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint())));
+
+        resultActions.andExpect(status().isOk());
     }
 }

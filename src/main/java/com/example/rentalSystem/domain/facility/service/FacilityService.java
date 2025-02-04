@@ -6,7 +6,7 @@ import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailRespo
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.TimeTable;
+import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
 import com.example.rentalSystem.domain.facility.implement.FacilityFinder;
 import com.example.rentalSystem.domain.facility.implement.FacilityRemover;
 import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
@@ -35,6 +35,7 @@ public class FacilityService {
 
     @Transactional
     public PresignUrlListResponse create(CreateFacilityRequestDto createFacilityRequestDto) {
+
         // 이미지 이름을 s3 url로 변환
         List<String> imageUrlList =
             createFacilityRequestDto
@@ -47,13 +48,11 @@ public class FacilityService {
         facilitySaver.save(facility);
 
         // 시작시간과 끝시간을 이용한 타임 테이블 생성
-
         TimeTable timeTable = TimeTable.toEntity(
             facility,
             LocalDate.now(),
             createFacilityRequestDto.startTime(),
             createFacilityRequestDto.endTime());
-
         timeTableRepository.save(timeTable);
 
         // pre signed url을 반환. 업로드용

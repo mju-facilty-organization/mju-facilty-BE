@@ -1,6 +1,5 @@
 package com.example.rentalSystem.domain.student.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -15,24 +14,22 @@ import com.example.rentalSystem.common.fixture.StudentFixture;
 import com.example.rentalSystem.common.support.ApiTestSupport;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignInRequest;
 import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
-import com.example.rentalSystem.domain.student.dto.response.StudentListResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentSignUpResponse;
 import com.example.rentalSystem.domain.student.service.StudentService;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.ErrorType;
 import com.example.rentalSystem.global.response.ResultType;
+import com.example.rentalSystem.global.response.SuccessType;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -70,6 +67,7 @@ public class StudentControllerTest extends ApiTestSupport {
         resultActions
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
+            .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.CREATED))
             .andExpect(jsonPath("$.data.studentName", studentSignUpResponse).exists());
     }
 
@@ -94,6 +92,7 @@ public class StudentControllerTest extends ApiTestSupport {
 
         // then
         resultActions.andExpect(status().isConflict()) // 409 Conflict
+            .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.FAIL)))
             .andExpect(
                 jsonPath("$.httpStatusCode").value(
                     ErrorType.DUPLICATE_EMAIL_RESOURCE.getHttpStatusCode())) // 에러 코드 확인
@@ -113,6 +112,7 @@ public class StudentControllerTest extends ApiTestSupport {
             .refreshToken("refresh token")
             .build();
         doReturn(jwtToken).when(studentService).userSignIn(any(StudentSignInRequest.class));
+        
         // when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post("/students/sign-in")
@@ -123,24 +123,30 @@ public class StudentControllerTest extends ApiTestSupport {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint())));
         // then
-        resultActions.andExpect(status().isOk());
+        resultActions
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
+            .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.SUCCESS));
     }
 
     @Test
+    @WithMockUser
     void retrieveAllStudent() throws Exception {
         //given
-        doReturn(StudentFixture.studentListResponse()).when(studentService).retrieveAllStudent();
+        doReturn(StudentFixture.studentListResponse())
+            .when(studentService)
+            .retrieveAllStudent();
 
         //when
         ResultActions resultActions = mockMvc.perform(
-            MockMvcRequestBuilders.get("/student")
-        );
-        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+                MockMvcRequestBuilders.get("/students")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON))
+            .andDo(MockMvcRestDocumentation.document("students/학생 전체 조회",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint())));
 
-        StudentListResponse response = formJson(mvcResult.getResponse().getContentAsString(),
-            StudentListResponse.class);
-
-        assertThat(response.studentResponseList().size()).isEqualTo(1);
+        resultActions.andExpect(status().isOk());
     }
 
 

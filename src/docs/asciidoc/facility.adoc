@@ -1,0 +1,13 @@
+= 시설 API
+
+=== 시설 생성 성공
+
+operation::facility/시설등록[snippets="http-request,http-response"]
+
+=== 시설 전체 조회
+
+operation::facility/시설 전체 조회[snippets="http-request,http-response"]
+
+=== 시설 상세 조회
+
+operation::facility/시설 상세 조회[snippets="http-request,http-response"]

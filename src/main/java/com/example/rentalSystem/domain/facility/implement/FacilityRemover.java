@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FacilityRemover {
 
-  private final FacilityJpaRepository facilityJpaRepository;
+    private final FacilityJpaRepository facilityJpaRepository;
 
-  public void delete(Facility facility) {
-    facilityJpaRepository.delete(facility);
-  }
+    public void delete(Facility facility) {
+        facilityJpaRepository.delete(facility);
+    }
 }

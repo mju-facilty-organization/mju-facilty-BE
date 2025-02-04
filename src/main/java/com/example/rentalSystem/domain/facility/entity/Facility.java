@@ -74,8 +74,7 @@ public class Facility extends BaseTimeEntity {
         LocalTime startTime,
         LocalTime endTime,
         boolean isAvailable) {
-
-        this.facilityType = facilityType;
+        this.facilityType = FacilityType.existsByValue(facilityType);
         this.facilityNumber = facilityNumber;
         this.images = images;
         this.capacity = capacity;

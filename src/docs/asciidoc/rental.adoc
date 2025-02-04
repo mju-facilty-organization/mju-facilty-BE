@@ -1,0 +1,9 @@
+= 대여 API
+
+=== 시설 대여 요청
+
+operation::rental/대여 신청[snippets="http-request,http-response"]
+
+=== 대여 내역 전체 조회
+
+operation::rental/대여 내역 전체 조회[snippets="http-request,http-response"]

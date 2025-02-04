@@ -1,26 +1,37 @@
 package com.example.rentalSystem.common.fixture;
 
+import static com.example.rentalSystem.common.fixture.TimeTableFixture.createTimeTable;
+import static org.mockito.Mockito.when;
+
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.FacilityType;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.mockito.Mockito;
 
 public class FacilityFixture {
 
     public static Facility createFacility() {
-//        return Facility.builder()
-//            .name("강의실")
-//            .location("s1353")
-//            .capacity(5L)
-//            .chargeProfessor("교수")
-//            .isAvailable(true)
-//            .startTime(LocalTime.now())
-//            .endTime(LocalTime.now().plusHours(2))
-//            .build();
-        return null;
+        Facility facility = Facility.builder()
+            .facilityType("본관")
+            .facilityNumber("1350")
+            .images(List.of("test-file1"))
+            .capacity(5L)
+            .allowedBoundary("융합소프트웨어학부")
+            .pic("교수")
+            .isAvailable(true)
+            .startTime(LocalTime.now())
+            .endTime(LocalTime.now().plusHours(2))
+            .supportFacilities(List.of("구비시설1", "구비시설2"))
+            .build();
+        facility = Mockito.spy(facility);
+        when(facility.getId()).thenReturn(1L);
+        return facility;
     }
 
     public static Facility createUpdateFacility() {
@@ -39,11 +50,11 @@ public class FacilityFixture {
     public static CreateFacilityRequestDto createFacilityRequestDto() {
 
         return new CreateFacilityRequestDto(
-            FacilityType.MAIN_BUILDING,
+            "본관",
             "1350",
             new ArrayList<>(List.of("test-file1")),
             40L,
-            "응용소프트웨어",
+            "융합소프트웨어학부",
             new ArrayList<>(List.of("구비시설1", "구비시설2")),
             "책임자",
             LocalTime.now(),
@@ -54,7 +65,7 @@ public class FacilityFixture {
 
     public static UpdateFacilityRequestDto createUpdateFacilityRequestDto() {
         return new UpdateFacilityRequestDto(
-            FacilityType.MAIN_BUILDING,
+            "본관",
             "1350",
             "수정된 위치",
             "수정된 교수님",
@@ -66,4 +77,21 @@ public class FacilityFixture {
             false
         );
     }
+
+    public static PresignUrlListResponse createFacilityResponseDto() {
+        return new PresignUrlListResponse(
+            new ArrayList<>(List.of("image1", "image2", "image3"))
+        );
+    }
+
+    public static List<FacilityResponse> getAllFacilityList() {
+        return List.of(
+            FacilityResponse.fromFacility(createFacility())
+        );
+    }
+
+    public static FacilityDetailResponse getFacilityDetail() {
+        return FacilityDetailResponse.of(createFacility(), createTimeTable());
+    }
+
 }

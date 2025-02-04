@@ -1,9 +1,6 @@
 package com.example.rentalSystem.domain.facility.dto.request;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.FacilityType;
-import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -21,15 +18,12 @@ public record UpdateFacilityRequestDto(
 ) {
 
     public Facility toFacility() {
-        if (FacilityType.existsByValue(facilityType)) {
-            return Facility.builder()
-                .facilityType((facilityType))
-                .capacity(capacity)
-                .facilityNumber(facilityNumber)
-                .supportFacilities(supportFacilities)
-                .isAvailable(isAvailable)
-                .build();
-        }
-        throw new CustomException(ErrorType.INVALID_REQUEST);
+        return Facility.builder()
+            .facilityType((facilityType))
+            .capacity(capacity)
+            .facilityNumber(facilityNumber)
+            .supportFacilities(supportFacilities)
+            .isAvailable(isAvailable)
+            .build();
     }
 }

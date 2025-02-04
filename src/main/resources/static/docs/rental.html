@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>회원 API</title>
+<title>대여 API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,141 +438,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
+<h1>대여 API</h1>
+<div class="details">
+<span id="revnumber">version 0.0.1-SNAPSHOT</span>
+</div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_회원_api">회원 API</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_회원가입_성공">회원가입 성공</h3>
+<h3 id="_시설_대여_요청">시설 대여 요청</h3>
 <div class="sect3">
-<h4 id="_회원가입_성공_http_request">HTTP request</h4>
+<h4 id="_시설_대여_요청_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /students/sign-up?_csrf=S4HpSaox8aykgjJxyfs9lyMIu1p94rBnV3j3-CtsNOTTrg3JfbnecJ4CxJ-JugoS8dYJo0E6lmNJhIJKZU2RyxkOUoDhnm_7 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 255
-Host: localhost:8080
-
-{
-  "name" : "회원가입자",
-  "studentNumber" : "60200000",
-  "password" : "test1234!!",
-  "email" : "testEmail@mju.ac.kr",
-  "affiliation" : "응용소프트웨어전공",
-  "major" : "융합소프트웨어학부",
-  "phoneNumber" : "010-0000-0000"
-}</code></pre>
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /rental?_csrf=IQf5OMOgY8Q6yo90oyoEA2h7AZPTP-XS9-BlVVe9uMtTpIFtRWPADfbCUPIX_rsVkQcwMlBPLKuxW9H_koVRY2GLiK1mnbNa HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_회원가입_성공_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 168
-
-{
-  "httpStatusCode" : 201,
-  "message" : "성공적으로 생성하였습니다.",
-  "data" : {
-    "studentName" : "회원가입자"
-  },
-  "resultType" : "SUCCESS"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_회원가입_실패_이미_존재하는_이메일">회원가입 실패 (이미 존재하는 이메일)</h3>
-<div class="sect3">
-<h4 id="_회원가입_실패_이미_존재하는_이메일_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /students/sign-up?_csrf=5x0mjHDY99Y4cxZ0MoQP2wZEwcvIp86yIpmWh85pfPe1Yo5qgnlD7kfuzrMVRyVMU6k7uGUi7POtk_afQKCj4_oNTMPUU79Y HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 256
-Host: localhost:8080
-
-{
-  "name" : "회원가입자",
-  "studentNumber" : "60200000",
-  "password" : "test1234!!",
-  "email" : "testEmail@mju.ac.kr",
-  "affiliation" : "ICT",
-  "loginId" : "loginId",
-  "major" : "응용소프트웨어전공",
-  "phoneNumber" : "010-0000-0000"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_회원가입_실패_이미_존재하는_이메일_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 409 Conflict
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 110
-
-{
-  "httpStatusCode" : 409,
-  "message" : "이미 존재하는 이메일입니다.",
-  "resultType" : "FAIL"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_로그인_성공">로그인 성공</h3>
-<div class="sect3">
-<h4 id="_로그인_성공_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /students/sign-in?_csrf=YQdoqWoo55wKFQwtnMP4gonPLRQkD9hdyZB_ujp8i35C0fQUWDYJngxJhv4ndDwbqO7Ms7r7AHYUP75wrfZJigwZuRp2t8Jx HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 70
-Host: localhost:8080
-
-{
-  "loginId" : "gkstkddbs99@mju.ac.kr",
-  "password" : "test1234!!"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_로그인_성공_http_response">HTTP response</h4>
+<h4 id="_시설_대여_요청_http_response">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -590,20 +474,76 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 230
+Content-Length: 350
 
 {
   "httpStatusCode" : 200,
   "message" : "요청에 성공하였습니다.",
-  "data" : {
-    "grantType" : "ROLE_STUDENT",
-    "accessToken" : "accessToken",
-    "refreshToken" : "refresh token"
-  },
+  "data" : [ {
+    "id" : null,
+    "organization" : "COW",
+    "purpose" : "동아리 활동",
+    "createAt" : null,
+    "defineDateTime" : null,
+    "result" : "WAITING",
+    "facilityResponse" : {
+      "facilityType" : "1350"
+    }
+  } ],
   "resultType" : "SUCCESS"
 }</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_대여_내역_전체_조회">대여 내역 전체 조회</h3>
+<div class="sect3">
+<h4 id="_대여_내역_전체_조회_http_request">HTTP request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /rental?_csrf=MXpsTMYvmmOgsBnoC-wqAh70QMB5YaxPR9_trMDOvRNCOwreBU1VfvRNqAWNiCyNaMEeYCrDbfhNBZ5ic7rczqL-3yB6D2vt HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_대여_내역_전체_조회_http_response">HTTP response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 350
+
+{
+  "httpStatusCode" : 200,
+  "message" : "요청에 성공하였습니다.",
+  "data" : [ {
+    "id" : null,
+    "organization" : "COW",
+    "purpose" : "동아리 활동",
+    "createAt" : null,
+    "defineDateTime" : null,
+    "result" : "WAITING",
+    "facilityResponse" : {
+      "facilityType" : "1350"
+    }
+  } ],
+  "resultType" : "SUCCESS"
+}</code></pre>
 </div>
 </div>
 </div>
@@ -612,7 +552,7 @@ Content-Length: 230
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2025-01-17 19:12:12 +0900
+Last updated 2025-02-04 17:18:50 +0900
 </div>
 </div>
 </body>
