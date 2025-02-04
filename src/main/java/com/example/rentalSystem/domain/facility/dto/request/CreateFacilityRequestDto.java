@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.facility.dto.request;
 
-import com.example.rentalSystem.domain.facility.entity.facility.Facility;
+import com.example.rentalSystem.domain.facility.entity.Facility;
 import java.time.LocalTime;
 import java.util.List;
 

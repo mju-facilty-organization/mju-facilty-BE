@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class FacilitySaver {
 
-  private final FacilityJpaRepository facilityJpaRepository;
+    private final FacilityJpaRepository facilityJpaRepository;
 
-  public Facility save(Facility facility) {
-    return facilityJpaRepository.save(facility);
-  }
+    public Facility save(Facility facility) {
+        return facilityJpaRepository.save(facility);
+    }
 }

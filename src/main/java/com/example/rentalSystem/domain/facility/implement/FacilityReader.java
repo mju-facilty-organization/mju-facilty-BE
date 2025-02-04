@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FacilityReader {
 
-  private final FacilityJpaRepository facilityJpaRepository;
+    private final FacilityJpaRepository facilityJpaRepository;
 
-  public List<Facility> getAll() {
-    return facilityJpaRepository.findAll();
-  }
+    public List<Facility> getAll() {
+        return facilityJpaRepository.findAll();
+    }
 }

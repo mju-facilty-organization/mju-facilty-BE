@@ -1,7 +1,7 @@
 package com.example.rentalSystem.domain.facility.reposiotry;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.TimeTable;
+import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
 import java.time.LocalDate;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
