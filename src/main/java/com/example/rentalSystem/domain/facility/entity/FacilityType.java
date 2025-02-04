@@ -20,17 +20,19 @@ public enum FacilityType {
 
     private final String value;
 
-//    @JsonCreator
+    //    @JsonCreator
 //    public static FacilityType fromKoreanName(String value) {
 //        return Arrays.stream(values())
 //            .filter(type -> type.value.equals(value))
 //            .findAny()
 //            .orElseThrow(() -> new CustomException(ErrorType.INVALID_REQUEST));
 //    }
-
-    public static boolean existsByValue(String value) {
+    public static String existsByValue(String value) {
         return Arrays.stream(values())
-            .anyMatch(type -> type.value.equals(value));
+            .filter(type -> type.value.equals(value))
+            .map(type -> type.value) // 존재하면 value 반환
+            .findFirst()
+            .orElseThrow(() -> new CustomException(ErrorType.INVALID_FACILITY_TYPE)); // 없으면 예외 발생
     }
 
 }

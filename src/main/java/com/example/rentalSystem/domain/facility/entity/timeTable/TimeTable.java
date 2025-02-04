@@ -1,7 +1,8 @@
-package com.example.rentalSystem.domain.facility.entity;
+package com.example.rentalSystem.domain.facility.entity.timeTable;
 
 
 import com.example.rentalSystem.domain.facility.convert.TimeSlotConverter;
+import com.example.rentalSystem.domain.facility.entity.Facility;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -32,13 +33,13 @@ public class TimeTable {
     private LocalDate date;
 
     @Convert(converter = TimeSlotConverter.class)
-    private LinkedHashMap<LocalTime, RentalStatus> timeSlot;
+    private LinkedHashMap<LocalTime, TimeStatus> timeSlot;
 
     @Builder
     public TimeTable(
         Facility facility,
         LocalDate date,
-        LinkedHashMap<LocalTime, RentalStatus> timeSlot
+        LinkedHashMap<LocalTime, TimeStatus> timeSlot
     ) {
         this.facility = facility;
         this.date = date;
@@ -58,11 +59,11 @@ public class TimeTable {
             .build();
     }
 
-    private static LinkedHashMap<LocalTime, RentalStatus> createTimeSlot(LocalTime startTime,
+    private static LinkedHashMap<LocalTime, TimeStatus> createTimeSlot(LocalTime startTime,
         LocalTime endTime) {
-        LinkedHashMap<LocalTime, RentalStatus> timeSlot = new LinkedHashMap<>();
+        LinkedHashMap<LocalTime, TimeStatus> timeSlot = new LinkedHashMap<>();
         while (startTime.isBefore(endTime)) {
-            timeSlot.put(startTime, RentalStatus.AVAILABLE);
+            timeSlot.put(startTime, TimeStatus.AVAILABLE);
             startTime = startTime.plusMinutes(30);
         }
         return timeSlot;

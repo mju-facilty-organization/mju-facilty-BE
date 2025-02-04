@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.facility.entity.facility;
+package com.example.rentalSystem.domain.facility.entity;
 
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.convert.StringListConverter;
