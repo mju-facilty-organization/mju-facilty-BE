@@ -28,11 +28,10 @@ public record FacilityDetailResponse(
         return FacilityDetailResponse
             .builder()
             .id(facility.getId())
-            .facilityType(facility.getFacilityType())
+            .facilityType(facility.getFacilityTypeValue())
             .facilityNumber(facility.getFacilityNumber())
             .images(facility.getImages())
             .capacity(facility.getCapacity())
-            .allowedBoundary(facility.getAllowedBoundary())
             .supportFacilities(facility.getSupportFacilities())
             .pic(facility.getPic())
             .date(timeTable.getDate().toString())
