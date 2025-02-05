@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.rentalHistory.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -22,8 +23,12 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -79,12 +84,18 @@ public class RentalControllerTest extends ApiTestSupport {
     @Test
     void 대여_내역_전체_조회() throws Exception {
         // Given
-        List<RentalHistoryResponseDto> rentalHistoryResponseDtoList = RentalFixture.createAllRentalHistory();
-        doReturn(rentalHistoryResponseDtoList).when(rentalService).getAllRentalHistory();
+        Pageable pageable = PageRequest.of(1, 10);
+        Page<RentalHistoryResponseDto> rentalHistoryResponseDtoList = RentalFixture.createAllRentalHistory(
+            pageable);
+
+        doReturn(rentalHistoryResponseDtoList).when(rentalService)
+            .getAllRentalHistory(any(Pageable.class));
 
         // When
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get("/rental")
+                    .param("page", "1")
+                    .param("size", "10")
                     .with(csrf()))
             .andDo(MockMvcRestDocumentation.document("rental/대여 내역 전체 조회",
                 preprocessRequest(prettyPrint()),

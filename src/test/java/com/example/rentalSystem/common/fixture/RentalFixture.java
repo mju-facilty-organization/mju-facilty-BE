@@ -1,5 +1,7 @@
 package com.example.rentalSystem.common.fixture;
 
+import static org.mockito.Mockito.doReturn;
+
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.rentalhistory.dto.request.CreateRentalRequest;
 import com.example.rentalSystem.domain.rentalhistory.dto.response.RentalHistoryResponseDto;
@@ -7,6 +9,10 @@ import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.student.entity.Student;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 public class RentalFixture {
 
@@ -26,14 +32,26 @@ public class RentalFixture {
         Facility facility = FacilityFixture.createFacility();
         Student student = StudentFixture.createStudent();
         CreateRentalRequest createRentalRequest = createRentalRequest();
-        return createRentalRequest.toEntity(student, facility);
+        RentalHistory rentalHistory = createRentalRequest.toEntity(student, facility);
+        rentalHistory = Mockito.spy(rentalHistory);
+        doReturn(1L).when(rentalHistory).getId();
+        doReturn(LocalDateTime.parse("2025-02-02T22:49:40.772231")).when(rentalHistory)
+            .getCreated_at();
+
+        return rentalHistory;
     }
 
     public static RentalHistoryResponseDto createRentalHistoryResponseDto() {
         return RentalHistoryResponseDto.from(createRentalHistory());
     }
 
-    public static List<RentalHistoryResponseDto> createAllRentalHistory() {
-        return List.of(createRentalHistoryResponseDto());
+    public static Page<RentalHistoryResponseDto> createAllRentalHistory(Pageable pageable) {
+        List<RentalHistoryResponseDto> rentalHistoryResponseDtos = List.of(
+            createRentalHistoryResponseDto());
+        Page<RentalHistoryResponseDto> rentalHistoryPage = new PageImpl<>(
+            rentalHistoryResponseDtos, pageable,
+            rentalHistoryResponseDtos.size());
+
+        return rentalHistoryPage;
     }
 }
