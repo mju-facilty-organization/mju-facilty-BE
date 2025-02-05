@@ -63,10 +63,9 @@ public enum AffiliationType {
                 () -> new CustomException(ErrorType.INVALID_AFFILIATION_TYPE)); // 없으면 예외 발생
     }
 
-    public static String getCollegeByMajor(String major) {
+    public static AffiliationType getCollegeByMajor(String major) {
         return Arrays.stream(values())
             .filter(type -> type.name.equals(major))
-            .map(type -> type.parent.name) // 존재하면 value 반환
             .findFirst()
             .orElseThrow(
                 () -> new CustomException(ErrorType.INVALID_AFFILIATION_TYPE)); // 없으면 예외 발생

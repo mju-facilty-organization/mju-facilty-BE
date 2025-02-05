@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.member.entity;
 
+import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
@@ -36,16 +37,16 @@ public abstract class Member {
     protected String name;
     private String password;
     private String phoneNumber;
-    private String affiliation;
+    private AffiliationType college;
 
     public Member(String email, Role role, String name,
-        String password, String phoneNumber, String affiliation) {
+        String password, String phoneNumber, String major) {
         this.email = email;
         this.role = role;
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.affiliation = affiliation;
+        this.college = AffiliationType.getCollegeByMajor(major);
     }
 
     public String getRoles() {

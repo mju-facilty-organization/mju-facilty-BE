@@ -24,7 +24,7 @@ public record RentalHistoryResponseDto(
         return RentalHistoryResponseDto.builder()
             .id(rentalHistory.getId())
             .facilityResponse(
-                FacilityResponse.fromRentalHistory(rentalHistory.getFacility()))
+                FacilityResponse.fromRentalHistory(rentalHistory))
             .organization(rentalHistory.getOrganization())
             .purpose(rentalHistory.getPurpose())
             .createAt(rentalHistory.getCreated_at())

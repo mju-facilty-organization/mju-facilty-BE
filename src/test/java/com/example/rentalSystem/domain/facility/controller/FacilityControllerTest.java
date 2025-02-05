@@ -27,6 +27,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -114,16 +116,43 @@ class FacilityControllerTest extends ApiTestSupport {
     @WithMockUser
     void 시설_전체_조회() throws Exception {
         //given
-        doReturn(FacilityFixture.getAllFacilityList())
+        Pageable pageable = PageRequest.of(0, 10);
+        doReturn(FacilityFixture.getAllFacilityList(pageable))
             .when(facilityService)
-            .getAll();
+            .getAll(any(Pageable.class), any(String.class));
 
         //when
         ResultActions resultActions = mockMvc.perform(
                 get("/admin/facilities")
+                    .param("page", "1")
+                    .param("size", "10")
                     .with(csrf())
                     .contentType(MediaType.APPLICATION_JSON))
             .andDo(MockMvcRestDocumentation.document("facility/시설 전체 조회",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint())));
+
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void 타입별_시설_전체_조회() throws Exception {
+        //given
+        Pageable pageable = PageRequest.of(0, 10);
+        doReturn(FacilityFixture.getAllFacilityList(pageable))
+            .when(facilityService)
+            .getAll(any(Pageable.class), any(String.class));
+
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                get("/admin/facilities")
+                    .param("page", "1")
+                    .param("size", "10")
+                    .param("facility_type", "본관")
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON))
+            .andDo(MockMvcRestDocumentation.document("facility/타입별 시설 전체 조회",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint())));
 
