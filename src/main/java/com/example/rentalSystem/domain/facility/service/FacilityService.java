@@ -6,6 +6,7 @@ import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailRespo
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.facility.entity.FacilityType;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
 import com.example.rentalSystem.domain.facility.implement.FacilityFinder;
 import com.example.rentalSystem.domain.facility.implement.FacilityRemover;
@@ -16,7 +17,10 @@ import com.example.rentalSystem.global.cloud.S3Service;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,12 +81,17 @@ public class FacilityService {
         facilityRemover.delete(facility);
     }
 
-    public List<FacilityResponse> getAll() {
-        List<Facility> facilities = facilityJpaRepository.findAll();
-
-        return facilities.stream()
-            .map(FacilityResponse::fromFacility)
-            .toList();
+    public Page<FacilityResponse> getAll(Pageable pageable, String facilityType) {
+        Page<Facility> facilities;
+        if (Objects.isNull(facilityType)) {
+            facilities = facilityJpaRepository.findAll(pageable);
+        } else {
+            facilities = facilityJpaRepository.findByFacilityType(
+                FacilityType.getInstanceByValue(facilityType),
+                pageable);
+        }
+        return facilities
+            .map(FacilityResponse::fromFacility);
     }
 
     public FacilityDetailResponse getFacilityDetail(Long facilityId, LocalDate localDate) {

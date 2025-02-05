@@ -11,6 +11,9 @@ import com.example.rentalSystem.global.response.SuccessType;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,8 +51,11 @@ public class FacilityController {
     }
 
     @GetMapping
-    public ApiResponse<List<FacilityResponse>> getAllFacility() {
-        List<FacilityResponse> facilityResponses = facilityService.getAll();
+    public ApiResponse<Page<FacilityResponse>> getAllFacility(
+        @PageableDefault(size = 10) Pageable pageable,
+        @RequestParam(value = "facility-type", required = false) String facilityType
+    ) {
+        Page<FacilityResponse> facilityResponses = facilityService.getAll(pageable, facilityType);
         return ApiResponse.success(SuccessType.SUCCESS, facilityResponses);
     }
 

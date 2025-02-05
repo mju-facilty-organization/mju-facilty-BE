@@ -57,6 +57,6 @@ public class StudentService {
         String email) {
         Student student = studentFinder.findByEmail(email);
         student.updateInfo(studentUpdateRequest.name(), studentUpdateRequest.major());
-        return StudentUpdateResponse.of(student.getName(), student.getMajor());
+        return StudentUpdateResponse.of(student.getName(), student.getMajorName());
     }
 }
