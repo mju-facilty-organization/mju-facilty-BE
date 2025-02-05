@@ -11,6 +11,8 @@ import com.example.rentalSystem.domain.student.entity.Student;
 import com.example.rentalSystem.domain.student.implement.StudentFinder;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,11 +41,10 @@ public class RentalService {
         rentalHistoryRepository.save(rentalHistory);
     }
 
-    public List<RentalHistoryResponseDto> getAllRentalHistory() {
-        List<RentalHistory> rentalHistories = rentalHistoryRepository.findAll();
-        return rentalHistories.stream()
-            .map(RentalHistoryResponseDto::from)
-            .toList();
+    public Page<RentalHistoryResponseDto> getAllRentalHistory(Pageable pageable) {
+        Page<RentalHistory> rentalHistories = rentalHistoryRepository.findAll(pageable);
+        return rentalHistories
+            .map(RentalHistoryResponseDto::from);
     }
 
     public List<RentalHistoryResponseDto> getAllRentalHistoryByStudentId(String studentId) {

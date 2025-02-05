@@ -8,6 +8,8 @@ import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.SuccessType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,8 +34,9 @@ public class RentalController {
     }
 
     @GetMapping()
-    public ApiResponse<?> getAllRentalHistory() {
-        List<RentalHistoryResponseDto> rentalHistoryResponseDtoList = rentalService.getAllRentalHistory();
+    public ApiResponse<Page<RentalHistoryResponseDto>> getAllRentalHistory(Pageable pageable) {
+        Page<RentalHistoryResponseDto> rentalHistoryResponseDtoList = rentalService.getAllRentalHistory(
+            pageable);
 
         return ApiResponse.success(SuccessType.SUCCESS, rentalHistoryResponseDtoList);
     }
