@@ -65,9 +65,8 @@ public class StudentControllerTest extends ApiTestSupport {
 
         // then
         resultActions
-            .andExpect(status().isCreated())
             .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
-            .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.CREATED))
+            .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.CREATED.getHttpStatusCode()))
             .andExpect(jsonPath("$.data.studentName", studentSignUpResponse).exists());
     }
 
@@ -112,7 +111,7 @@ public class StudentControllerTest extends ApiTestSupport {
             .refreshToken("refresh token")
             .build();
         doReturn(jwtToken).when(studentService).userSignIn(any(StudentSignInRequest.class));
-        
+
         // when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post("/students/sign-in")
@@ -126,7 +125,7 @@ public class StudentControllerTest extends ApiTestSupport {
         resultActions
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
-            .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.SUCCESS));
+            .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.SUCCESS.getHttpStatusCode()));
     }
 
     @Test

@@ -21,8 +21,7 @@ public class StudentFixture {
             "testEmail@mju.ac.kr",
             "한상윤",
             "testPassword",
-            "010-0000-0000",
-            "융합소프트웨어학부");
+            "010-0000-0000");
         student = Mockito.spy(student);
         doReturn(1L).when(student).getId();
         return student;
@@ -35,7 +34,6 @@ public class StudentFixture {
             "test1234!!",
             "testEmail@mju.ac.kr",
             "응용소프트웨어전공",
-            "융합소프트웨어학부",
             "010-0000-0000"
         );
     }
