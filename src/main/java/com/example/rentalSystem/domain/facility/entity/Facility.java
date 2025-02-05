@@ -1,6 +1,9 @@
 package com.example.rentalSystem.domain.facility.entity;
 
+import com.example.rentalSystem.domain.affiliation.converter.AffiliationConverter;
+import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
+import com.example.rentalSystem.domain.facility.convert.FacilityTypeConverter;
 import com.example.rentalSystem.domain.facility.convert.StringListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -30,7 +33,8 @@ public class Facility extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String facilityType;
+    @Convert(converter = FacilityTypeConverter.class)
+    private FacilityType facilityType;
 
     @Column(nullable = false)
     private String facilityNumber;
@@ -40,9 +44,6 @@ public class Facility extends BaseTimeEntity {
 
     @Column(nullable = false)
     private Long capacity;
-
-    @Column(nullable = false)
-    private String allowedBoundary;
 
     @Convert(converter = StringListConverter.class)
     private List<String> supportFacilities;
@@ -62,28 +63,32 @@ public class Facility extends BaseTimeEntity {
     @Column
     private String pic; // 책임자
 
+    @Column
+    @Convert(converter = AffiliationConverter.class)
+    private AffiliationType college;
+
     @Builder
     public Facility(
         String facilityType,
         String facilityNumber,
         List<String> images,
         Long capacity,
-        String allowedBoundary,
         List<String> supportFacilities,
         String pic,
         LocalTime startTime,
         LocalTime endTime,
+        String college,
         boolean isAvailable) {
-        this.facilityType = FacilityType.existsByValue(facilityType);
+        this.facilityType = FacilityType.getInstanceByValue(facilityType);
         this.facilityNumber = facilityNumber;
         this.images = images;
         this.capacity = capacity;
-        this.allowedBoundary = allowedBoundary;
         this.supportFacilities = supportFacilities;
         this.pic = pic;
         this.startTime = startTime;
         this.endTime = endTime;
         this.isAvailable = isAvailable;
+        this.college = AffiliationType.getInstance(college);
         this.isDeleted = false;
     }
 
@@ -93,6 +98,11 @@ public class Facility extends BaseTimeEntity {
         this.images = updateFacility.getImages();
         this.capacity = updateFacility.getCapacity();
         this.supportFacilities = updateFacility.getSupportFacilities();
+        this.college = updateFacility.getCollege();
         this.isAvailable = updateFacility.isAvailable();
+    }
+
+    public String getFacilityTypeValue() {
+        return facilityType.getValue();
     }
 }
