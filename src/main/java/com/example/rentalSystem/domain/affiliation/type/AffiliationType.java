@@ -55,19 +55,9 @@ public enum AffiliationType {
     private final String name;
     private final AffiliationType parent;  // 상위 단과대
 
-    public static String existMajorByValue(String major) {
+    public static AffiliationType getInstance(String name) {
         return Arrays.stream(values())
-            .filter(type -> type.name.equals(major))
-            .map(type -> type.name) // 존재하면 value 반환
-            .findFirst()
-            .orElseThrow(
-                () -> new CustomException(ErrorType.INVALID_AFFILIATION_TYPE)); // 없으면 예외 발생
-    }
-
-    public static String existCollegeByValue(String college) {
-        return Arrays.stream(values())
-            .filter(type -> type.name.equals(college))
-            .map(type -> type.name) // 존재하면 value 반환
+            .filter(type -> type.name.equals(name))
             .findFirst()
             .orElseThrow(
                 () -> new CustomException(ErrorType.INVALID_AFFILIATION_TYPE)); // 없으면 예외 발생
@@ -80,8 +70,5 @@ public enum AffiliationType {
             .findFirst()
             .orElseThrow(
                 () -> new CustomException(ErrorType.INVALID_AFFILIATION_TYPE)); // 없으면 예외 발생
-    }
-
-    public static AffiliationType getInstance(String name) {
     }
 }
