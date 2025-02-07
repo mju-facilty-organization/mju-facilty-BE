@@ -24,9 +24,6 @@
 <table  width="100%">
   <tr>
     <td  align="center">
-      <img  src="https://avatars.githubusercontent.com/u/127813439?v=4"  width="100px;"  alt=""/>
-    </td>
-    <td  align="center">
       <img  src="https://avatars.githubusercontent.com/u/120346721?v=4"  width="100px;"  alt=""/>
     </td>
   </tr>
