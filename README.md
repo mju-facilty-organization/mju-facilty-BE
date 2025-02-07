@@ -33,11 +33,6 @@
   <tr>
     <td align="center">
         <a href="https://github.com/Hoya324">
-            <div>선제</div>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/Hoya324">
             <div>상윤</div>
         </a>
     </td>
