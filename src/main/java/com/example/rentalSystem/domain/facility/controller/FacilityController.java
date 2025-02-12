@@ -1,6 +1,5 @@
 package com.example.rentalSystem.domain.facility.controller;
 
-import com.example.rentalSystem.domain.common.PagedResponse;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
@@ -51,12 +50,11 @@ public class FacilityController {
     }
 
     @GetMapping
-    public ApiResponse<PagedResponse<FacilityResponse>> getAllFacility(
+    public ApiResponse<Page<FacilityResponse>> getAllFacility(
         @PageableDefault(size = 10) Pageable pageable,
         @RequestParam(value = "facility-type", required = false) String facilityType
     ) {
-        PagedResponse<FacilityResponse> facilityResponses = facilityService.getAll(pageable,
-            facilityType);
+        Page<FacilityResponse> facilityResponses = facilityService.getAll(pageable, facilityType);
         return ApiResponse.success(SuccessType.SUCCESS, facilityResponses);
     }
 

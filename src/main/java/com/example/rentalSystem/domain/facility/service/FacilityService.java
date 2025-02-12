@@ -1,7 +1,6 @@
 package com.example.rentalSystem.domain.facility.service;
 
 import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
-import com.example.rentalSystem.domain.common.PagedResponse;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
@@ -87,7 +86,7 @@ public class FacilityService {
         facilityRemover.delete(facility);
     }
 
-    public PagedResponse<FacilityResponse> getAll(Pageable pageable, String facilityType) {
+    public Page<FacilityResponse> getAll(Pageable pageable, String facilityType) {
         Page<Facility> page;
         if (Objects.isNull(facilityType)) {
             page = facilityJpaRepository.findAll(pageable);
@@ -97,11 +96,7 @@ public class FacilityService {
                 pageable);
         }
 
-        List<FacilityResponse> content = page.getContent()
-            .stream()
-            .map(FacilityResponse::fromFacility)
-            .toList();
-        return new PagedResponse<>(content, page.getNumber(), page.getSize(), page.isLast());
+        return page.map(FacilityResponse::fromFacility);
     }
 
     public FacilityDetailResponse getFacilityDetail(Long facilityId, LocalDate localDate) {

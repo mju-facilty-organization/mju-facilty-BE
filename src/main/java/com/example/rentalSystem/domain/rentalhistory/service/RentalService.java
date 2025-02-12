@@ -1,6 +1,5 @@
 package com.example.rentalSystem.domain.rentalhistory.service;
 
-import com.example.rentalSystem.domain.common.PagedResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
 import com.example.rentalSystem.domain.professor.ProfessorImpl;
@@ -52,15 +51,9 @@ public class RentalService {
         professorHistoryImpl.save(professorHistory);
     }
 
-    public PagedResponse<RentalHistoryResponseDto> getAllRentalHistory(Pageable pageable) {
+    public Page<RentalHistoryResponseDto> getAllRentalHistory(Pageable pageable) {
         Page<RentalHistory> page = rentalHistoryImpl.findAll(pageable);
-
-        List<RentalHistoryResponseDto> content = page.getContent()
-            .stream()
-            .map(RentalHistoryResponseDto::from)
-            .toList();
-
-        return new PagedResponse<>(content, page.getNumber(), page.getSize(), page.isLast());
+        return page.map(RentalHistoryResponseDto::from);
     }
 
     public List<RentalHistoryResponseDto> getAllRentalHistoryByStudentId(String studentId) {
