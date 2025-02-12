@@ -30,7 +30,6 @@ public record FacilityResponse(
             .images(facility.getImages())
             .capacity(facility.getCapacity())
             .supportFacilities(facility.getSupportFacilities())
-            .pic(facility.getPic())
             .allowedBoundary(facility.getAllowedBoundary())
             .build();
     }

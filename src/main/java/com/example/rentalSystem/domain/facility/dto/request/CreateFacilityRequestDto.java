@@ -16,8 +16,6 @@ public record CreateFacilityRequestDto(
     @NotNull
     Long capacity,
     List<String> supportFacilities,
-    @NotEmpty
-    String pic,
     LocalTime startTime,
     LocalTime endTime,
     @NotEmpty
@@ -32,7 +30,6 @@ public record CreateFacilityRequestDto(
             .images(imageUrlList)
             .capacity(capacity)
             .supportFacilities(supportFacilities)
-            .pic(pic)
             .startTime(startTime)
             .endTime(endTime)
             .isAvailable(isAvailable)

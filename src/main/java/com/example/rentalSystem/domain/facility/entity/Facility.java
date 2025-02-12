@@ -63,9 +63,6 @@ public class Facility extends BaseTimeEntity {
     private boolean isDeleted;
 
     @Column
-    private String pic; // 책임자
-
-    @Column
     @Convert(converter = AffiliationListConverter.class)
     private List<AffiliationType> allowedBoundary;
 
@@ -76,7 +73,6 @@ public class Facility extends BaseTimeEntity {
         List<String> images,
         Long capacity,
         List<String> supportFacilities,
-        String pic,
         LocalTime startTime,
         LocalTime endTime,
         List<AffiliationType> allowedBoundary,
@@ -86,7 +82,6 @@ public class Facility extends BaseTimeEntity {
         this.images = images;
         this.capacity = capacity;
         this.supportFacilities = supportFacilities;
-        this.pic = pic;
         this.startTime = startTime;
         this.endTime = endTime;
         this.isAvailable = isAvailable;

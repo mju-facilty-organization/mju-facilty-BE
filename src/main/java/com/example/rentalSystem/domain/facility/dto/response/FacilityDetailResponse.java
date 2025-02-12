@@ -33,7 +33,6 @@ public record FacilityDetailResponse(
             .images(facility.getImages())
             .capacity(facility.getCapacity())
             .supportFacilities(facility.getSupportFacilities())
-            .pic(facility.getPic())
             .date(timeTable.getDate().toString())
             .timeSlot(timeTable.getTimeSlot())
             .allowedBoundary(facility.getAllowedBoundary())
