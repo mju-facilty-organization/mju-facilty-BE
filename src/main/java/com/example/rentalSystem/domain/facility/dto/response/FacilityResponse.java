@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.facility.dto.response;
 
+import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,10 +15,9 @@ public record FacilityResponse(
     Long id,
     String facilityType,
     String facilityNumber,
-
     List<String> images,
     Long capacity,
-    String allowedBoundary,
+    List<AffiliationType> allowedBoundary,
     List<String> supportFacilities,
     String pic
 ) {
@@ -31,6 +31,7 @@ public record FacilityResponse(
             .capacity(facility.getCapacity())
             .supportFacilities(facility.getSupportFacilities())
             .pic(facility.getPic())
+            .allowedBoundary(facility.getAllowedBoundary())
             .build();
     }
 
@@ -38,7 +39,7 @@ public record FacilityResponse(
         Facility facility = rentalHistory.getFacility();
         return FacilityResponse.builder()
             .facilityType(facility.getFacilityTypeValue())
-            .facilityType(facility.getFacilityNumber())
+            .facilityNumber(facility.getFacilityNumber())
             .build();
     }
 }

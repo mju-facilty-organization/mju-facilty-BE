@@ -3,6 +3,7 @@ package com.example.rentalSystem.domain.facility.entity;
 import com.example.rentalSystem.domain.affiliation.converter.AffiliationConverter;
 import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
+import com.example.rentalSystem.domain.facility.convert.AffiliationListConverter;
 import com.example.rentalSystem.domain.facility.convert.FacilityTypeConverter;
 import com.example.rentalSystem.domain.facility.convert.StringListConverter;
 import jakarta.persistence.Column;
@@ -19,6 +20,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLRestriction;
+import org.springframework.data.redis.connection.convert.ListConverter;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -64,8 +66,8 @@ public class Facility extends BaseTimeEntity {
     private String pic; // 책임자
 
     @Column
-    @Convert(converter = AffiliationConverter.class)
-    private AffiliationType college;
+    @Convert(converter = AffiliationListConverter.class)
+    private List<AffiliationType> allowedBoundary;
 
     @Builder
     public Facility(
@@ -77,7 +79,7 @@ public class Facility extends BaseTimeEntity {
         String pic,
         LocalTime startTime,
         LocalTime endTime,
-        String college,
+        List<AffiliationType> allowedBoundary,
         boolean isAvailable) {
         this.facilityType = FacilityType.getInstanceByValue(facilityType);
         this.facilityNumber = facilityNumber;
@@ -88,7 +90,7 @@ public class Facility extends BaseTimeEntity {
         this.startTime = startTime;
         this.endTime = endTime;
         this.isAvailable = isAvailable;
-        this.college = AffiliationType.getInstance(college);
+        this.allowedBoundary = allowedBoundary;
         this.isDeleted = false;
     }
 
@@ -98,7 +100,6 @@ public class Facility extends BaseTimeEntity {
         this.images = updateFacility.getImages();
         this.capacity = updateFacility.getCapacity();
         this.supportFacilities = updateFacility.getSupportFacilities();
-        this.college = updateFacility.getCollege();
         this.isAvailable = updateFacility.isAvailable();
     }
 

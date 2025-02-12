@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.facility.dto.request;
 
+import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +25,7 @@ public record CreateFacilityRequestDto(
     boolean isAvailable
 ) {
 
-    public Facility toFacility(List<String> imageUrlList) {
+    public Facility toFacility(List<String> imageUrlList, List<AffiliationType> affiliationTypes) {
         return Facility.builder()
             .facilityType(facilityType)
             .facilityNumber(facilityNumber)
@@ -35,7 +36,7 @@ public record CreateFacilityRequestDto(
             .startTime(startTime)
             .endTime(endTime)
             .isAvailable(isAvailable)
-            .college(college)
+            .allowedBoundary(affiliationTypes)
             .build();
     }
 }

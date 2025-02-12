@@ -3,6 +3,7 @@ package com.example.rentalSystem.domain.affiliation.type;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.ErrorType;
 import java.util.Arrays;
+import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -69,5 +70,12 @@ public enum AffiliationType {
             .findFirst()
             .orElseThrow(
                 () -> new CustomException(ErrorType.INVALID_AFFILIATION_TYPE)); // 없으면 예외 발생
+    }
+
+    public static List<AffiliationType> getChildList(String affiliationTypeString) {
+        AffiliationType parent = getInstance(affiliationTypeString);
+        return Arrays.stream(AffiliationType.values())
+            .filter(type -> type.getParent() != null && type.getParent().equals(parent))
+            .toList();
     }
 }
