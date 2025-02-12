@@ -1,7 +1,9 @@
 package com.example.rentalSystem.domain.rentalhistory.controller;
 
+import com.example.rentalSystem.domain.common.PagedResponse;
 import com.example.rentalSystem.domain.member.entity.CustomerDetails;
 import com.example.rentalSystem.domain.rentalhistory.dto.request.CreateRentalRequest;
+import com.example.rentalSystem.domain.rentalhistory.dto.response.RentalHistoryDetailResponseDto;
 import com.example.rentalSystem.domain.rentalhistory.dto.response.RentalHistoryResponseDto;
 import com.example.rentalSystem.domain.rentalhistory.service.RentalService;
 import com.example.rentalSystem.global.response.ApiResponse;
@@ -34,8 +36,9 @@ public class RentalController {
     }
 
     @GetMapping()
-    public ApiResponse<Page<RentalHistoryResponseDto>> getAllRentalHistory(Pageable pageable) {
-        Page<RentalHistoryResponseDto> rentalHistoryResponseDtoList = rentalService.getAllRentalHistory(
+    public ApiResponse<PagedResponse<RentalHistoryResponseDto>> getAllRentalHistory(
+        Pageable pageable) {
+        PagedResponse<RentalHistoryResponseDto> rentalHistoryResponseDtoList = rentalService.getAllRentalHistory(
             pageable);
 
         return ApiResponse.success(SuccessType.SUCCESS, rentalHistoryResponseDtoList);
@@ -49,11 +52,12 @@ public class RentalController {
         return ApiResponse.success(SuccessType.SUCCESS, rentalHistoryResponseDtoList);
     }
 
-//    @GetMapping("/{rentalHistoryId}")
-//    public ApiResponse<?> getRentalHistoryDetail(
-//        @PathVariable(name = "rentalHistoryId") String rentalHistoryId
-//    ) {
-//        RentalHistoryDetailResponseDto rentalHistoryDetailResponseDto = rentalService.getRentalHistoryById(
-//            rentalHistoryId);
-//    }
+    @GetMapping("/{rentalHistoryId}")
+    public ApiResponse<?> getRentalHistoryDetail(
+        @PathVariable(name = "rentalHistoryId") String rentalHistoryId
+    ) {
+        RentalHistoryDetailResponseDto rentalHistoryDetailResponseDto = rentalService.getRentalHistoryById(
+            rentalHistoryId);
+        return ApiResponse.success(SuccessType.SUCCESS, rentalHistoryDetailResponseDto);
+    }
 }
