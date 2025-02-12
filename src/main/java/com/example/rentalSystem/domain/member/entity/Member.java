@@ -40,13 +40,13 @@ public abstract class Member {
     private AffiliationType college;
 
     public Member(String email, Role role, String name,
-        String password, String phoneNumber, String major) {
+        String password, String phoneNumber, AffiliationType college) {
         this.email = email;
         this.role = role;
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.college = AffiliationType.getCollegeByMajor(major);
+        this.college = college;
     }
 
     public String getRoles() {
