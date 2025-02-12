@@ -1,15 +1,15 @@
 package com.example.rentalSystem.domain.facility.controller;
 
+import com.example.rentalSystem.domain.common.PagedResponse;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
-import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
+import com.example.rentalSystem.domain.facility.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.service.FacilityService;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.SuccessType;
 import java.time.LocalDate;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,9 +32,9 @@ public class FacilityController {
     private final FacilityService facilityService;
 
     @PostMapping
-    public ApiResponse<PresignUrlListResponse> createFacility(
+    public ApiResponse<PreSignUrlListResponse> createFacility(
         @RequestBody CreateFacilityRequestDto requestDto) {
-        PresignUrlListResponse presignUrlListResponse = facilityService.create(requestDto);
+        PreSignUrlListResponse presignUrlListResponse = facilityService.create(requestDto);
         return ApiResponse.success(SuccessType.CREATED, presignUrlListResponse);
     }
 
@@ -51,11 +51,12 @@ public class FacilityController {
     }
 
     @GetMapping
-    public ApiResponse<Page<FacilityResponse>> getAllFacility(
+    public ApiResponse<PagedResponse<FacilityResponse>> getAllFacility(
         @PageableDefault(size = 10) Pageable pageable,
         @RequestParam(value = "facility-type", required = false) String facilityType
     ) {
-        Page<FacilityResponse> facilityResponses = facilityService.getAll(pageable, facilityType);
+        PagedResponse<FacilityResponse> facilityResponses = facilityService.getAll(pageable,
+            facilityType);
         return ApiResponse.success(SuccessType.SUCCESS, facilityResponses);
     }
 
