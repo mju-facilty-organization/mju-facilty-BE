@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.18">
-<title>시설 API</title>
+<meta name="generator" content="Asciidoctor 2.0.22">
+<title>대여 API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,6 +162,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -208,13 +209,10 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
-.exampleblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
-.sidebarblock>:first-child{margin-top:0}
-.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
@@ -330,7 +328,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -393,7 +391,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -435,91 +433,140 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+/*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
+.tabs {
+    margin-bottom: 1.25em;
+}
+
+.tablist > ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tablist > ul li {
+    align-items: center;
+    background-color: #fff;
+    cursor: pointer;
+    display: flex;
+    font-weight: bold;
+    line-height: 1.5;
+    padding: 0.25em 1em;
+    position: relative;
+}
+
+.tablist > ul li:focus-visible {
+    outline: none;
+}
+
+.tablist.ulist,
+.tablist.ulist > ul li {
+    margin: 0;
+}
+
+.tablist.ulist > ul li + li {
+    margin-left: 0.25em;
+}
+
+.tabs .tablist li::after {
+    content: "";
+    display: block;
+    height: 1px;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+}
+
+.tabs.is-loading .tablist li:not(:first-child),
+.tabs:not(.is-loading) .tablist li:not(.is-selected) {
+    background-color: #f5f5f5;
+}
+
+.tabs.is-loading .tablist li:first-child::after,
+.tabs:not(.is-loading) .tablist li.is-selected::after {
+    background-color: #fff;
+}
+
+/*
+.tabs:not(.is-loading) .tablist li,
+.tabs:not(.is-loading) .tablist li::after {
+  transition: background-color 200ms ease-in-out;
+}
+*/
+
+.tablist > ul p {
+    line-height: inherit;
+    margin: 0;
+}
+
+.tabpanel {
+    background-color: #fff;
+    padding: 1.25em;
+}
+
+.tablist > ul li,
+.tabpanel {
+    border: 1px solid #dcdcdc;
+}
+
+.tablist > ul li {
+    border-bottom: 0;
+}
+
+.tabs.is-loading .tabpanel + .tabpanel,
+.tabs:not(.is-loading) .tabpanel.is-hidden {
+    display: none;
+}
+
+.tabpanel > :first-child {
+    margin-top: 0;
+}
+
+/* #content is a signature of the Asciidoctor standalone HTML output */
+#content .tabpanel > :last-child,
+#content .tabpanel > :last-child > :last-child,
+#content .tabpanel > :last-child > :last-child > li:last-child > :last-child {
+    margin-bottom: 0;
+}
+
+.tablecontainer {
+    overflow-x: auto;
+}
+
+#content .tablecontainer {
+    margin-bottom: 1.25em;
+}
+
+#content .tablecontainer > table.tableblock {
+    margin-bottom: 0;
+}
+</style>
 </head>
 <body class="article">
 <div id="header">
-<h1>시설 API</h1>
-<div class="details">
-<span id="revnumber">version 0.0.1-SNAPSHOT</span>
-</div>
+<h1>대여 API</h1>
 </div>
 <div id="content">
 <div class="sect2">
-<h3 id="_시설_생성_성공">시설 생성 성공</h3>
+<h3 id="_시설_대여_요청">시설 대여 요청</h3>
 <div class="sect3">
-<h4 id="_시설_생성_성공_http_request">HTTP request</h4>
+<h4 id="_시설_대여_요청_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /admin/facilities?_csrf=57h3ZZZ7mFrDZgnUNrj0FqqACA0FM_vRJ37xChSlIy-5fYEohNlEVKZDrW7uUW_sV5XAcMvmJTU0BZj8HxzHOnaXQRzdHLQZ HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 343
-Host: localhost:8080
-
-{
-  "facilityType" : "본관",
-  "facilityNumber" : "1350",
-  "fileNames" : [ "test-file1" ],
-  "capacity" : 40,
-  "allowedBoundary" : "융합소프트웨어학부",
-  "supportFacilities" : [ "구비시설1", "구비시설2" ],
-  "pic" : "책임자",
-  "startTime" : "22:33:32.798167",
-  "endTime" : "22:33:32.798178",
-  "isAvailable" : true
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_시설_생성_성공_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=utf-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 188
-
-{
-  "httpStatusCode" : 201,
-  "message" : "성공적으로 생성하였습니다.",
-  "data" : {
-    "presignedUrlList" : [ "image1", "image2", "image3" ]
-  },
-  "resultType" : "SUCCESS"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_시설_전체_조회">시설 전체 조회</h3>
-<div class="sect3">
-<h4 id="_시설_전체_조회_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /admin/facilities?page=1&amp;size=10&amp;_csrf=qMl_k83D7NCDnKqyocc4O1lYn5T0rXyjL_XoLI-AmjAiOSIqmqtJ8K722-iurpiCmOoMWTxpsvbNnk-OHsOMHLq3rwhGDxMb HTTP/1.1
-Content-Type: application/json;charset=UTF-8
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /rental?_csrf=IQf5OMOgY8Q6yo90oyoEA2h7AZPTP-XS9-BlVVe9uMtTpIFtRWPADfbCUPIX_rsVkQcwMlBPLKuxW9H_koVRY2GLiK1mnbNa HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_시설_전체_조회_http_response">HTTP response</h4>
+<h4 id="_시설_대여_요청_http_response">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Access-Control-Allow-Credentials: true
 Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
 Access-Control-Max-Age: 3600
@@ -527,119 +574,109 @@ Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Au
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=utf-8
+Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 940
+Content-Length: 350
 
 {
-  "httpStatusCode" : 200,
-  "message" : "요청에 성공하였습니다.",
-  "data" : {
-    "content" : [ {
-      "id" : 1,
-      "facilityType" : "본관",
-      "facilityNumber" : "1350",
-      "images" : [ "test-file1" ],
-      "capacity" : 5,
-      "allowedBoundary" : "융합소프트웨어학부",
-      "supportFacilities" : [ "구비시설1", "구비시설2" ],
-      "pic" : "교수"
-    } ],
-    "pageable" : {
-      "pageNumber" : 0,
-      "pageSize" : 10,
-      "sort" : {
-        "empty" : true,
-        "unsorted" : true,
-        "sorted" : false
-      },
-      "offset" : 0,
-      "paged" : true,
-      "unpaged" : false
-    },
-    "last" : true,
-    "totalPages" : 1,
-    "totalElements" : 1,
-    "first" : true,
-    "size" : 10,
-    "number" : 0,
-    "sort" : {
-      "empty" : true,
-      "unsorted" : true,
-      "sorted" : false
-    },
-    "numberOfElements" : 1,
-    "empty" : false
-  },
-  "resultType" : "SUCCESS"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_시설_상세_조회">시설 상세 조회</h3>
-<div class="sect3">
-<h4 id="_시설_상세_조회_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /admin/facilities/1?date=2025-02-04&amp;_csrf=5GZkdUylDiKsiY0Bd3wBka-xqwK_tXJ7_Aqgt6Cq9kjNnIUrggAHFC-QaBaB6LozRlE18MrXhjrc1EFWnm-U1cXOk3z9rrZN HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_시설_상세_조회_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=utf-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 701
-
-{
-  "httpStatusCode" : 200,
-  "message" : "요청에 성공하였습니다.",
-  "data" : {
-    "id" : 1,
-    "facilityType" : "본관",
-    "facilityNumber" : "1350",
-    "images" : [ "test-file1" ],
-    "capacity" : 5,
-    "allowedBoundary" : "융합소프트웨어학부",
-    "supportFacilities" : [ "구비시설1", "구비시설2" ],
-    "pic" : "교수",
-    "date" : "2025-02-04",
-    "timeSlot" : {
-      "11:00" : "예약가능",
-      "11:30" : "예약가능",
-      "12:00" : "예약가능",
-      "12:30" : "예약가능",
-      "13:00" : "예약가능",
-      "13:30" : "예약가능",
-      "14:00" : "예약가능",
-      "14:30" : "예약가능"
+  &quot;httpStatusCode&quot; : 200,
+  &quot;message&quot; : &quot;요청에 성공하였습니다.&quot;,
+  &quot;data&quot; : [ {
+    &quot;id&quot; : null,
+    &quot;organization&quot; : &quot;COW&quot;,
+    &quot;purpose&quot; : &quot;동아리 활동&quot;,
+    &quot;createAt&quot; : null,
+    &quot;defineDateTime&quot; : null,
+    &quot;result&quot; : &quot;WAITING&quot;,
+    &quot;facilityResponse&quot; : {
+      &quot;facilityType&quot; : &quot;1350&quot;
     }
+  } ],
+  &quot;resultType&quot; : &quot;SUCCESS&quot;
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_대여_내역_전체_조회">대여 내역 전체 조회</h3>
+<div class="sect3">
+<h4 id="_대여_내역_전체_조회_http_request">HTTP request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">GET /rental?page=1&amp;size=10&amp;_csrf=G_J3VXvIrSu_yAv1XOyCcpl20Y5GvB7m3U3mpUj39czNcDSjK8UUYR37nUmSrTzMOMG2Qa8T_LZx2SjLvizXxi6Vx_-vFFXB HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_대여_내역_전체_조회_http_response">HTTP response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 892
+
+{
+  &quot;httpStatusCode&quot; : 200,
+  &quot;message&quot; : &quot;요청에 성공하였습니다.&quot;,
+  &quot;data&quot; : {
+    &quot;content&quot; : [ {
+      &quot;id&quot; : 1,
+      &quot;organization&quot; : &quot;COW&quot;,
+      &quot;purpose&quot; : &quot;동아리 활동&quot;,
+      &quot;createAt&quot; : null,
+      &quot;defineDateTime&quot; : null,
+      &quot;result&quot; : &quot;WAITING&quot;,
+      &quot;facilityResponse&quot; : {
+        &quot;facilityType&quot; : &quot;1350&quot;
+      }
+    } ],
+    &quot;pageable&quot; : {
+      &quot;pageNumber&quot; : 0,
+      &quot;pageSize&quot; : 10,
+      &quot;sort&quot; : {
+        &quot;empty&quot; : true,
+        &quot;sorted&quot; : false,
+        &quot;unsorted&quot; : true
+      },
+      &quot;offset&quot; : 0,
+      &quot;paged&quot; : true,
+      &quot;unpaged&quot; : false
+    },
+    &quot;last&quot; : true,
+    &quot;totalPages&quot; : 1,
+    &quot;totalElements&quot; : 1,
+    &quot;first&quot; : true,
+    &quot;size&quot; : 10,
+    &quot;number&quot; : 0,
+    &quot;sort&quot; : {
+      &quot;empty&quot; : true,
+      &quot;sorted&quot; : false,
+      &quot;unsorted&quot; : true
+    },
+    &quot;numberOfElements&quot; : 1,
+    &quot;empty&quot; : false
   },
-  "resultType" : "SUCCESS"
+  &quot;resultType&quot; : &quot;SUCCESS&quot;
 }</code></pre>
 </div>
 </div>
@@ -648,9 +685,137 @@ Content-Length: 701
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.0.1-SNAPSHOT<br>
 Last updated 2025-02-04 17:47:35 +0900
 </div>
 </div>
+<script>
+;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
+  'use strict'
+
+  var config = (document.currentScript || {}).dataset || {}
+  var forEach = Array.prototype.forEach
+
+  init(document.querySelectorAll('.tabs'))
+
+  function init (tabsBlocks) {
+    if (!tabsBlocks.length) return
+    forEach.call(tabsBlocks, function (tabs) {
+      var syncIds = tabs.classList.contains('is-sync') ? {} : undefined
+      var tablist = tabs.querySelector('.tablist ul')
+      tablist.setAttribute('role', 'tablist')
+      var start
+      forEach.call(tablist.querySelectorAll('li'), function (tab, idx) {
+        tab.tabIndex = -1
+        tab.setAttribute('role', tab.classList.add('tab') || 'tab')
+        var id, anchor, syncId
+        if (!(id = tab.id) && (anchor = tab.querySelector('a[id]'))) {
+          id = tab.id = anchor.parentNode.removeChild(anchor).id
+        }
+        var panel = id && tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
+        if (!panel) return idx ? undefined : toggleSelected(tab, true) // invalid state
+        syncIds && (((syncId = tab.textContent.trim()) in syncIds) ? (syncId = undefined) : true) &&
+        (syncIds[(tab.dataset.syncId = syncId)] = tab)
+        idx || (syncIds && (start = { tab: tab, panel: panel })) ? toggleHidden(panel, true) : toggleSelected(tab, true)
+        tab.setAttribute('aria-controls', panel.id)
+        panel.setAttribute('role', 'tabpanel')
+        var onClick = syncId === undefined ? activateTab : activateTabSync
+        tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
+      })
+      if (!tabs.closest('.tabpanel')) {
+        forEach.call(tabs.querySelectorAll('.tabpanel table.tableblock'), function (table) {
+          var container = Object.assign(document.createElement('div'), { className: 'tablecontainer' })
+          table.parentNode.insertBefore(container, table).appendChild(table)
+        })
+      }
+      if (start) {
+        var syncGroupId
+        for (var i = 0, lst = tabs.classList, len = lst.length, className; i !== len; i++) {
+          if (!(className = lst.item(i)).startsWith('data-sync-group-id=')) continue
+          tabs.dataset.syncGroupId = syncGroupId = lst.remove(className) || className.slice(19).replace(/\u00a0/g, ' ')
+          break
+        }
+        if (syncGroupId === undefined) tabs.dataset.syncGroupId = syncGroupId = Object.keys(syncIds).sort().join('|')
+        var preferredSyncId = 'syncStorageKey' in config &&
+          window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroupId)
+        var tab = preferredSyncId && syncIds[preferredSyncId]
+        tab && Object.assign(start, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
+        toggleSelected(start.tab, true) || toggleHidden(start.panel, false)
+      }
+    })
+    onHashChange()
+    toggleClassOnEach(tabsBlocks, 'is-loading', 'remove')
+    window.setTimeout(toggleClassOnEach.bind(null, tabsBlocks, 'is-loaded', 'add'), 0)
+    window.addEventListener('hashchange', onHashChange)
+  }
+
+  function activateTab (e) {
+    var tab = this.tab
+    var tabs = this.tabs || (this.tabs = tab.closest('.tabs'))
+    var panel = this.panel || (this.panel = document.getElementById(tab.getAttribute('aria-controls')))
+    querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (el) {
+      toggleSelected(el, el === tab)
+    })
+    querySelectorWithSiblings(tabs, '.tabpanel', 'tabpanel').forEach(function (el) {
+      toggleHidden(el, el !== panel)
+    })
+    if (!this.isSync && 'syncStorageKey' in config && 'syncGroupId' in tabs.dataset) {
+      var storageKey = config.syncStorageKey + '-' + tabs.dataset.syncGroupId
+      window[(config.syncStorageScope || 'local') + 'Storage'].setItem(storageKey, tab.dataset.syncId)
+    }
+    if (!e) return
+    var loc = window.location
+    var hashIdx = loc.hash ? loc.href.indexOf('#') : -1
+    if (~hashIdx) window.history.replaceState(null, '', loc.href.slice(0, hashIdx))
+    e.preventDefault()
+  }
+
+  function activateTabSync (e) {
+    activateTab.call(this, e)
+    var thisTabs = this.tabs
+    var thisTab = this.tab
+    var initialY = thisTabs.getBoundingClientRect().y
+    forEach.call(document.querySelectorAll('.tabs'), function (tabs) {
+      if (tabs === thisTabs || tabs.dataset.syncGroupId !== thisTabs.dataset.syncGroupId) return
+      querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (tab) {
+        if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
+      })
+    })
+    var shiftedBy = thisTabs.getBoundingClientRect().y - initialY
+    if (shiftedBy && (shiftedBy = Math.round(shiftedBy))) window.scrollBy({ top: shiftedBy, behavior: 'instant' })
+  }
+
+  function querySelectorWithSiblings (scope, selector, siblingClass) {
+    var el = scope.querySelector(selector)
+    if (!el) return []
+    var result = [el]
+    while ((el = el.nextElementSibling) && el.classList.contains(siblingClass)) result.push(el)
+    return result
+  }
+
+  function toggleClassOnEach (elements, className, method) {
+    forEach.call(elements, function (el) {
+      el.classList[method](className)
+    })
+  }
+
+  function toggleHidden (el, state) {
+    el.classList[(el.hidden = state) ? 'add' : 'remove']('is-hidden')
+  }
+
+  function toggleSelected (el, state) {
+    el.setAttribute('aria-selected', '' + state)
+    el.classList[state ? 'add' : 'remove']('is-selected')
+    el.tabIndex = state ? 0 : -1
+  }
+
+  function onHashChange () {
+    var id = window.location.hash.slice(1)
+    if (!id) return
+    var tab = document.getElementById(~id.indexOf('%') ? decodeURIComponent(id) : id)
+    if (!(tab && tab.classList.contains('tab'))) return
+    'syncId' in tab.dataset ? activateTabSync.call({ tab: tab }) : activateTab.call({ tab: tab })
+  }
+})()
+</script>
 </body>
 </html>

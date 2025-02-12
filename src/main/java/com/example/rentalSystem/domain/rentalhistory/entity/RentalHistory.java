@@ -2,13 +2,17 @@ package com.example.rentalSystem.domain.rentalhistory.entity;
 
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.pic.entity.Pic;
 import com.example.rentalSystem.domain.student.entity.Student;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Null;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,8 +22,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RentalHistory extends BaseTimeEntity {
 
@@ -39,10 +41,11 @@ public class RentalHistory extends BaseTimeEntity {
     @Column(nullable = false)
     private LocalDateTime rentalEndDate;
 
-    @Column(nullable = false)
-    private RentalApplicationResult result;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private RentalApplicationResult rentalApplicationResult;
 
-    @Column()
+    @Column
     private LocalDateTime defineDateTime;
 
     @ManyToOne
@@ -50,5 +53,24 @@ public class RentalHistory extends BaseTimeEntity {
 
     @ManyToOne
     private Facility facility;
+
+    @Builder
+    public RentalHistory(
+        String purpose,
+        String organization,
+        LocalDateTime rentalStartDate,
+        LocalDateTime rentalEndDate,
+        RentalApplicationResult rentalApplicationResult,
+        Student student,
+        Facility facility
+    ) {
+        this.purpose = purpose;
+        this.organization = organization;
+        this.rentalStartDate = rentalStartDate;
+        this.rentalEndDate = rentalEndDate;
+        this.rentalApplicationResult = rentalApplicationResult;
+        this.student = student;
+        this.facility = facility;
+    }
 
 }
