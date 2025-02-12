@@ -56,7 +56,7 @@ public class RentalHistory extends BaseTimeEntity {
     private Facility facility;
 
     @ManyToOne
-    @JoinColumn(name = "pic_id", nullable = false)
+    @JoinColumn(name = "pic_id")
     private Pic pic;
 
     @Builder

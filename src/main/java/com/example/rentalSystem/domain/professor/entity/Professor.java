@@ -34,8 +34,7 @@ public class Professor extends BaseTimeEntity {
     private String email;
 
     @Builder
-    public Professor(Long id, String name, AffiliationType affiliationType, String email) {
-        this.id = id;
+    public Professor(String name, AffiliationType affiliationType, String email) {
         this.name = name;
         this.affiliationType = affiliationType;
         this.email = email;
