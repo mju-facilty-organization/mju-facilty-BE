@@ -16,7 +16,7 @@ import com.example.rentalSystem.common.fixture.FacilityFixture;
 import com.example.rentalSystem.common.support.ApiTestSupport;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
-import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
+import com.example.rentalSystem.domain.facility.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.service.FacilityService;
 import com.example.rentalSystem.global.response.ResultType;
@@ -50,7 +50,7 @@ class FacilityControllerTest extends ApiTestSupport {
     void 시설_생성_API() throws Exception {
         // Given
         CreateFacilityRequestDto requestDto = FacilityFixture.createFacilityRequestDto();
-        PresignUrlListResponse presignUrlListResponse = FacilityFixture.createFacilityResponseDto();
+        PreSignUrlListResponse presignUrlListResponse = FacilityFixture.createFacilityResponseDto();
 
         doReturn(presignUrlListResponse)
             .when(facilityService)
