@@ -6,21 +6,18 @@ import com.example.rentalSystem.domain.pic.entity.Pic;
 import com.example.rentalSystem.domain.pic.repository.PicRepository;
 import com.example.rentalSystem.domain.professor.entity.Professor;
 import com.example.rentalSystem.domain.professor.repository.ProfessorRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 
-    @Autowired
     private PicRepository picRepository;
-
-    @Autowired
     private ProfessorRepository professorRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
