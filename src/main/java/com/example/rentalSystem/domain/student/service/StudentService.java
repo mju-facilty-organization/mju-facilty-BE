@@ -8,8 +8,7 @@ import com.example.rentalSystem.domain.student.dto.response.StudentResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentSignUpResponse;
 import com.example.rentalSystem.domain.student.dto.response.StudentUpdateResponse;
 import com.example.rentalSystem.domain.student.entity.Student;
-import com.example.rentalSystem.domain.student.implement.StudentChecker;
-import com.example.rentalSystem.domain.student.implement.StudentFinder;
+import com.example.rentalSystem.domain.student.implement.StudentImpl;
 import com.example.rentalSystem.domain.student.repository.StudentRepository;
 import com.example.rentalSystem.global.auth.AuthService;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
@@ -28,16 +27,14 @@ public class StudentService {
 
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
-    private final StudentFinder studentFinder;
-    private final StudentChecker studentChecker;
-    private final StudentRepository studentRepository;
+    private final StudentImpl studentImpl;
 
     @Transactional(rollbackFor = Exception.class)
     public StudentSignUpResponse studentSignUp(StudentSignUpRequest studentSignUpRequest) {
-        studentChecker.checkExistUserEmail(studentSignUpRequest.email());
+        studentImpl.checkExistUserEmail(studentSignUpRequest.email());
         String encodePassword = passwordEncoder.encode(studentSignUpRequest.password());
         Student student = studentSignUpRequest.toEntity(encodePassword);
-        Student savedMember = studentRepository.save(student);
+        Student savedMember = studentImpl.save(student);
         return StudentSignUpResponse.from(savedMember.getName());
     }
 
@@ -48,14 +45,14 @@ public class StudentService {
     }
 
     public StudentListResponse retrieveAllStudent() {
-        List<StudentResponse> studentResponses = studentFinder.retrieveAllStdent();
+        List<StudentResponse> studentResponses = studentImpl.retrieveAllStdent();
         return new StudentListResponse(studentResponses);
     }
 
     @Transactional
     public StudentUpdateResponse updateStudentInfo(StudentUpdateRequest studentUpdateRequest,
         String email) {
-        Student student = studentFinder.findByEmail(email);
+        Student student = studentImpl.findByEmail(email);
         student.updateInfo(studentUpdateRequest.name(), studentUpdateRequest.major());
         return StudentUpdateResponse.of(student.getName(), student.getMajorName());
     }
