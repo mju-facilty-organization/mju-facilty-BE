@@ -1,6 +1,8 @@
 package com.example.rentalSystem.domain.rentalhistory.dto.request;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.professor.entity.Professor;
+import com.example.rentalSystem.domain.rentalhistory.entity.ProfessorHistory;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.student.entity.Student;
@@ -24,9 +26,16 @@ public record CreateRentalRequest(
             .organization(this.organization)
             .rentalStartDate(startTime)
             .rentalEndDate(endTime)
-            .result(RentalApplicationResult.WAITING)
+            .rentalApplicationResult(RentalApplicationResult.WAITING)
             .student(student)
             .facility(facility)
+            .build();
+    }
+
+    public ProfessorHistory toEntity(RentalHistory rentalHistory, Professor professor) {
+        return ProfessorHistory.builder()
+            .rentalHistory(rentalHistory)
+            .professor(professor)
             .build();
     }
 }

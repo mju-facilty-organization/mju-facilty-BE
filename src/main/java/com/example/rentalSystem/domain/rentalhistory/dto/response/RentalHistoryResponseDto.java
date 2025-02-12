@@ -1,6 +1,7 @@
 package com.example.rentalSystem.domain.rentalhistory.dto.response;
 
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.rentalhistory.entity.ProfessorHistory;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,13 +12,14 @@ import lombok.Builder;
 @Builder
 public record RentalHistoryResponseDto(
     Long id,
-    String organization,
-    String purpose,
+    FacilityResponse facilityResponse,
+    ProfessorHistoryResponse professorHistoryResponse,
     LocalDateTime createAt,
     @JsonInclude(Include.ALWAYS)
     LocalDateTime defineDateTime,
-    RentalApplicationResult result,
-    FacilityResponse facilityResponse
+    String organization,
+    String purpose,
+    RentalApplicationResult applicationResult
 ) {
 
     public static RentalHistoryResponseDto from(RentalHistory rentalHistory) {
@@ -29,7 +31,23 @@ public record RentalHistoryResponseDto(
             .purpose(rentalHistory.getPurpose())
             .createAt(rentalHistory.getCreated_at())
             .defineDateTime(rentalHistory.getDefineDateTime())
-            .result(rentalHistory.getResult())
+            .applicationResult(rentalHistory.getRentalApplicationResult())
+            .build();
+    }
+
+    public static RentalHistoryResponseDto toDetailResponseDto(RentalHistory rentalHistory,
+        ProfessorHistory professorHistory) {
+        return RentalHistoryResponseDto.builder()
+            .id(rentalHistory.getId())
+            .facilityResponse(
+                FacilityResponse.fromRentalHistory(rentalHistory))
+            .professorHistoryResponse(
+                ProfessorHistoryResponse.from(professorHistory))
+            .organization(rentalHistory.getOrganization())
+            .purpose(rentalHistory.getPurpose())
+            .createAt(rentalHistory.getCreated_at())
+            .defineDateTime(rentalHistory.getDefineDateTime())
+            .applicationResult(rentalHistory.getRentalApplicationResult())
             .build();
     }
 }
