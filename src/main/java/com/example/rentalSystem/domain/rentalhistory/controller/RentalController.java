@@ -1,6 +1,5 @@
 package com.example.rentalSystem.domain.rentalhistory.controller;
 
-import com.example.rentalSystem.domain.common.PagedResponse;
 import com.example.rentalSystem.domain.member.entity.CustomerDetails;
 import com.example.rentalSystem.domain.rentalhistory.dto.request.CreateRentalRequest;
 import com.example.rentalSystem.domain.rentalhistory.dto.response.RentalHistoryDetailResponseDto;
@@ -36,9 +35,9 @@ public class RentalController {
     }
 
     @GetMapping()
-    public ApiResponse<PagedResponse<RentalHistoryResponseDto>> getAllRentalHistory(
+    public ApiResponse<Page<RentalHistoryResponseDto>> getAllRentalHistory(
         Pageable pageable) {
-        PagedResponse<RentalHistoryResponseDto> rentalHistoryResponseDtoList = rentalService.getAllRentalHistory(
+        Page<RentalHistoryResponseDto> rentalHistoryResponseDtoList = rentalService.getAllRentalHistory(
             pageable);
 
         return ApiResponse.success(SuccessType.SUCCESS, rentalHistoryResponseDtoList);
