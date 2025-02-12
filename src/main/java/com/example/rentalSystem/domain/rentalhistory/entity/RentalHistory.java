@@ -11,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Null;
 import java.time.LocalDateTime;
@@ -53,6 +54,10 @@ public class RentalHistory extends BaseTimeEntity {
 
     @ManyToOne
     private Facility facility;
+
+    @ManyToOne
+    @JoinColumn(name = "pic_id", nullable = false)
+    private Pic pic;
 
     @Builder
     public RentalHistory(

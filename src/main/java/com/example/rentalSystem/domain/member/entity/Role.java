@@ -8,8 +8,9 @@ import lombok.RequiredArgsConstructor;
 public enum Role {
     STUDENT("ROLE_STUDENT"),
     PROFESSOR("ROLE_STUDENT,ROLE_PROFESSOR"),
-    ADMIN("ROLE_STUDENT,ROLE_PROFESSOR,ROLE_ADMIN");
-    
+    PIC("ROLE_STUDENT,ROLE_PROFESSOR,ROLE_PIC"),
+    ADMIN("ROLE_STUDENT,ROLE_PROFESSOR,ROLE_PIC,ROLE_ADMIN");
+
     private final String roles;
 
 }

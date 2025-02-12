@@ -29,7 +29,8 @@ public class Student extends Member {
     public Student(String studentNumber, String major, Long warningTime,
         String email, String name,
         String password, String phoneNumber) {
-        super(email, Role.STUDENT, name, password, phoneNumber, major);
+        super(email, Role.STUDENT, name, password, phoneNumber,
+            AffiliationType.getCollegeByMajor(major));
         this.studentNumber = studentNumber;
         this.major = AffiliationType.getInstance(major);
         this.warningTime = warningTime != null ? warningTime : 0L;  // 기본값 설정
