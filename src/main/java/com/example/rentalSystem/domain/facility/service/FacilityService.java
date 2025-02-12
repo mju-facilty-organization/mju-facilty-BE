@@ -1,18 +1,21 @@
 package com.example.rentalSystem.domain.facility.service;
 
+import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.common.PagedResponse;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
-import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
+import com.example.rentalSystem.domain.facility.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.entity.FacilityType;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
-import com.example.rentalSystem.domain.facility.implement.FacilityFinder;
+import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
 import com.example.rentalSystem.domain.facility.implement.FacilityRemover;
 import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
 import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
 import com.example.rentalSystem.domain.facility.reposiotry.TimeTableRepository;
+import com.example.rentalSystem.domain.rentalhistory.dto.response.RentalHistoryResponseDto;
 import com.example.rentalSystem.global.cloud.S3Service;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
@@ -32,13 +35,13 @@ public class FacilityService {
     private final FacilityJpaRepository facilityJpaRepository;
     private final TimeTableRepository timeTableRepository;
     private final FacilitySaver facilitySaver;
-    private final FacilityFinder facilityFinder;
+    private final FacilityImpl facilityImpl;
     private final FacilityRemover facilityRemover;
 
     private final S3Service s3Service;
 
     @Transactional
-    public PresignUrlListResponse create(CreateFacilityRequestDto createFacilityRequestDto) {
+    public PreSignUrlListResponse create(CreateFacilityRequestDto createFacilityRequestDto) {
 
         // 이미지 이름을 s3 url로 변환
         List<String> imageUrlList =
@@ -48,7 +51,10 @@ public class FacilityService {
                 .map(s3Service::generateFacilityS3Key)
                 .toList();
 
-        Facility facility = createFacilityRequestDto.toFacility(imageUrlList);
+        List<AffiliationType> affiliationTypes = AffiliationType.getChildList(
+            createFacilityRequestDto.college());
+
+        Facility facility = createFacilityRequestDto.toFacility(imageUrlList, affiliationTypes);
         facilitySaver.save(facility);
 
         // 시작시간과 끝시간을 이용한 타임 테이블 생성
@@ -64,34 +70,38 @@ public class FacilityService {
             .stream()
             .map(s3Service::generatePresignedUrl)
             .toList();
-        return PresignUrlListResponse.from(presignedUrlList);
+        return PreSignUrlListResponse.from(presignedUrlList);
     }
 
 
     @Transactional
     public void update(UpdateFacilityRequestDto requestDto, Long facilityId) {
-        Facility originFacility = facilityFinder.findById(facilityId);
+        Facility originFacility = facilityImpl.findById(facilityId);
         Facility updateFacility = requestDto.toFacility();
         originFacility.update(updateFacility);
     }
 
     @Transactional
     public void delete(Long facilityId) {
-        Facility facility = facilityFinder.findById(facilityId);
+        Facility facility = facilityImpl.findById(facilityId);
         facilityRemover.delete(facility);
     }
 
-    public Page<FacilityResponse> getAll(Pageable pageable, String facilityType) {
-        Page<Facility> facilities;
+    public PagedResponse<FacilityResponse> getAll(Pageable pageable, String facilityType) {
+        Page<Facility> page;
         if (Objects.isNull(facilityType)) {
-            facilities = facilityJpaRepository.findAll(pageable);
+            page = facilityJpaRepository.findAll(pageable);
         } else {
-            facilities = facilityJpaRepository.findByFacilityType(
+            page = facilityJpaRepository.findByFacilityType(
                 FacilityType.getInstanceByValue(facilityType),
                 pageable);
         }
-        return facilities
-            .map(FacilityResponse::fromFacility);
+
+        List<FacilityResponse> content = page.getContent()
+            .stream()
+            .map(FacilityResponse::fromFacility)
+            .toList();
+        return new PagedResponse<>(content, page.getNumber(), page.getSize(), page.isLast());
     }
 
     public FacilityDetailResponse getFacilityDetail(Long facilityId, LocalDate localDate) {

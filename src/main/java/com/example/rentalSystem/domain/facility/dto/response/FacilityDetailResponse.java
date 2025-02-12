@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.facility.dto.response;
 
+import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
@@ -13,10 +14,9 @@ public record FacilityDetailResponse(
     Long id,
     String facilityType,
     String facilityNumber,
-
     List<String> images,
     Long capacity,
-    String allowedBoundary,
+    List<AffiliationType> allowedBoundary,
     List<String> supportFacilities,
     String pic,
     String date,
@@ -36,6 +36,7 @@ public record FacilityDetailResponse(
             .pic(facility.getPic())
             .date(timeTable.getDate().toString())
             .timeSlot(timeTable.getTimeSlot())
+            .allowedBoundary(facility.getAllowedBoundary())
             .build();
     }
 }
