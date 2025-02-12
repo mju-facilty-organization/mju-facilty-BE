@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class StudentFinder {
+public class StudentImpl {
 
     private final StudentRepository studentRepository;
 
     public List<StudentResponse> retrieveAllStdent() {
         return getStudentAll().stream()
-            .map(StudentResponse::toStudentResponse)
+            .map(StudentResponse::toSimpleStudentResponse)
             .collect(Collectors.toList());
     }
 
@@ -35,5 +35,15 @@ public class StudentFinder {
         return studentRepository.findById(Long.valueOf(studentId))
             .orElseThrow(() -> new CustomException(
                 ErrorType.ENTITY_NOT_FOUND));
+    }
+
+    public Student save(Student student) {
+        return studentRepository.save(student);
+    }
+
+    public void checkExistUserEmail(String email) {
+        if (studentRepository.findByEmail(email).isPresent()) {
+            throw new CustomException(ErrorType.DUPLICATE_EMAIL_RESOURCE);
+        }
     }
 }
