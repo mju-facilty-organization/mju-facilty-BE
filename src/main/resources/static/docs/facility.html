@@ -448,58 +448,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_시설_생성_성공">시설 생성 성공</h3>
 <div class="sect3">
 <h4 id="_시설_생성_성공_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /admin/facilities?_csrf=57h3ZZZ7mFrDZgnUNrj0FqqACA0FM_vRJ37xChSlIy-5fYEohNlEVKZDrW7uUW_sV5XAcMvmJTU0BZj8HxzHOnaXQRzdHLQZ HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 343
-Host: localhost:8080
-
-{
-  "facilityType" : "본관",
-  "facilityNumber" : "1350",
-  "fileNames" : [ "test-file1" ],
-  "capacity" : 40,
-  "allowedBoundary" : "융합소프트웨어학부",
-  "supportFacilities" : [ "구비시설1", "구비시설2" ],
-  "pic" : "책임자",
-  "startTime" : "22:33:32.798167",
-  "endTime" : "22:33:32.798178",
-  "isAvailable" : true
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::facility/시설등록</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_시설_생성_성공_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=utf-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 188
-
-{
-  "httpStatusCode" : 201,
-  "message" : "성공적으로 생성하였습니다.",
-  "data" : {
-    "presignedUrlList" : [ "image1", "image2", "image3" ]
-  },
-  "resultType" : "SUCCESS"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::facility/시설등록</p>
 </div>
 </div>
 </div>
@@ -507,78 +463,14 @@ Content-Length: 188
 <h3 id="_시설_전체_조회">시설 전체 조회</h3>
 <div class="sect3">
 <h4 id="_시설_전체_조회_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /admin/facilities?page=1&amp;size=10&amp;_csrf=qMl_k83D7NCDnKqyocc4O1lYn5T0rXyjL_XoLI-AmjAiOSIqmqtJ8K722-iurpiCmOoMWTxpsvbNnk-OHsOMHLq3rwhGDxMb HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::facility/시설 전체 조회</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_시설_전체_조회_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=utf-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 940
-
-{
-  "httpStatusCode" : 200,
-  "message" : "요청에 성공하였습니다.",
-  "data" : {
-    "content" : [ {
-      "id" : 1,
-      "facilityType" : "본관",
-      "facilityNumber" : "1350",
-      "images" : [ "test-file1" ],
-      "capacity" : 5,
-      "allowedBoundary" : "융합소프트웨어학부",
-      "supportFacilities" : [ "구비시설1", "구비시설2" ],
-      "pic" : "교수"
-    } ],
-    "pageable" : {
-      "pageNumber" : 0,
-      "pageSize" : 10,
-      "sort" : {
-        "empty" : true,
-        "unsorted" : true,
-        "sorted" : false
-      },
-      "offset" : 0,
-      "paged" : true,
-      "unpaged" : false
-    },
-    "last" : true,
-    "totalPages" : 1,
-    "totalElements" : 1,
-    "first" : true,
-    "size" : 10,
-    "number" : 0,
-    "sort" : {
-      "empty" : true,
-      "unsorted" : true,
-      "sorted" : false
-    },
-    "numberOfElements" : 1,
-    "empty" : false
-  },
-  "resultType" : "SUCCESS"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::facility/시설 전체 조회</p>
 </div>
 </div>
 </div>
@@ -586,62 +478,14 @@ Content-Length: 940
 <h3 id="_시설_상세_조회">시설 상세 조회</h3>
 <div class="sect3">
 <h4 id="_시설_상세_조회_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /admin/facilities/1?date=2025-02-04&amp;_csrf=5GZkdUylDiKsiY0Bd3wBka-xqwK_tXJ7_Aqgt6Cq9kjNnIUrggAHFC-QaBaB6LozRlE18MrXhjrc1EFWnm-U1cXOk3z9rrZN HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::facility/시설 상세 조회</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_시설_상세_조회_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=utf-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 701
-
-{
-  "httpStatusCode" : 200,
-  "message" : "요청에 성공하였습니다.",
-  "data" : {
-    "id" : 1,
-    "facilityType" : "본관",
-    "facilityNumber" : "1350",
-    "images" : [ "test-file1" ],
-    "capacity" : 5,
-    "allowedBoundary" : "융합소프트웨어학부",
-    "supportFacilities" : [ "구비시설1", "구비시설2" ],
-    "pic" : "교수",
-    "date" : "2025-02-04",
-    "timeSlot" : {
-      "11:00" : "예약가능",
-      "11:30" : "예약가능",
-      "12:00" : "예약가능",
-      "12:30" : "예약가능",
-      "13:00" : "예약가능",
-      "13:30" : "예약가능",
-      "14:00" : "예약가능",
-      "14:30" : "예약가능"
-    }
-  },
-  "resultType" : "SUCCESS"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::facility/시설 상세 조회</p>
 </div>
 </div>
 </div>
