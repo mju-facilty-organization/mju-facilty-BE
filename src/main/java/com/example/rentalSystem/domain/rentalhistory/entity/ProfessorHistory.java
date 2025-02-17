@@ -43,8 +43,8 @@ public class ProfessorHistory extends BaseTimeEntity {
         return professor.getName();
     }
 
-    public String getAffiliationType() {
-        return professor.getAffiliationType().getName();
+    public String getMajor() {
+        return professor.getMajor().getName();
     }
 
     public String getProfessorEmail() {
