@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.student.dto.request;
+package com.example.rentalSystem.domain.student.controller.dto.request;
 
 import com.example.rentalSystem.domain.student.entity.Student;
 

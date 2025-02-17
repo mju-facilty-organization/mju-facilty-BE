@@ -1,6 +1,6 @@
-package com.example.rentalSystem.domain.rentalhistory.dto.response;
+package com.example.rentalSystem.domain.rentalhistory.controller.dto.response;
 
-import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.rentalhistory.entity.ProfessorHistory;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;

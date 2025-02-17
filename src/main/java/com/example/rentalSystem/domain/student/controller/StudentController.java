@@ -1,12 +1,12 @@
 package com.example.rentalSystem.domain.student.controller;
 
 import com.example.rentalSystem.domain.member.entity.CustomerDetails;
-import com.example.rentalSystem.domain.student.dto.request.StudentSignInRequest;
-import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
-import com.example.rentalSystem.domain.student.dto.request.StudentUpdateRequest;
-import com.example.rentalSystem.domain.student.dto.response.StudentListResponse;
-import com.example.rentalSystem.domain.student.dto.response.StudentSignUpResponse;
-import com.example.rentalSystem.domain.student.dto.response.StudentUpdateResponse;
+import com.example.rentalSystem.domain.student.controller.dto.request.StudentSignInRequest;
+import com.example.rentalSystem.domain.student.controller.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.student.controller.dto.request.StudentUpdateRequest;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentListResponse;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentSignUpResponse;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentUpdateResponse;
 import com.example.rentalSystem.domain.student.service.StudentService;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.SuccessType;

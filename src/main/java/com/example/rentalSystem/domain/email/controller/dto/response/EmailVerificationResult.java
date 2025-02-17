@@ -1,6 +1,4 @@
-package com.example.rentalSystem.domain.email.dto.response;
-
-import com.example.rentalSystem.domain.email.entity.EMailVerification;
+package com.example.rentalSystem.domain.email.controller.dto.response;
 
 public record EmailVerificationResult(boolean authResult) {
 

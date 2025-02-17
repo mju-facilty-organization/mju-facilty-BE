@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.email.dto.request;
+package com.example.rentalSystem.domain.email.controller.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

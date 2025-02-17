@@ -1,9 +1,9 @@
 package com.example.rentalSystem.domain.email.controller;
 
 
-import com.example.rentalSystem.domain.email.dto.request.AuthCodeRequest;
-import com.example.rentalSystem.domain.email.dto.request.EmailRequest;
-import com.example.rentalSystem.domain.email.dto.response.EmailVerificationResult;
+import com.example.rentalSystem.domain.email.controller.dto.request.AuthCodeRequest;
+import com.example.rentalSystem.domain.email.controller.dto.request.EmailRequest;
+import com.example.rentalSystem.domain.email.controller.dto.response.EmailVerificationResult;
 import com.example.rentalSystem.domain.email.service.EmailService;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.SuccessType;

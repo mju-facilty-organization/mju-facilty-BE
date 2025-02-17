@@ -1,15 +1,14 @@
 package com.example.rentalSystem.domain.student.service;
 
-import com.example.rentalSystem.domain.student.dto.request.StudentSignInRequest;
-import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
-import com.example.rentalSystem.domain.student.dto.request.StudentUpdateRequest;
-import com.example.rentalSystem.domain.student.dto.response.StudentListResponse;
-import com.example.rentalSystem.domain.student.dto.response.StudentResponse;
-import com.example.rentalSystem.domain.student.dto.response.StudentSignUpResponse;
-import com.example.rentalSystem.domain.student.dto.response.StudentUpdateResponse;
+import com.example.rentalSystem.domain.student.controller.dto.request.StudentSignInRequest;
+import com.example.rentalSystem.domain.student.controller.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.student.controller.dto.request.StudentUpdateRequest;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentListResponse;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentResponse;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentSignUpResponse;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentUpdateResponse;
 import com.example.rentalSystem.domain.student.entity.Student;
 import com.example.rentalSystem.domain.student.implement.StudentImpl;
-import com.example.rentalSystem.domain.student.repository.StudentRepository;
 import com.example.rentalSystem.global.auth.AuthService;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import java.util.List;

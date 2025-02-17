@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.facility.dto.request;
+package com.example.rentalSystem.domain.facility.controller.dto.request;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import java.time.LocalTime;

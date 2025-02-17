@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.rentalhistory.dto.response;
+package com.example.rentalSystem.domain.rentalhistory.controller.dto.response;
 
 import com.example.rentalSystem.domain.rentalhistory.entity.ProfessorHistory;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
@@ -16,7 +16,7 @@ public record ProfessorHistoryResponse(
     public static ProfessorHistoryResponse from(ProfessorHistory professorHistory) {
         return ProfessorHistoryResponse.builder()
             .professorName(professorHistory.getProfessorName())
-            .professorAffiliation(professorHistory.getAffiliationType())
+            .professorAffiliation(professorHistory.getMajor())
             .professorEmail(professorHistory.getProfessorEmail())
             .applicationResult(professorHistory.getRentalApplicationResult())
             .reason(professorHistory.getReason())

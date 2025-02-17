@@ -1,8 +1,8 @@
-package com.example.rentalSystem.domain.rentalhistory.dto.response;
+package com.example.rentalSystem.domain.rentalhistory.controller.dto.response;
 
 import com.example.rentalSystem.domain.rentalhistory.entity.ProfessorHistory;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
-import com.example.rentalSystem.domain.student.dto.response.StudentResponse;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentResponse;
 import com.example.rentalSystem.domain.student.entity.Student;
 import lombok.Builder;
 

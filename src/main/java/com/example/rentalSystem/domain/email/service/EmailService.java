@@ -1,7 +1,7 @@
 package com.example.rentalSystem.domain.email.service;
 
-import com.example.rentalSystem.domain.email.dto.request.EmailRequest;
-import com.example.rentalSystem.domain.email.dto.response.EmailVerificationResult;
+import com.example.rentalSystem.domain.email.controller.dto.request.EmailRequest;
+import com.example.rentalSystem.domain.email.controller.dto.response.EmailVerificationResult;
 import com.example.rentalSystem.domain.email.entity.Email;
 import com.example.rentalSystem.domain.email.implement.MailChecker;
 import com.example.rentalSystem.domain.email.implement.MailLoader;

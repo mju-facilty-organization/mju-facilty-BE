@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.student.dto.response;
+package com.example.rentalSystem.domain.student.controller.dto.response;
 
 import java.util.List;
 
