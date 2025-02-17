@@ -26,17 +26,28 @@ public class Professor extends BaseTimeEntity {
     @Column(nullable = false)
     private String name;
 
+    @Convert(converter = AffiliationConverter.class)
+    private AffiliationType campusType;
+
     @Column(nullable = false)
     @Convert(converter = AffiliationConverter.class)
-    private AffiliationType affiliationType;
+    private AffiliationType college;
+
+    @Column(nullable = false)
+    @Convert(converter = AffiliationConverter.class)
+    private AffiliationType major;
 
     @Column(nullable = false)
     private String email;
 
     @Builder
-    public Professor(String name, AffiliationType affiliationType, String email) {
+    public Professor(String name, AffiliationType campusType, AffiliationType college,
+        AffiliationType major,
+        String email) {
         this.name = name;
-        this.affiliationType = affiliationType;
+        this.campusType = campusType;
+        this.college = college;
+        this.major = major;
         this.email = email;
     }
 }
