@@ -2,14 +2,13 @@ package com.example.rentalSystem.common.fixture;
 
 import static com.example.rentalSystem.common.fixture.TimeTableFixture.createTimeTable;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
-import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
-import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
-import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
-import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
-import com.example.rentalSystem.domain.facility.dto.response.PresignUrlListResponse;
+import com.example.rentalSystem.domain.facility.controller.dto.request.CreateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.controller.dto.request.UpdateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityDetailResponse;
+import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.facility.controller.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,8 +27,7 @@ public class FacilityFixture {
             .facilityNumber("1350")
             .images(List.of("test-file1"))
             .capacity(5L)
-            .pic("교수")
-            .college(AffiliationType.BUSINESS.getName())
+            .allowedBoundary(List.of(AffiliationType.BUSINESS))
             .isAvailable(true)
             .startTime(LocalTime.now())
             .endTime(LocalTime.now().plusHours(2))
@@ -62,7 +60,7 @@ public class FacilityFixture {
             List.of("test-file1"),
             40L,
             List.of("구비시설1", "구비시설2"),
-            "책임자",
+//            "책임자",
             LocalTime.now(),
             LocalTime.now(),
             "융합소프트웨어학부",
@@ -85,8 +83,8 @@ public class FacilityFixture {
         );
     }
 
-    public static PresignUrlListResponse createFacilityResponseDto() {
-        return new PresignUrlListResponse(
+    public static PreSignUrlListResponse createFacilityResponseDto() {
+        return new PreSignUrlListResponse(
             new ArrayList<>(List.of("image1", "image2", "image3"))
         );
     }

@@ -1,9 +1,9 @@
 package com.example.rentalSystem.domain.rentalhistory.controller;
 
 import com.example.rentalSystem.domain.member.entity.CustomerDetails;
-import com.example.rentalSystem.domain.rentalhistory.dto.request.CreateRentalRequest;
-import com.example.rentalSystem.domain.rentalhistory.dto.response.RentalHistoryDetailResponseDto;
-import com.example.rentalSystem.domain.rentalhistory.dto.response.RentalHistoryResponseDto;
+import com.example.rentalSystem.domain.rentalhistory.controller.dto.request.CreateRentalRequest;
+import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryDetailResponseDto;
+import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryResponseDto;
 import com.example.rentalSystem.domain.rentalhistory.service.RentalService;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.SuccessType;

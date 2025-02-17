@@ -448,46 +448,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_중복체크_성공">중복체크 성공</h3>
 <div class="sect3">
 <h4 id="_중복체크_성공_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /email/check-duplicate?_csrf=jGQqYG2izxs78_gEQXcyfS20pJTksOIvmoqCdvsHfAeSW9prugZLUQnArXkWxp0yI1oGTE-Hia2H09oCq7q7Rs83RGKjauxZ HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 39
-Host: localhost:8080
-
-{
-  "email" : "gkstkddbs99@mju.ac.kr"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::email/중복체크-성공</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_중복체크_성공_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 106
-
-{
-  "httpStatusCode" : 200,
-  "message" : "요청에 성공하였습니다.",
-  "resultType" : "SUCCESS"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::email/중복체크-성공</p>
 </div>
 </div>
 </div>
@@ -495,46 +463,14 @@ Content-Length: 106
 <h3 id="_이메일_중복일_경우">이메일 중복일 경우</h3>
 <div class="sect3">
 <h4 id="_이메일_중복일_경우_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /email/check-duplicate?_csrf=NCakI53JH3Ie77Ei0jnBpT8-BdwHNzK5Qk4FCmd30OpD2fE0AR6dG_j6e0Mz3YVHsRT1lg5dKOQ2BFeUIXZkP1IW5tx66cNV HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 39
-Host: localhost:8080
-
-{
-  "email" : "gkstkddbs99@mju.ac.kr"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::email/중복체크-중복</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_이메일_중복일_경우_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 409 Conflict
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 110
-
-{
-  "httpStatusCode" : 409,
-  "message" : "이미 존재하는 이메일입니다.",
-  "resultType" : "FAIL"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::email/중복체크-중복</p>
 </div>
 </div>
 </div>
@@ -542,46 +478,14 @@ Content-Length: 110
 <h3 id="_이메일_인증_코드_전송">이메일 인증 코드 전송</h3>
 <div class="sect3">
 <h4 id="_이메일_인증_코드_전송_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /email/send-code?_csrf=GyvbW8lLoIC-jruK5PbXsBg8khTc06sISLqPBPHaakrxBf03K0rrPf4vxbaTu47o19vjhSsIv3a54JglLInrYpToUymQNc0O HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 39
-Host: localhost:8080
-
-{
-  "email" : "gkstkddbs99@mju.ac.kr"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::email/인증코드-요청</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_이메일_인증_코드_전송_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH,DELETE, OPTIONS
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 106
-
-{
-  "httpStatusCode" : 200,
-  "message" : "요청에 성공하였습니다.",
-  "resultType" : "SUCCESS"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::email/인증코드-요청</p>
 </div>
 </div>
 </div>

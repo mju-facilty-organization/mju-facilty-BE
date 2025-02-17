@@ -2,11 +2,11 @@ package com.example.rentalSystem.domain.rentalhistory.service;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
-import com.example.rentalSystem.domain.professor.ProfessorImpl;
+import com.example.rentalSystem.domain.professor.ProfessorManager;
 import com.example.rentalSystem.domain.professor.entity.Professor;
-import com.example.rentalSystem.domain.rentalhistory.dto.request.CreateRentalRequest;
-import com.example.rentalSystem.domain.rentalhistory.dto.response.RentalHistoryDetailResponseDto;
-import com.example.rentalSystem.domain.rentalhistory.dto.response.RentalHistoryResponseDto;
+import com.example.rentalSystem.domain.rentalhistory.controller.dto.request.CreateRentalRequest;
+import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryDetailResponseDto;
+import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryResponseDto;
 import com.example.rentalSystem.domain.rentalhistory.entity.ProfessorHistory;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.rentalhistory.implement.ProfessorHistoryImpl;
@@ -29,7 +29,7 @@ public class RentalService {
     final RentalHistoryImpl rentalHistoryImpl;
     final FacilityImpl facilityImpl;
     final StudentImpl studentImpl;
-    final ProfessorImpl professorImpl;
+    final ProfessorManager professorManager;
     final ProfessorHistoryImpl professorHistoryImpl;
     final RentalScheduler rentalScheduler;
 
@@ -43,7 +43,7 @@ public class RentalService {
             createRentalRequest.startTime(),
             createRentalRequest.endTime());
 
-        Professor professor = professorImpl.findById(createRentalRequest.professorId());
+        Professor professor = professorManager.findById(createRentalRequest.professorId());
         RentalHistory rentalHistory = createRentalRequest.toEntity(student, facility);
 
         ProfessorHistory professorHistory = createRentalRequest.toEntity(rentalHistory, professor);

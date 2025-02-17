@@ -2,11 +2,11 @@ package com.example.rentalSystem.common.fixture;
 
 import static org.mockito.Mockito.doReturn;
 
-import com.example.rentalSystem.domain.student.dto.request.StudentSignInRequest;
-import com.example.rentalSystem.domain.student.dto.request.StudentSignUpRequest;
-import com.example.rentalSystem.domain.student.dto.response.StudentListResponse;
-import com.example.rentalSystem.domain.student.dto.response.StudentResponse;
-import com.example.rentalSystem.domain.student.dto.response.StudentSignUpResponse;
+import com.example.rentalSystem.domain.student.controller.dto.request.StudentSignInRequest;
+import com.example.rentalSystem.domain.student.controller.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentListResponse;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentResponse;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentSignUpResponse;
 import com.example.rentalSystem.domain.student.entity.Student;
 import java.util.List;
 import org.mockito.Mockito;
@@ -43,7 +43,8 @@ public class StudentFixture {
     }
 
     public static StudentListResponse studentListResponse() {
-        List<StudentResponse> studentResponseList = List.of(new StudentResponse("회원가입자"));
+        List<StudentResponse> studentResponseList = List.of(
+            StudentResponse.toStudentResponse(createStudent()));
         return new StudentListResponse(studentResponseList);
     }
 
