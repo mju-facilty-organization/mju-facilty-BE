@@ -2,6 +2,8 @@ package com.example.rentalSystem.domain.affiliation.type;
 
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.ErrorType;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import java.util.List;
 import lombok.Getter;
@@ -10,8 +12,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum AffiliationType {
+    SEOUL(0, "캠퍼스", "서울", null),
+
     // 총학
-    STUDENT_COUNCIL(1, "총학", "총학생회", null),
+    STUDENT_COUNCIL(1, "총학", "총학생회", SEOUL),
 
     // 인문대
     HUMANITIES(2, "단과대", "인문대학", null),

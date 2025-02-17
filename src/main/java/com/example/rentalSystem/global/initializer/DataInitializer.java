@@ -7,7 +7,6 @@ import com.example.rentalSystem.domain.pic.repository.PicRepository;
 import com.example.rentalSystem.domain.professor.entity.Professor;
 import com.example.rentalSystem.domain.professor.repository.ProfessorRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -35,7 +34,9 @@ public class DataInitializer implements CommandLineRunner {
         }
         if (professorRepository.count() == 0) {
             Professor professor = Professor.builder()
-                .affiliationType(AffiliationType.ICT)
+                .campusType(AffiliationType.SEOUL)
+                .college(AffiliationType.ICT)
+                .major(AffiliationType.SOFTWARE_APPLICATIONS)
                 .email("professor@e.com")
                 .name("최성운")
                 .build();

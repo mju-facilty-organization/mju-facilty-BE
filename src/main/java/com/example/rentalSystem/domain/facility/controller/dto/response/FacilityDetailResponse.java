@@ -1,7 +1,8 @@
-package com.example.rentalSystem.domain.facility.dto.response;
+package com.example.rentalSystem.domain.facility.controller.dto.response;
 
 import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.facility.entity.FacilityType;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
 import java.time.LocalTime;
@@ -12,7 +13,7 @@ import lombok.Builder;
 @Builder
 public record FacilityDetailResponse(
     Long id,
-    String facilityType,
+    FacilityType facilityType,
     String facilityNumber,
     List<String> images,
     Long capacity,
@@ -28,7 +29,7 @@ public record FacilityDetailResponse(
         return FacilityDetailResponse
             .builder()
             .id(facility.getId())
-            .facilityType(facility.getFacilityTypeValue())
+            .facilityType(facility.getFacilityType())
             .facilityNumber(facility.getFacilityNumber())
             .images(facility.getImages())
             .capacity(facility.getCapacity())
