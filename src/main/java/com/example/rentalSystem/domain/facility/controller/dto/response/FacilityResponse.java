@@ -1,7 +1,8 @@
-package com.example.rentalSystem.domain.facility.dto.response;
+package com.example.rentalSystem.domain.facility.controller.dto.response;
 
 import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.facility.entity.FacilityType;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -13,7 +14,7 @@ import lombok.Builder;
 public record FacilityResponse(
     //이미지
     Long id,
-    String facilityType,
+    FacilityType facilityType,
     String facilityNumber,
     List<String> images,
     Long capacity,
@@ -25,7 +26,7 @@ public record FacilityResponse(
     public static FacilityResponse fromFacility(Facility facility) {
         return FacilityResponse.builder()
             .id(facility.getId())
-            .facilityType(facility.getFacilityTypeValue())
+            .facilityType(facility.getFacilityType())
             .facilityNumber(facility.getFacilityNumber())
             .images(facility.getImages())
             .capacity(facility.getCapacity())
@@ -37,7 +38,7 @@ public record FacilityResponse(
     public static FacilityResponse fromRentalHistory(RentalHistory rentalHistory) {
         Facility facility = rentalHistory.getFacility();
         return FacilityResponse.builder()
-            .facilityType(facility.getFacilityTypeValue())
+            .facilityType(facility.getFacilityType())
             .facilityNumber(facility.getFacilityNumber())
             .build();
     }

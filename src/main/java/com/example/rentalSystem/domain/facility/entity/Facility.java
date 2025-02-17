@@ -23,6 +23,7 @@ import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.redis.connection.convert.ListConverter;
 
 @Entity
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 //@SQLDelete(sql = "update facility set is_deleted = true where id=?")
@@ -96,9 +97,5 @@ public class Facility extends BaseTimeEntity {
         this.capacity = updateFacility.getCapacity();
         this.supportFacilities = updateFacility.getSupportFacilities();
         this.isAvailable = updateFacility.isAvailable();
-    }
-
-    public String getFacilityTypeValue() {
-        return facilityType.getValue();
     }
 }
