@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.rentalhistory.dto.request;
+package com.example.rentalSystem.domain.rentalhistory.controller.dto.request;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.professor.entity.Professor;
