@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.email.implement;
 
-import com.example.rentalSystem.domain.email.entity.Email;
+import com.example.rentalSystem.domain.email.entity.AuthCodeEmail;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.ErrorType;
 import java.security.NoSuchAlgorithmException;
@@ -12,12 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class MailMaker {
 
-    private static final String EMAIL_TITLE = "명지 Rental 이메일 인증 번호";
+    private final String AUTH_CODE_EMAIL_TITLE = "명지 Rental 이메일 인증 번호";
+    private final String PROFESSOR_CONFIRM_EMAIL_TITLE = "명지대 대한 시설 대여 승인 이메일입니다.";
+    private final String CONFIRMATION_URL = "https://yourapp.com/request/confirm?token=";
+    private final String PROFESSOR_CONFIRM_EMAIL_CONTENT = "명지대 시설 대여에 대한 승인 요청입니다.\n아래 링크를 클릭하여 요청을 확인해주세요:\n";
 
-    public Email makeMail(String toEmail) {
-        return Email
+    public AuthCodeEmail makeAuthCodeMail(String toEmail) {
+        return AuthCodeEmail
             .builder()
-            .title(EMAIL_TITLE)
+            .title(AUTH_CODE_EMAIL_TITLE)
             .authCode(createCode())
             .emailAddress(toEmail)
             .build();
@@ -37,11 +40,22 @@ public class MailMaker {
         }
     }
 
-    public SimpleMailMessage createEmailForm(Email email) {
+    public SimpleMailMessage makeProfessorConfirmEmail(String email, String token) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email.emailAddress());
-        message.setSubject(email.title());
-        message.setText(Email.INTRODUCE + email.authCode());
+        message.setTo(email);
+        message.setSubject(PROFESSOR_CONFIRM_EMAIL_TITLE);
+        String url = CONFIRMATION_URL + token;
+        message.setText(PROFESSOR_CONFIRM_EMAIL_CONTENT + url);
         return message;
     }
+
+
+    public SimpleMailMessage createEmailForm(AuthCodeEmail authCodeEmail) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(authCodeEmail.emailAddress());
+        message.setSubject(authCodeEmail.title());
+        message.setText(AuthCodeEmail.INTRODUCE + authCodeEmail.authCode());
+        return message;
+    }
+
 }
