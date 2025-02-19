@@ -2,7 +2,7 @@ package com.example.rentalSystem.global.exception;
 
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.ApiResponse;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

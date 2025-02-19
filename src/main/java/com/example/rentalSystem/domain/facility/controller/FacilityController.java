@@ -7,7 +7,7 @@ import com.example.rentalSystem.domain.facility.controller.dto.response.Facility
 import com.example.rentalSystem.domain.facility.controller.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.service.FacilityService;
 import com.example.rentalSystem.global.response.ApiResponse;
-import com.example.rentalSystem.global.response.SuccessType;
+import com.example.rentalSystem.global.response.type.SuccessType;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,10 +26,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/admin/facilities", produces = "application/json;charset=utf-8")
-public class FacilityController {
+public class FacilityController implements FacilityControllerDocs {
 
     private final FacilityService facilityService;
 
+    @Override
+    @DeleteMapping("/{facilityId}")
+    public ApiResponse<?> deleteFacility(Long facilityId) {
+        facilityService.delete(facilityId);
+        return ApiResponse.success(SuccessType.SUCCESS);
+    }
+
+    @Override
     @PostMapping
     public ApiResponse<PreSignUrlListResponse> createFacility(
         @RequestBody CreateFacilityRequestDto requestDto) {
@@ -37,18 +45,14 @@ public class FacilityController {
         return ApiResponse.success(SuccessType.CREATED, presignUrlListResponse);
     }
 
+    @Override
     @PutMapping("/{facilityId}")
     public ApiResponse<?> updateFacility(UpdateFacilityRequestDto requestDto, Long facilityId) {
         facilityService.update(requestDto, facilityId);
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 
-    @DeleteMapping("/{facilityId}")
-    public ApiResponse<?> deleteFacility(Long facilityId) {
-        facilityService.delete(facilityId);
-        return ApiResponse.success(SuccessType.SUCCESS);
-    }
-
+    @Override
     @GetMapping
     public ApiResponse<Page<FacilityResponse>> getAllFacility(
         @PageableDefault(size = 10) Pageable pageable,
@@ -58,6 +62,7 @@ public class FacilityController {
         return ApiResponse.success(SuccessType.SUCCESS, facilityResponses);
     }
 
+    @Override
     @GetMapping("/{facilityId}")
     public ApiResponse<FacilityDetailResponse> getFacilityDetail(
         @PathVariable("facilityId") Long facilityId,

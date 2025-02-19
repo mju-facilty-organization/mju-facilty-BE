@@ -8,19 +8,21 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.time.LocalDateTime;
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
-public record RentalHistoryResponseDto(
-    Long id,
-    FacilityResponse facilityResponse,
-    ProfessorHistoryResponse professorHistoryResponse,
-    LocalDateTime createAt,
+@Getter
+public class RentalHistoryResponseDto {
+
+    private Long id;
+    private FacilityResponse facilityResponse;
+    private ProfessorHistoryResponse professorHistoryResponse;
+    private LocalDateTime createAt;
     @JsonInclude(Include.ALWAYS)
-    LocalDateTime defineDateTime,
-    String organization,
-    String purpose,
-    RentalApplicationResult applicationResult
-) {
+    private LocalDateTime defineDateTime;
+    private String organization;
+    private String purpose;
+    private RentalApplicationResult applicationResult;
 
     public static RentalHistoryResponseDto from(RentalHistory rentalHistory) {
         return RentalHistoryResponseDto.builder()

@@ -18,9 +18,9 @@ import com.example.rentalSystem.domain.student.controller.dto.response.StudentSi
 import com.example.rentalSystem.domain.student.service.StudentService;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
-import com.example.rentalSystem.global.response.ResultType;
-import com.example.rentalSystem.global.response.SuccessType;
+import com.example.rentalSystem.global.response.type.ErrorType;
+import com.example.rentalSystem.global.response.type.ResultType;
+import com.example.rentalSystem.global.response.type.SuccessType;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

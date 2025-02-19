@@ -2,13 +2,14 @@ package com.example.rentalSystem.domain.email.service;
 
 import com.example.rentalSystem.domain.email.controller.dto.request.EmailRequest;
 import com.example.rentalSystem.domain.email.controller.dto.response.EmailVerificationResult;
-import com.example.rentalSystem.domain.email.entity.Email;
+import com.example.rentalSystem.domain.email.entity.AuthCodeEmail;
 import com.example.rentalSystem.domain.email.implement.MailChecker;
 import com.example.rentalSystem.domain.email.implement.MailLoader;
 import com.example.rentalSystem.domain.email.implement.MailMaker;
 import com.example.rentalSystem.domain.email.repository.MailRepository;
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,7 +27,6 @@ public class EmailService {
     private final MailMaker mailMaker;
     private final MailLoader mailLoader;
     private final JavaMailSender javaMailSender;
-
     private final MailRepository mailRepository;
 
     public void checkDuplicatedEmail(EmailRequest emailRequest) {
@@ -36,10 +36,10 @@ public class EmailService {
     @Transactional
     public void sendCodeToEmail(EmailRequest emailRequest) {
         mailChecker.checkDuplicateSend(emailRequest.email());
-        Email email = mailMaker.makeMail(emailRequest.email());
-        SimpleMailMessage emailForm = mailMaker.createEmailForm(email);
+        AuthCodeEmail authCodeEmail = mailMaker.makeAuthCodeMail(emailRequest.email());
+        SimpleMailMessage emailForm = mailMaker.createEmailForm(authCodeEmail);
         sendEmail(emailForm);
-        mailRepository.save(emailRequest.email(), email.authCode());
+        mailRepository.save(emailRequest.email(), authCodeEmail.authCode());
     }
 
     private void sendEmail(SimpleMailMessage emailForm) {
@@ -63,4 +63,9 @@ public class EmailService {
     }
 
 
+    public void sendProfessorRentalConfirm(String email) {
+        String token = UUID.randomUUID().toString();
+        mailRepository.saveToken(email, token);
+        sendEmail(mailMaker.makeProfessorConfirmEmail(email, token));
+    }
 }

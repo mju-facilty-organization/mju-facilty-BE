@@ -17,8 +17,8 @@ import com.example.rentalSystem.domain.rentalhistory.controller.dto.request.Crea
 import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryResponseDto;
 import com.example.rentalSystem.domain.rentalhistory.service.RentalService;
 import com.example.rentalSystem.domain.student.entity.Student;
-import com.example.rentalSystem.global.response.ResultType;
-import com.example.rentalSystem.global.response.SuccessType;
+import com.example.rentalSystem.global.response.type.ResultType;
+import com.example.rentalSystem.global.response.type.SuccessType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

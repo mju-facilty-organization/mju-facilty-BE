@@ -2,7 +2,7 @@ package com.example.rentalSystem.global.auth;
 
 
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import com.example.rentalSystem.global.auth.jwt.component.JwtTokenProvider;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import lombok.RequiredArgsConstructor;

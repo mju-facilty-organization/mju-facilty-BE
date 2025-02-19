@@ -1,9 +1,7 @@
 package com.example.rentalSystem.domain.affiliation.type;
 
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import java.util.Arrays;
 import java.util.List;
 import lombok.Getter;

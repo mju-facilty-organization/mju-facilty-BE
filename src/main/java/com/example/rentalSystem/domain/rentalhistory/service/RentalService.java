@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.rentalhistory.service;
 
+import com.example.rentalSystem.domain.email.service.EmailService;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
 import com.example.rentalSystem.domain.professor.ProfessorManager;
@@ -32,6 +33,7 @@ public class RentalService {
     final ProfessorManager professorManager;
     final ProfessorHistoryImpl professorHistoryImpl;
     final RentalScheduler rentalScheduler;
+    final EmailService emailService;
 
     @Transactional
     public void create(Student student, CreateRentalRequest createRentalRequest) {
@@ -49,6 +51,7 @@ public class RentalService {
         ProfessorHistory professorHistory = createRentalRequest.toEntity(rentalHistory, professor);
         rentalHistoryImpl.save(rentalHistory);
         professorHistoryImpl.save(professorHistory);
+        emailService.sendProfessorRentalConfirm(professor.getEmail());
     }
 
     public Page<RentalHistoryResponseDto> getAllRentalHistory(Pageable pageable) {
