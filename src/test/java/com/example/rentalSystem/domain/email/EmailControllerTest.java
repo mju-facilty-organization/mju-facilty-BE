@@ -16,7 +16,7 @@ import com.example.rentalSystem.domain.email.controller.EmailController;
 import com.example.rentalSystem.domain.email.controller.dto.request.EmailRequest;
 import com.example.rentalSystem.domain.email.service.EmailService;
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
