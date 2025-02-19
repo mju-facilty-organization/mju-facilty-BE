@@ -1,7 +1,7 @@
 package com.example.rentalSystem.domain.facility.entity;
 
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import java.util.Arrays;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

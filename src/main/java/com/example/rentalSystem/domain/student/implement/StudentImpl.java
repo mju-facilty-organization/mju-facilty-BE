@@ -4,7 +4,7 @@ import com.example.rentalSystem.domain.student.controller.dto.response.StudentRe
 import com.example.rentalSystem.domain.student.entity.Student;
 import com.example.rentalSystem.domain.student.repository.StudentRepository;
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

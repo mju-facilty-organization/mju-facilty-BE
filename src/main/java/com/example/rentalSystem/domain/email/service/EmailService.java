@@ -8,7 +8,7 @@ import com.example.rentalSystem.domain.email.implement.MailLoader;
 import com.example.rentalSystem.domain.email.implement.MailMaker;
 import com.example.rentalSystem.domain.email.repository.MailRepository;
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;

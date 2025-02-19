@@ -1,4 +1,4 @@
-package com.example.rentalSystem.global.response;
+package com.example.rentalSystem.global.response.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

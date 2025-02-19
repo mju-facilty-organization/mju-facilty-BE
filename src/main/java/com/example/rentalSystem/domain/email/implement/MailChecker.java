@@ -3,7 +3,7 @@ package com.example.rentalSystem.domain.email.implement;
 import com.example.rentalSystem.domain.email.repository.MailRepository;
 import com.example.rentalSystem.domain.member.implement.MemberLoader;
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -5,7 +5,7 @@ import static com.example.rentalSystem.global.auth.jwt.entity.TokenDto.REFRESH_T
 
 import com.example.rentalSystem.global.auth.security.CustomerDetailsService;
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import com.example.rentalSystem.global.auth.jwt.entity.TokenDto;
 import io.jsonwebtoken.Claims;

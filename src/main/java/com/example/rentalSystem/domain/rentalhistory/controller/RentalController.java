@@ -6,7 +6,7 @@ import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.Ren
 import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryResponseDto;
 import com.example.rentalSystem.domain.rentalhistory.service.RentalService;
 import com.example.rentalSystem.global.response.ApiResponse;
-import com.example.rentalSystem.global.response.SuccessType;
+import com.example.rentalSystem.global.response.type.SuccessType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

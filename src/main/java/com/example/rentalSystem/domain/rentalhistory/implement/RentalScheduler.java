@@ -7,7 +7,7 @@ import com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
 import com.example.rentalSystem.domain.facility.reposiotry.TimeTableRepository;
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

@@ -9,7 +9,7 @@ import com.example.rentalSystem.domain.student.controller.dto.response.StudentSi
 import com.example.rentalSystem.domain.student.controller.dto.response.StudentUpdateResponse;
 import com.example.rentalSystem.domain.student.service.StudentService;
 import com.example.rentalSystem.global.response.ApiResponse;
-import com.example.rentalSystem.global.response.SuccessType;
+import com.example.rentalSystem.global.response.type.SuccessType;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

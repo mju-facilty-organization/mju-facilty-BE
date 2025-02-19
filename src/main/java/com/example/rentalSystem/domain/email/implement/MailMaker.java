@@ -2,7 +2,7 @@ package com.example.rentalSystem.domain.email.implement;
 
 import com.example.rentalSystem.domain.email.entity.AuthCodeEmail;
 import com.example.rentalSystem.global.exception.custom.CustomException;
-import com.example.rentalSystem.global.response.ErrorType;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;

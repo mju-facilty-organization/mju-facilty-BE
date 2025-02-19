@@ -19,8 +19,8 @@ import com.example.rentalSystem.domain.facility.controller.dto.request.UpdateFac
 import com.example.rentalSystem.domain.facility.controller.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.service.FacilityService;
-import com.example.rentalSystem.global.response.ResultType;
-import com.example.rentalSystem.global.response.SuccessType;
+import com.example.rentalSystem.global.response.type.ResultType;
+import com.example.rentalSystem.global.response.type.SuccessType;
 import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
