@@ -22,10 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/students")
-public class StudentController {
+public class StudentController implements StudentControllerDocs {
 
     private final StudentService studentService;
 
+    @Override
     @PostMapping("/sign-up")
     public ApiResponse<StudentSignUpResponse> signUp(
         @RequestBody StudentSignUpRequest signUpDto) {
@@ -33,6 +34,7 @@ public class StudentController {
         return ApiResponse.success(SuccessType.CREATED, studentSignUpResponse);
     }
 
+    @Override
     @PostMapping("/sign-in")
     public ApiResponse<JwtToken> signIn(
         @RequestBody StudentSignInRequest studentSignInRequest) {
@@ -40,11 +42,13 @@ public class StudentController {
         return ApiResponse.success(SuccessType.SUCCESS, jwtToken);
     }
 
+    @Override
     @GetMapping
     public ApiResponse<StudentListResponse> retrieveAllStudent() {
         return ApiResponse.success(SuccessType.SUCCESS, studentService.retrieveAllStudent());
     }
 
+    @Override
     @PatchMapping
     public ApiResponse<?> updateStudentInfo(StudentUpdateRequest studentUpdateRequest,
         CustomerDetails customerDetails) {

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/professors")
-public class ProfessorController {
+public class ProfessorController implements ProfessorControllerDocs {
 
     private final ProfessorService professorService;
 
