@@ -11,6 +11,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,10 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/rental")
-public class RentalController {
+public class RentalController implements RentalControllerDocs {
 
     final RentalService rentalService;
 
+    @Override
     @PostMapping()
     public ApiResponse<?> createRental(
         @AuthenticationPrincipal CustomerDetails customerDetails,
@@ -34,15 +36,17 @@ public class RentalController {
         return ApiResponse.success(SuccessType.CREATED);
     }
 
+    @Override
     @GetMapping()
     public ApiResponse<Page<RentalHistoryResponseDto>> getAllRentalHistory(
-        Pageable pageable) {
+        @PageableDefault Pageable pageable) {
         Page<RentalHistoryResponseDto> rentalHistoryResponseDtoList = rentalService.getAllRentalHistory(
             pageable);
 
         return ApiResponse.success(SuccessType.SUCCESS, rentalHistoryResponseDtoList);
     }
 
+    @Override
     @GetMapping("/students/{studentId}")
     public ApiResponse<?> getAllRentalHistoryByStudent(
         @PathVariable(name = "studentId") String studentId) {
@@ -51,6 +55,7 @@ public class RentalController {
         return ApiResponse.success(SuccessType.SUCCESS, rentalHistoryResponseDtoList);
     }
 
+    @Override
     @GetMapping("/{rentalHistoryId}")
     public ApiResponse<?> getRentalHistoryDetail(
         @PathVariable(name = "rentalHistoryId") String rentalHistoryId

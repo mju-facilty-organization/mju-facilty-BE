@@ -6,6 +6,9 @@ import com.example.rentalSystem.domain.facility.controller.dto.response.Facility
 import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.controller.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.global.response.ApiResponse;
+import com.example.rentalSystem.global.response.example.ApiErrorCodeExample;
+import com.example.rentalSystem.global.response.example.ApiErrorCodeExamples;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
@@ -18,18 +21,22 @@ public interface FacilityControllerDocs {
     @Operation(summary = "시설 등록 API")
     ApiResponse<PreSignUrlListResponse> createFacility(CreateFacilityRequestDto requestDto);
 
+    @ApiErrorCodeExample(ErrorType.ENTITY_NOT_FOUND)
     @Operation(summary = "시설 수정 API")
     ApiResponse<?> updateFacility(UpdateFacilityRequestDto requestDto, Long facilityId);
 
     @Operation(summary = "시설 삭제 API")
+    @ApiErrorCodeExample(ErrorType.ENTITY_NOT_FOUND)
     ApiResponse<?> deleteFacility(Long facilityId);
 
     @Operation(summary = "시설 전체 조회 API")
+    @ApiErrorCodeExample(ErrorType.INVALID_FACILITY_TYPE)
     ApiResponse<Page<FacilityResponse>> getAllFacility(
         Pageable pageable, String facilityType
     );
 
     @Operation(summary = "시설 전체 상세 조회 API")
+    @ApiErrorCodeExample(ErrorType.ENTITY_NOT_FOUND)
     ApiResponse<FacilityDetailResponse> getFacilityDetail(
         Long facilityId, LocalDate date);
 }
