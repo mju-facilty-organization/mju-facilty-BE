@@ -40,14 +40,32 @@ public class ProfessorHistory extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private RentalApplicationResult rentalApplicationResult;
 
+    /**
+     * Returns the name of the associated professor.
+     *
+     * @return the professor's name
+     */
     public String getProfessorName() {
         return professor.getName();
     }
 
+    /**
+     * Returns the email address of the associated professor.
+     *
+     * @return the professor's email address
+     */
     public String getProfessorEmail() {
         return professor.getEmail();
     }
 
+    /**
+     * Returns the affiliation type of the associated professor.
+     *
+     * <p>This value is derived from the professor's major and represents the professor's affiliation 
+     * as an {@code AffiliationType}.</p>
+     *
+     * @return the professor's affiliation type
+     */
     public AffiliationType getProfessorAffiliation() {
         return professor.getMajor();
     }
