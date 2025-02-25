@@ -15,7 +15,8 @@ import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
 import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
 import com.example.rentalSystem.domain.facility.reposiotry.TimeTableRepository;
 import com.example.rentalSystem.global.cloud.S3Service;
-import jakarta.persistence.EntityNotFoundException;
+import com.example.rentalSystem.global.exception.custom.CustomException;
+import com.example.rentalSystem.global.response.type.ErrorType;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -106,11 +107,11 @@ public class FacilityService {
 
     private Facility findFacilityById(Long id) {
         return facilityJpaRepository.findById(id)
-            .orElseThrow(EntityNotFoundException::new);
+            .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
     }
 
     private TimeTable findTimeTableByFacilityAndDate(Facility facility, LocalDate date) {
         return timeTableRepository.findByFacilityAndDate(facility, date)
-            .orElseThrow(EntityNotFoundException::new);
+            .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
     }
 }

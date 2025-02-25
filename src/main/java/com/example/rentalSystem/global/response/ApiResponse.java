@@ -5,13 +5,18 @@ import com.example.rentalSystem.global.response.type.ResultType;
 import com.example.rentalSystem.global.response.type.SuccessType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 @Builder
+@Schema(description = "응답 객체")
 @JsonPropertyOrder({"httpStatusCode", "message", "data"})
 public record ApiResponse<T>(
+    @Schema(description = "응답 타입", example = "SUCCESS")
     ResultType resultType,
+    @Schema(description = "응답 코드", example = "200")
     int httpStatusCode,
+    @Schema(description = "응답 내용", example = "요청에 성공하였습니다.")
     String message,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     T data

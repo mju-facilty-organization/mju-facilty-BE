@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.rentalhistory.entity;
 
+import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.professor.entity.Professor;
 import jakarta.persistence.Column;
@@ -43,12 +44,12 @@ public class ProfessorHistory extends BaseTimeEntity {
         return professor.getName();
     }
 
-    public String getMajor() {
-        return professor.getMajor().getName();
-    }
-
     public String getProfessorEmail() {
         return professor.getEmail();
+    }
+
+    public AffiliationType getProfessorAffiliation() {
+        return professor.getMajor();
     }
 }
 
