@@ -105,11 +105,33 @@ public class FacilityService {
         return FacilityDetailResponse.of(facility, timeTable);
     }
 
+    /**
+     * Retrieves the Facility corresponding to the given id.
+     *
+     * <p>This method attempts to fetch a Facility from the repository using the provided id.
+     * If the Facility is not found, it throws a CustomException with an error type of ENTITY_NOT_FOUND.
+     *
+     * @param id the unique identifier of the Facility
+     * @return the Facility matching the provided id
+     * @throws CustomException if no Facility is found with the specified id
+     */
     private Facility findFacilityById(Long id) {
         return facilityJpaRepository.findById(id)
             .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
     }
 
+    /**
+     * Retrieves the timetable for the specified facility on a given date.
+     *
+     * <p>This method searches for a timetable that matches the provided facility and date.
+     * If no timetable is found, it throws a {@link CustomException} with an error type of
+     * {@code ENTITY_NOT_FOUND}.</p>
+     *
+     * @param facility the facility for which the timetable is being retrieved
+     * @param date the date corresponding to the timetable
+     * @return the matching TimeTable
+     * @throws CustomException if a timetable for the facility on the specified date does not exist
+     */
     private TimeTable findTimeTableByFacilityAndDate(Facility facility, LocalDate date) {
         return timeTableRepository.findByFacilityAndDate(facility, date)
             .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));

@@ -14,6 +14,13 @@ public class FacilityImpl {
 
     private final FacilityJpaRepository facilityJpaRepository;
 
+    /**
+     * Retrieves a facility by its unique identifier.
+     *
+     * @param id the unique identifier of the facility
+     * @return the facility entity if found
+     * @throws CustomException if no facility with the specified id is found
+     */
     public Facility findById(Long id) {
         return facilityJpaRepository.findById(id)
             .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
