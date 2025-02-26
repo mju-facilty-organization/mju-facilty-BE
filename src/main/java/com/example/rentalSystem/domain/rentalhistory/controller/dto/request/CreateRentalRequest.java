@@ -6,17 +6,25 @@ import com.example.rentalSystem.domain.rentalhistory.entity.ProfessorHistory;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.student.entity.Student;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.Builder;
 
 @Builder
 public record CreateRentalRequest(
+    @Schema(example = "1")
     String facilityId,
+    @Schema(description = "대여 시작 시간", example = "YYYY-MM-DDTHH:MM:SS")
     LocalDateTime startTime,
+    @Schema(description = "대역 종료 시간", example = "YYYY-MM-DDTHH:MM:SS")
     LocalDateTime endTime,
+    @Schema(description = "조직명", example = "COW")
     String organization,
+    @Schema(description = "사용자 수", example = "4")
     String numberOfPeople,
+    @Schema(description = "책임 교수 Id", example = "1")
     String professorId,
+    @Schema(description = "사용 목적", example = "동아리 활동")
     String purpose
 ) {
 

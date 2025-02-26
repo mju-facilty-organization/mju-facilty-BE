@@ -21,9 +21,12 @@ public record CreateFacilityRequestDto(
     @Schema(description = "최대 수용 인원", example = "30")
     Long capacity,
     List<String> supportFacilities,
+    @Schema(description = "시작 시간", example = "YY:MM")
     LocalTime startTime,
+    @Schema(description = "끝 시간", example = "YY:MM")
     LocalTime endTime,
     @NotEmpty
+    @Schema(description = "학부", example = "융합소프트웨어학부")
     String college,
     boolean isAvailable
 ) {
