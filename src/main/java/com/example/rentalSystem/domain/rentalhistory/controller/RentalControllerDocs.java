@@ -11,6 +11,7 @@ import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.example.ApiErrorCodeExample;
 import com.example.rentalSystem.global.response.example.ApiErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,10 @@ public interface RentalControllerDocs {
 
     @Operation(summary = "시설 대여 내역 전체 조회")
     ApiResponse<Page<RentalHistoryResponseDto>> getAllRentalHistory(
+        @Parameter(example = "{\n"
+            + "  \"page\": 0,\n"
+            + "  \"size\": 10\n"
+            + "}")
         Pageable pageable);
 
     @Operation(summary = "학생 시설 대여 내역 전체 조회")
