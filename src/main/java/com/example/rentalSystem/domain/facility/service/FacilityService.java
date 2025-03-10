@@ -67,7 +67,7 @@ public class FacilityService {
         // pre signed url을 반환. 업로드용
         List<String> presignedUrlList = imageUrlList
             .stream()
-            .map(s3Service::generatePresignedUrl)
+            .map(s3Service::generatePresignedUrlForPut)
             .toList();
         return PreSignUrlListResponse.from(presignedUrlList);
     }
@@ -95,8 +95,10 @@ public class FacilityService {
                 FacilityType.getInstanceByValue(facilityType),
                 pageable);
         }
-
-        return page.map(FacilityResponse::fromFacility);
+        return page.map(facility -> {
+            List<String> presignedUrls = s3Service.generatePresignedUrlsForGet(facility);
+            return FacilityResponse.fromFacility(facility, presignedUrls);
+        });
     }
 
     public FacilityDetailResponse getFacilityDetail(Long facilityId, LocalDate localDate) {

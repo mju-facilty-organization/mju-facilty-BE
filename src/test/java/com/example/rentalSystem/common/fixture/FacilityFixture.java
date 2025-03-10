@@ -90,7 +90,8 @@ public class FacilityFixture {
     }
 
     public static FacilityResponse facilityResponse() {
-        return FacilityResponse.fromFacility(createFacility());
+        return FacilityResponse.fromFacility(createFacility(),
+            List.of("image1", "image2", "image3"));
     }
 
     public static Page<FacilityResponse> getAllFacilityList(Pageable pageable) {
