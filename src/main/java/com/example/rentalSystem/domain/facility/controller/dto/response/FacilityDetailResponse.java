@@ -25,13 +25,14 @@ public record FacilityDetailResponse(
 
 ) {
 
-    public static FacilityDetailResponse of(Facility facility, TimeTable timeTable) {
+    public static FacilityDetailResponse of(Facility facility, TimeTable timeTable,
+        List<String> presignedUrls) {
         return FacilityDetailResponse
             .builder()
             .id(facility.getId())
             .facilityType(facility.getFacilityType())
             .facilityNumber(facility.getFacilityNumber())
-            .images(facility.getImages())
+            .images(presignedUrls)
             .capacity(facility.getCapacity())
             .supportFacilities(facility.getSupportFacilities())
             .date(timeTable.getDate().toString())
