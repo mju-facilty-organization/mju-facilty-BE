@@ -97,12 +97,11 @@ public class FacilityFixture {
     public static Page<FacilityResponse> getAllFacilityList(Pageable pageable) {
         List<FacilityResponse> response = List.of(
             facilityResponse());
-        Page<FacilityResponse> pageResponse = new PageImpl<>(
+        return new PageImpl<>(
             response,
             pageable,
             response.size()
         );
-        return pageResponse;
     }
 
     public static FacilityDetailResponse getFacilityDetail() {
