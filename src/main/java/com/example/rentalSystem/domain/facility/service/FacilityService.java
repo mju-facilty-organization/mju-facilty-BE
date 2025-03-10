@@ -104,7 +104,8 @@ public class FacilityService {
     public FacilityDetailResponse getFacilityDetail(Long facilityId, LocalDate localDate) {
         Facility facility = findFacilityById(facilityId);
         TimeTable timeTable = findTimeTableByFacilityAndDate(facility, localDate);
-        return FacilityDetailResponse.of(facility, timeTable);
+        List<String> presignedUrls = s3Service.generatePresignedUrlsForGet(facility);
+        return FacilityDetailResponse.of(facility, timeTable, presignedUrls);
     }
 
     private Facility findFacilityById(Long id) {
