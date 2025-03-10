@@ -3,8 +3,12 @@ package com.example.rentalSystem.global.cloud;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.example.rentalSystem.domain.facility.entity.Facility;
+import java.net.URL;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,16 +27,29 @@ public class S3Service {
         return "facility/" + UUID.randomUUID() + "_" + fileName;
     }
 
-    public String generatePresignedUrl(String fileName) {
-        // Presigned URL 요청 설정
-        String s3Key = "facility/" + UUID.randomUUID() + "_" + fileName;
-
+    public String generatePresignedUrlForPut(String fileName) {
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
-            new GeneratePresignedUrlRequest(bucket, s3Key)
+            new GeneratePresignedUrlRequest(bucket, fileName)
                 .withMethod(HttpMethod.PUT)
                 .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
 
         // Presigned URL 생성
         return amazonS3.generatePresignedUrl(generatePresignedUrlRequest).toString();
     }
+
+    public List<String> generatePresignedUrlsForGet(Facility facility) {
+        return facility.getImages().stream()
+            .map(this::generatePresignedUrl)
+            .collect(Collectors.toList());
+    }
+
+    private String generatePresignedUrl(String objectKey) {
+        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket, objectKey)
+            .withMethod(HttpMethod.GET)
+            .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
+
+        URL url = amazonS3.generatePresignedUrl(request);
+        return url.toString();
+    }
+
 }

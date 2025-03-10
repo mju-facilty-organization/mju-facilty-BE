@@ -23,12 +23,12 @@ public record FacilityResponse(
     String pic
 ) {
 
-    public static FacilityResponse fromFacility(Facility facility) {
+    public static FacilityResponse fromFacility(Facility facility, List<String> images) {
         return FacilityResponse.builder()
             .id(facility.getId())
             .facilityType(facility.getFacilityType())
             .facilityNumber(facility.getFacilityNumber())
-            .images(facility.getImages())
+            .images(images)
             .capacity(facility.getCapacity())
             .supportFacilities(facility.getSupportFacilities())
             .allowedBoundary(facility.getAllowedBoundary())
