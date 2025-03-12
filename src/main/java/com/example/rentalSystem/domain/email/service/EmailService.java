@@ -13,6 +13,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,7 +63,7 @@ public class EmailService {
         return EmailVerificationResult.of(verificationResult);
     }
 
-
+    @Async("threadPoolTaskExecutor")
     public void sendProfessorRentalConfirm(String email) {
         String token = UUID.randomUUID().toString();
         mailRepository.saveToken(email, token);
