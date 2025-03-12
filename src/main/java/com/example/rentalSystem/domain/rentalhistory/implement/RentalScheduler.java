@@ -1,6 +1,8 @@
 package com.example.rentalSystem.domain.rentalhistory.implement;
 
 import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.AVAILABLE;
+import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.UNAVAILABLE;
+import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.WAITING;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus;
@@ -24,23 +26,39 @@ public class RentalScheduler {
     public void checkSchedule(
         Facility facility,
         LocalDateTime startDateTime,
-        LocalDateTime endDateTime) {
-
+        LocalDateTime endDateTime
+    ) {
         LocalDate startDate = startDateTime.toLocalDate();
-        LocalTime startTIme = startDateTime.toLocalTime();
+        LocalTime startTime = startDateTime.toLocalTime();
         LocalTime endTime = endDateTime.toLocalTime();
 
-        TimeTable timeTable = tableRepository.findByFacilityAndDate(facility,
-                startDate)
+        TimeTable timeTable = tableRepository.findByFacilityAndDate(facility, startDate)
             .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
 
         LinkedHashMap<LocalTime, TimeStatus> timeSlot = timeTable.getTimeSlot();
 
-        while (startTIme.isBefore(endTime)) {
-            if (!timeSlot.get(startTIme).equals(AVAILABLE)) {
+        validateTimeSlotAvailability(timeSlot, startTime, endTime);
+        updateTimeSlotStatus(timeSlot, startTime, endTime, WAITING);
+    }
+
+    private void validateTimeSlotAvailability(LinkedHashMap<LocalTime, TimeStatus> timeSlot,
+        LocalTime startTime, LocalTime endTime) {
+        LocalTime time = startTime;
+        while (time.isBefore(endTime)) {
+            if (timeSlot.getOrDefault(time, UNAVAILABLE) != AVAILABLE) {
                 throw new CustomException(ErrorType.FAIL_RENTAL_REQUEST);
             }
-            startTIme = startTIme.plusMinutes(30);
+            time = time.plusMinutes(30);
+        }
+    }
+
+    private void updateTimeSlotStatus(LinkedHashMap<LocalTime, TimeStatus> timeSlot,
+        LocalTime startTime, LocalTime endTime,
+        TimeStatus newStatus) {
+        LocalTime time = startTime;
+        while (time.isBefore(endTime)) {
+            timeSlot.put(time, newStatus);
+            time = time.plusMinutes(30);
         }
     }
 }
