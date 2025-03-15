@@ -13,6 +13,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +43,7 @@ public class EmailService {
         mailRepository.save(emailRequest.email(), authCodeEmail.authCode());
     }
 
+
     private void sendEmail(SimpleMailMessage emailForm) {
         try {
             javaMailSender.send(emailForm);
@@ -59,10 +61,10 @@ public class EmailService {
     public EmailVerificationResult verificationCode(String email, String code) {
         String saveCode = mailLoader.getAuthCode(email);
         boolean verificationResult = mailChecker.checkAuthCode(saveCode, code);
-        return EmailVerificationResult.of(verificationResult);
+        return EmailVerificationResult.from(verificationResult);
     }
 
-
+    @Async("threadPoolTaskExecutor")
     public void sendProfessorRentalConfirm(String email) {
         String token = UUID.randomUUID().toString();
         mailRepository.saveToken(email, token);

@@ -8,6 +8,7 @@ import com.example.rentalSystem.domain.facility.controller.dto.response.PreSignU
 import com.example.rentalSystem.domain.facility.service.FacilityService;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.type.SuccessType;
+import jakarta.validation.Valid;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,7 @@ public class FacilityController implements FacilityControllerDocs {
 
     @Override
     @DeleteMapping("/{facilityId}")
-    public ApiResponse<?> deleteFacility(Long facilityId) {
+    public ApiResponse<?> deleteFacility(@PathVariable Long facilityId) {
         facilityService.delete(facilityId);
         return ApiResponse.success(SuccessType.SUCCESS);
     }
@@ -40,14 +41,17 @@ public class FacilityController implements FacilityControllerDocs {
     @Override
     @PostMapping
     public ApiResponse<PreSignUrlListResponse> createFacility(
-        @RequestBody CreateFacilityRequestDto requestDto) {
+        @Valid @RequestBody CreateFacilityRequestDto requestDto) {
         PreSignUrlListResponse presignUrlListResponse = facilityService.create(requestDto);
         return ApiResponse.success(SuccessType.CREATED, presignUrlListResponse);
     }
 
     @Override
     @PutMapping("/{facilityId}")
-    public ApiResponse<?> updateFacility(UpdateFacilityRequestDto requestDto, Long facilityId) {
+    public ApiResponse<?> updateFacility(
+        UpdateFacilityRequestDto requestDto,
+        @PathVariable Long facilityId
+    ) {
         facilityService.update(requestDto, facilityId);
         return ApiResponse.success(SuccessType.SUCCESS);
     }

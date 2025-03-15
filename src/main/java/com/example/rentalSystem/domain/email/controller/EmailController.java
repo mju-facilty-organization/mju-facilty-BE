@@ -35,10 +35,10 @@ public class EmailController implements EmailControllerDocs {
 
     @PostMapping("/check-code")
     public ApiResponse<EmailVerificationResult> checkCode(
-        @RequestBody AuthCodeRequest authCodeRequest) {
+        @RequestBody AuthCodeRequest authCodeRequest
+    ) {
         EmailVerificationResult emailVerificationResult = emailService.verificationCode(
             authCodeRequest.email(), authCodeRequest.authCode());
         return ApiResponse.success(SuccessType.SUCCESS, emailVerificationResult);
     }
-
 }

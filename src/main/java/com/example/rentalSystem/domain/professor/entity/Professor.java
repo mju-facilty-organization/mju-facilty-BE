@@ -6,8 +6,6 @@ import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,7 +18,6 @@ import lombok.NoArgsConstructor;
 public class Professor extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -41,9 +38,10 @@ public class Professor extends BaseTimeEntity {
     private String email;
 
     @Builder
-    public Professor(String name, AffiliationType campusType, AffiliationType college,
+    public Professor(long id, String name, AffiliationType campusType, AffiliationType college,
         AffiliationType major,
         String email) {
+        this.id = id;
         this.name = name;
         this.campusType = campusType;
         this.college = college;

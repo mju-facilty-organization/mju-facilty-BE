@@ -16,6 +16,8 @@ public class MailMaker {
     private final String PROFESSOR_CONFIRM_EMAIL_TITLE = "명지대 대한 시설 대여 승인 이메일입니다.";
     private final String CONFIRMATION_URL = "https://yourapp.com/request/confirm?token=";
     private final String PROFESSOR_CONFIRM_EMAIL_CONTENT = "명지대 시설 대여에 대한 승인 요청입니다.\n아래 링크를 클릭하여 요청을 확인해주세요:\n";
+    public static final String INTRODUCE = "명지대 Rental 가입 인증 코드입니다.\n";
+
 
     public AuthCodeEmail makeAuthCodeMail(String toEmail) {
         return AuthCodeEmail
@@ -54,7 +56,7 @@ public class MailMaker {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(authCodeEmail.emailAddress());
         message.setSubject(authCodeEmail.title());
-        message.setText(AuthCodeEmail.INTRODUCE + authCodeEmail.authCode());
+        message.setText(INTRODUCE + authCodeEmail.authCode());
         return message;
     }
 

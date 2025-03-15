@@ -11,17 +11,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MailChecker {
 
-    private final MemberLoader memberLoader;
     private final MailRepository mailRepository;
 
     public void checkDuplicateEmail(String email) {
-        if (memberLoader.checkExistEmail(email)) {
+        if (mailRepository.checkExistEmail(email)) {
             throw new CustomException(ErrorType.DUPLICATE_EMAIL_RESOURCE);
         }
     }
 
-    public boolean checkAuthCode(String email, String code) {
-        return email.equals(code);
+    public boolean checkAuthCode(String saveCode, String code) {
+        return saveCode.equals(code);
     }
 
     public void checkDuplicateSend(String email) {

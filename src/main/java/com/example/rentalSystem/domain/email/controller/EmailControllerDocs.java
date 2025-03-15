@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "이메일", description = "이메일 인증, 전송 API")
 public interface EmailControllerDocs {
 
-
     @Operation(summary = "이메일 중복 확인", description = "이메일 중복시 예외 발생")
     @ApiErrorCodeExample(ErrorType.DUPLICATE_EMAIL_RESOURCE)
     ApiResponse<?> checkDuplicatedEmail(EmailRequest emailRequest);
