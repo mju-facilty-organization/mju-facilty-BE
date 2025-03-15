@@ -26,7 +26,7 @@ public class DataInitializer implements CommandLineRunner {
             picRepository.save(pic);
         }
         if (professorRepository.count() == 0) {
-            Set<Professor> professors = entityStructure.professors();
+            Set<Professor> professors = entityStructure.professors("professor.csv");
             professorRepository.saveAll(professors);
         }
 

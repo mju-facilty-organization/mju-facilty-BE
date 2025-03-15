@@ -6,12 +6,18 @@ import com.example.rentalSystem.domain.pic.entity.Pic;
 import com.example.rentalSystem.domain.professor.entity.Professor;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -34,11 +40,15 @@ public class EntityStructure {
             .build();
     }
 
-    public Set<Professor> professors() {
-        List<String> data = CsvReader.readCSV("src/main/resources/professor.csv");
-
-        return extractProfessor(data);
-
+    public Set<Professor> professors(String filePath) {
+        try (InputStream inputStream = new ClassPathResource(filePath).getInputStream();
+            BufferedReader br = new BufferedReader(
+                new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            List<String> data = br.lines().collect(Collectors.toList());
+            return extractProfessor(data);
+        } catch (IOException e) {
+            throw new CustomException(ErrorType.FAIL_READ_CSV);
+        }
     }
 
     private Set<Professor> extractProfessor(List<String> data) {
