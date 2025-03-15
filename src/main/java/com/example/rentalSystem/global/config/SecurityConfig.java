@@ -27,7 +27,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        return http
             // REST API이므로 basic auth 및 csrf 보안을 사용하지 않음
             .httpBasic(HttpBasicConfigurer::disable)
             .csrf(CsrfConfigurer::disable)
@@ -48,8 +48,8 @@ public class SecurityConfig {
             )
             // JWT 인증을 위하여 직접 구현한 필터를 UsernamePasswordAuthenticationFilter 전에 실행
             .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+                UsernamePasswordAuthenticationFilter.class)
+            .build();
     }
 
     @Bean
