@@ -2,6 +2,7 @@ package com.example.rentalSystem.domain.facility.controller.dto.request;
 
 import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -21,9 +22,11 @@ public record CreateFacilityRequestDto(
     @Schema(description = "최대 수용 인원", example = "30")
     Long capacity,
     List<String> supportFacilities,
-    @Schema(description = "시작 시간", example = "YY:MM")
+    @Schema(description = "시작 시간", example = "13:00")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     LocalTime startTime,
-    @Schema(description = "끝 시간", example = "YY:MM")
+    @Schema(description = "끝 시간", example = "18:00")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     LocalTime endTime,
     @NotEmpty
     @Schema(description = "학부", example = "융합소프트웨어학부")
