@@ -4,6 +4,10 @@ services: # 컨테이너 정의(컨테이너의 집합체를 보주로 서비스
     container_name: rentalServer-container
     ports:
       - "80:8080"
+    environment:
+      - TZ=Asia/Seoul
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - ddingGi_network
 
