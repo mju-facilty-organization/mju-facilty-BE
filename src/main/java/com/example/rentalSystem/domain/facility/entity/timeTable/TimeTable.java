@@ -38,6 +38,7 @@ public class TimeTable {
     private LocalDate date;
 
     @Convert(converter = TimeSlotConverter.class)
+    @Column(columnDefinition = "TEXT")
     private LinkedHashMap<LocalTime, TimeStatus> timeSlot;
 
     @Builder
