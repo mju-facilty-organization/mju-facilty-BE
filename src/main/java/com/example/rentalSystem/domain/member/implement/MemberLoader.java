@@ -11,11 +11,7 @@ import org.springframework.stereotype.Component;
 public class MemberLoader {
 
     private final MemberRepository memberRepository;
-
-    public boolean checkExistEmail(String memberEmail) {
-        return memberRepository.existsByEmail(memberEmail);
-    }
-
+    
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(
             (() -> new EntityNotFoundException(
