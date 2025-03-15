@@ -43,6 +43,7 @@ public class EmailService {
         mailRepository.save(emailRequest.email(), authCodeEmail.authCode());
     }
 
+
     private void sendEmail(SimpleMailMessage emailForm) {
         try {
             javaMailSender.send(emailForm);
@@ -60,7 +61,7 @@ public class EmailService {
     public EmailVerificationResult verificationCode(String email, String code) {
         String saveCode = mailLoader.getAuthCode(email);
         boolean verificationResult = mailChecker.checkAuthCode(saveCode, code);
-        return EmailVerificationResult.of(verificationResult);
+        return EmailVerificationResult.from(verificationResult);
     }
 
     @Async("threadPoolTaskExecutor")
