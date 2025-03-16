@@ -60,6 +60,5 @@ public class CustomerDetails implements UserDetails {
             return (Student) member;
         }
         throw new CustomException(ErrorType.ENTITY_NOT_FOUND);
-
     }
 }
