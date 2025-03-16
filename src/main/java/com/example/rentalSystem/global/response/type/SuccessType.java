@@ -2,7 +2,6 @@ package com.example.rentalSystem.global.response.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor

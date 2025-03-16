@@ -1,8 +1,13 @@
-package com.example.rentalSystem.domain.rentalhistory.entity;
+package com.example.rentalSystem.domain.approval.entity;
+
+import static com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.DENIED;
 
 import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.approval.controller.dto.request.RegisterRentalResultRequest;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.professor.entity.Professor;
+import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
+import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfessorHistory extends BaseTimeEntity {
+public class ProfessorApproval extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,6 +55,15 @@ public class ProfessorHistory extends BaseTimeEntity {
 
     public AffiliationType getProfessorAffiliation() {
         return professor.getMajor();
+    }
+
+    public void registerResult(RegisterRentalResultRequest registerRentalResultRequest) {
+        if (
+            DENIED == registerRentalResultRequest.rentalApplicationResult()
+        ) {
+            reason = registerRentalResultRequest.reason();
+        }
+        rentalApplicationResult = registerRentalResultRequest.rentalApplicationResult();
     }
 }
 

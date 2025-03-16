@@ -15,7 +15,6 @@ public class DataInitializer implements CommandLineRunner {
 
     private PicRepository picRepository;
     private ProfessorRepository professorRepository;
-
     private EntityStructure entityStructure;
 
 
