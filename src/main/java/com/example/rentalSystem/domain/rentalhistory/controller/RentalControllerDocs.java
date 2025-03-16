@@ -42,6 +42,6 @@ public interface RentalControllerDocs {
     @Operation(summary = "시설 대여 내역 상세 조회")
     @ApiErrorCodeExample(ENTITY_NOT_FOUND)
     ApiResponse<?> getRentalHistoryDetail(
-        String rentalHistoryId
+        Long rentalHistoryId
     );
 }

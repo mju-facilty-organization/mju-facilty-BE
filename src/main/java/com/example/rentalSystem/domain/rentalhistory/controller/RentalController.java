@@ -58,7 +58,7 @@ public class RentalController implements RentalControllerDocs {
     @Override
     @GetMapping("/{rentalHistoryId}")
     public ApiResponse<?> getRentalHistoryDetail(
-        @PathVariable(name = "rentalHistoryId") String rentalHistoryId
+        @PathVariable(name = "rentalHistoryId") Long rentalHistoryId
     ) {
         RentalHistoryDetailResponseDto rentalHistoryDetailResponseDto = rentalService.getRentalHistoryById(
             rentalHistoryId);
