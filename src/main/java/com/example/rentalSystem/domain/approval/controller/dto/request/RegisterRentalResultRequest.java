@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.professor.controller.dto.request;
+package com.example.rentalSystem.domain.approval.controller.dto.request;
 
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
 import io.swagger.v3.oas.annotations.media.Schema;
