@@ -207,6 +207,7 @@ jobs:
             docker login -u AWS -p $(aws ecr get-login-password --region ap-northeast-2) ${{ steps.ecr-login.outputs.registry }}
             docker-compose -f docker-compose.yml pull
             docker-compose -f docker-compose.yml up -d
+            docker system prune -af
           EOF
 
       - name: Cleanup SSH Key
