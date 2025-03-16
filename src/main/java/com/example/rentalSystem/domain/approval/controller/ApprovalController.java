@@ -21,7 +21,7 @@ public class ApprovalController implements ApprovalControllerDocs {
     @Override
     @PostMapping("/professor/{professorApprovalId}")
     public ApiResponse<?> registerProfessorApproval(
-        @PathVariable Long professorApprovalId,
+        @PathVariable(name = "professorApprovalId") Long professorApprovalId,
         @RequestBody RegisterRentalResultRequest registerRentalResultRequest) {
         approvalService.registerRentalResult(professorApprovalId, registerRentalResultRequest);
         return ApiResponse.success(SuccessType.SUCCESS);
