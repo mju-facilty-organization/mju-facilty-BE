@@ -16,8 +16,8 @@ public class RentalHistoryImpl {
 
     private final RentalHistoryRepository rentalHistoryRepository;
 
-    public RentalHistory findById(String id) {
-        return rentalHistoryRepository.findById(Long.parseLong(id))
+    public RentalHistory findById(Long id) {
+        return rentalHistoryRepository.findById(id)
             .orElseThrow(EntityNotFoundException::new);
     }
 
