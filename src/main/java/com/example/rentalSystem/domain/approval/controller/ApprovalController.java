@@ -1,7 +1,7 @@
 package com.example.rentalSystem.domain.approval.controller;
 
+import com.example.rentalSystem.domain.approval.controller.dto.request.RegisterRentalResultRequest;
 import com.example.rentalSystem.domain.approval.service.ApprovalService;
-import com.example.rentalSystem.domain.professor.controller.dto.request.RegisterRentalResultRequest;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.type.SuccessType;
 import lombok.RequiredArgsConstructor;

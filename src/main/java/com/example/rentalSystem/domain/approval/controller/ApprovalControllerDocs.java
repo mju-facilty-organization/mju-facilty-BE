@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.approval.controller;
 
-import com.example.rentalSystem.domain.professor.controller.dto.request.RegisterRentalResultRequest;
+import com.example.rentalSystem.domain.approval.controller.dto.request.RegisterRentalResultRequest;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.example.ApiErrorCodeExample;
 import com.example.rentalSystem.global.response.type.ErrorType;
@@ -12,5 +12,7 @@ public interface ApprovalControllerDocs {
     @ApiErrorCodeExample(ErrorType.ENTITY_NOT_FOUND)
     ApiResponse<?> registerProfessorApproval(
         Long rentalHistoryId,
-        RegisterRentalResultRequest registerRentalResultRequest);
+        RegisterRentalResultRequest registerRentalResultRequest
+    );
+
 }

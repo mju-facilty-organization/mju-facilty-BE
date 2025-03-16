@@ -1,8 +1,8 @@
 package com.example.rentalSystem.domain.rentalhistory.controller.dto.request;
 
+import com.example.rentalSystem.domain.approval.entity.ProfessorApproval;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.professor.entity.Professor;
-import com.example.rentalSystem.domain.rentalhistory.entity.ProfessorHistory;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.student.entity.Student;
@@ -40,8 +40,8 @@ public record CreateRentalRequest(
             .build();
     }
 
-    public ProfessorHistory toEntity(RentalHistory rentalHistory, Professor professor) {
-        return ProfessorHistory.builder()
+    public ProfessorApproval toEntity(RentalHistory rentalHistory, Professor professor) {
+        return ProfessorApproval.builder()
             .rentalHistory(rentalHistory)
             .professor(professor)
             .build();

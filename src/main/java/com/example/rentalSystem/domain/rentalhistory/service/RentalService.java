@@ -1,5 +1,7 @@
 package com.example.rentalSystem.domain.rentalhistory.service;
 
+import com.example.rentalSystem.domain.approval.entity.ProfessorApproval;
+import com.example.rentalSystem.domain.approval.implement.ProfessorApprovalImpl;
 import com.example.rentalSystem.domain.email.service.EmailService;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
@@ -8,9 +10,7 @@ import com.example.rentalSystem.domain.professor.entity.Professor;
 import com.example.rentalSystem.domain.rentalhistory.controller.dto.request.CreateRentalRequest;
 import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryDetailResponseDto;
 import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryResponseDto;
-import com.example.rentalSystem.domain.rentalhistory.entity.ProfessorHistory;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
-import com.example.rentalSystem.domain.rentalhistory.implement.ProfessorHistoryImpl;
 import com.example.rentalSystem.domain.rentalhistory.implement.RentalHistoryImpl;
 import com.example.rentalSystem.domain.rentalhistory.implement.RentalScheduler;
 import com.example.rentalSystem.domain.student.entity.Student;
@@ -31,7 +31,7 @@ public class RentalService {
     final FacilityImpl facilityImpl;
     final StudentImpl studentImpl;
     final ProfessorManager professorManager;
-    final ProfessorHistoryImpl professorHistoryImpl;
+    final ProfessorApprovalImpl professorApprovalImpl;
     final RentalScheduler rentalScheduler;
     final EmailService emailService;
 
@@ -48,9 +48,10 @@ public class RentalService {
         Professor professor = professorManager.findById(createRentalRequest.professorId());
         RentalHistory rentalHistory = createRentalRequest.toEntity(student, facility);
 
-        ProfessorHistory professorHistory = createRentalRequest.toEntity(rentalHistory, professor);
+        ProfessorApproval professorApproval = createRentalRequest.toEntity(rentalHistory,
+            professor);
         rentalHistoryImpl.save(rentalHistory);
-        professorHistoryImpl.save(professorHistory);
+        professorApprovalImpl.save(professorApproval);
         emailService.sendProfessorRentalConfirm(professor.getEmail());
     }
 
@@ -67,10 +68,11 @@ public class RentalService {
             .toList();
     }
 
-    public RentalHistoryDetailResponseDto getRentalHistoryById(String rentalHistoryId) {
+    public RentalHistoryDetailResponseDto getRentalHistoryById(Long rentalHistoryId) {
         RentalHistory rentalHistory = rentalHistoryImpl.findById(rentalHistoryId);
-        ProfessorHistory professorHistory = professorHistoryImpl.findByRentalHistory(rentalHistory);
+        ProfessorApproval professorApproval = professorApprovalImpl.findByRentalHistory(
+            rentalHistory);
         Student student = rentalHistory.getStudent();
-        return RentalHistoryDetailResponseDto.of(rentalHistory, professorHistory, student);
+        return RentalHistoryDetailResponseDto.of(rentalHistory, professorApproval, student);
     }
 }
