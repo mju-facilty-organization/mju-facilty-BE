@@ -16,13 +16,13 @@ public class MailMaker {
     private final String CONFIRMATION_URL = "https://yourapp.com/request/confirm?token=";
     private final String PROFESSOR_CONFIRM_EMAIL_CONTENT = "명지대 시설 대여에 대한 승인 요청입니다.\n아래 링크를 클릭하여 요청을 확인해주세요:\n";
     public static final String INTRODUCE = "명지대 Rental 가입 인증 코드입니다.\n";
-    
+
     public String makeAuthCode() {
-        int lenth = 6;
+        int length = 6;
         try {
             Random random = SecureRandom.getInstanceStrong();
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < lenth; i++) {
+            for (int i = 0; i < length; i++) {
                 builder.append(random.nextInt(10));
             }
             return builder.toString();
