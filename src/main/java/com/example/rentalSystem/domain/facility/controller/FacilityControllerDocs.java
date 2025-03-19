@@ -5,10 +5,8 @@ import com.example.rentalSystem.domain.facility.controller.dto.request.UpdateFac
 import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityDetailResponse;
 import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.controller.dto.response.PreSignUrlListResponse;
-import com.example.rentalSystem.domain.facility.entity.FacilityType;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.example.ApiErrorCodeExample;
-import com.example.rentalSystem.global.response.example.ApiErrorCodeExamples;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,13 +35,16 @@ public interface FacilityControllerDocs {
         @Parameter(example = "{\n"
             + "  \"page\": 0,\n"
             + "  \"size\": 10\n"
-            + "}") Pageable pageable,
-        @Parameter(example = "본관") String facilityType
+            + "}")
+        Pageable pageable,
+        @Parameter(example = "본관")
+        String facilityType
     );
 
     @Operation(summary = "시설 상세 조회 API")
     @ApiErrorCodeExample(ErrorType.ENTITY_NOT_FOUND)
     ApiResponse<FacilityDetailResponse> getFacilityDetail(
         Long facilityId,
-        @Parameter(description = "조회할 날짜", example = "YYYY-MM-DD") LocalDate date);
+        @Parameter(description = "조회할 날짜", example = "YYYY-MM-DD")
+        LocalDate date);
 }

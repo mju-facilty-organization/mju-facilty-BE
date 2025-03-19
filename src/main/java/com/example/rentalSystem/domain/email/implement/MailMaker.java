@@ -1,6 +1,5 @@
 package com.example.rentalSystem.domain.email.implement;
 
-import com.example.rentalSystem.domain.email.entity.AuthCodeEmail;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import java.security.NoSuchAlgorithmException;
@@ -18,22 +17,12 @@ public class MailMaker {
     private final String PROFESSOR_CONFIRM_EMAIL_CONTENT = "명지대 시설 대여에 대한 승인 요청입니다.\n아래 링크를 클릭하여 요청을 확인해주세요:\n";
     public static final String INTRODUCE = "명지대 Rental 가입 인증 코드입니다.\n";
 
-
-    public AuthCodeEmail makeAuthCodeMail(String toEmail) {
-        return AuthCodeEmail
-            .builder()
-            .title(AUTH_CODE_EMAIL_TITLE)
-            .authCode(createCode())
-            .emailAddress(toEmail)
-            .build();
-    }
-
-    private String createCode() {
-        int lenth = 6;
+    public String makeAuthCode() {
+        int length = 6;
         try {
             Random random = SecureRandom.getInstanceStrong();
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < lenth; i++) {
+            for (int i = 0; i < length; i++) {
                 builder.append(random.nextInt(10));
             }
             return builder.toString();
@@ -52,11 +41,11 @@ public class MailMaker {
     }
 
 
-    public SimpleMailMessage createEmailForm(AuthCodeEmail authCodeEmail) {
+    public SimpleMailMessage createEmailForm(String emailAddress, String authCode) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(authCodeEmail.emailAddress());
-        message.setSubject(authCodeEmail.title());
-        message.setText(INTRODUCE + authCodeEmail.authCode());
+        message.setTo(emailAddress);
+        message.setSubject(AUTH_CODE_EMAIL_TITLE);
+        message.setText(INTRODUCE + authCode);
         return message;
     }
 

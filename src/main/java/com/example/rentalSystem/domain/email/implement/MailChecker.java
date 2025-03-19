@@ -1,7 +1,6 @@
 package com.example.rentalSystem.domain.email.implement;
 
 import com.example.rentalSystem.domain.email.repository.MailRepository;
-import com.example.rentalSystem.domain.member.implement.MemberLoader;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ public class MailChecker {
     private final MailRepository mailRepository;
 
     public void checkDuplicateEmail(String email) {
-        if (mailRepository.checkExistEmail(email)) {
+        if (mailRepository.isEmailDuplicated(email)) {
             throw new CustomException(ErrorType.DUPLICATE_EMAIL_RESOURCE);
         }
     }
@@ -24,7 +23,7 @@ public class MailChecker {
     }
 
     public void checkDuplicateSend(String email) {
-        if (mailRepository.checkExistEmail(email)) {
+        if (mailRepository.isEmailDuplicated(email)) {
             throw new CustomException(ErrorType.DUPLICATE_SEND);
         }
     }

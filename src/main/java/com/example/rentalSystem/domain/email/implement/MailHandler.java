@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class MailLoader {
+public class MailHandler {
 
     private final MailRepository mailRepository;
 
@@ -19,5 +19,13 @@ public class MailLoader {
             throw new CustomException(ErrorType.ENTITY_NOT_FOUND);
         }
         return authCode;
+    }
+
+    public void save(String email, String authCode) {
+        mailRepository.save(email, authCode);
+    }
+
+    public void saveToken(String email, String token) {
+        mailRepository.saveToken(email, token);
     }
 }

@@ -41,8 +41,6 @@ public class FacilityService {
 
     @Transactional
     public PreSignUrlListResponse create(CreateFacilityRequestDto createFacilityRequestDto) {
-
-        // 이미지 이름을 s3 url로 변환
         List<String> imageUrlList =
             createFacilityRequestDto
                 .fileNames()
@@ -56,7 +54,6 @@ public class FacilityService {
         Facility facility = createFacilityRequestDto.toFacility(imageUrlList, affiliationTypes);
         facilitySaver.save(facility);
 
-        // 시작시간과 끝시간을 이용한 타임 테이블 생성
         TimeTable timeTable = TimeTable.toEntity(
             facility,
             LocalDate.now(),
@@ -64,7 +61,6 @@ public class FacilityService {
             createFacilityRequestDto.endTime());
         timeTableRepository.save(timeTable);
 
-        // pre signed url을 반환. 업로드용
         List<String> presignedUrlList = imageUrlList
             .stream()
             .map(s3Service::generatePresignedUrlForPut)

@@ -11,6 +11,4 @@ import org.springframework.stereotype.Repository;
 public interface TimeTableRepository extends JpaRepository<TimeTable, Long> {
 
     Optional<TimeTable> findByFacilityAndDate(Facility facility, LocalDate date);
-
-    void findByFacilityAndDate(Facility facility, org.joda.time.LocalDate localDate);
 }
