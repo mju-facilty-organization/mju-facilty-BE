@@ -5,13 +5,15 @@ import com.example.rentalSystem.domain.approval.controller.dto.response.RentalHi
 import com.example.rentalSystem.domain.approval.entity.ProfessorApproval;
 import com.example.rentalSystem.domain.approval.implement.ProfessorApprovalImpl;
 import com.example.rentalSystem.domain.email.implement.MailImpl;
-import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryResponseDto;
-import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalPlaceInfoResponse;
+import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.pic.entity.Pic;
+import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalInfoResponse;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
+import com.example.rentalSystem.domain.rentalhistory.implement.RentalHistoryImpl;
+import com.example.rentalSystem.domain.rentalhistory.implement.RentalHistoryUtils;
 import com.example.rentalSystem.domain.student.controller.dto.response.StudentInfoResponse;
 import com.example.rentalSystem.domain.student.entity.Student;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApprovalService {
 
     final ProfessorApprovalImpl professorApprovalImpl;
+    final RentalHistoryImpl rentalHistoryImpl;
     final MailImpl mailImpl;
 
-    public void registerRentalResult(
+    public void registerRentalResultByProfessor(
         Long professorApprovalId,
         RegisterRentalResultRequest registerRentalResultRequest
     ) {
@@ -32,40 +35,51 @@ public class ApprovalService {
         professorApproval.registerResult(registerRentalResultRequest);
     }
 
+    @Transactional(readOnly = true)
     public RentalHistoryResponseForProfessorDto getRentalHistoryInfo(Long professorApprovalId) {
         ProfessorApproval professorApproval = professorApprovalImpl.findById(professorApprovalId);
 
         RentalHistory rentalHistory = professorApproval.getRentalHistory();
-        RentalHistoryResponseDto detailResponseDto = RentalHistoryResponseDto.toDetailResponseDto(
-            rentalHistory, professorApproval);
-
-        RentalPlaceInfoResponse rentalPlaceInfoResponse = createRentalPlaceInfo(detailResponseDto);
+        RentalInfoResponse rentalInfoResponse = createRentalPlaceInfo(rentalHistory);
 
         Student student = rentalHistory.getStudent();
         StudentInfoResponse studentInfoResponse = StudentInfoResponse.toStudentInfoResponse(
             student);
 
-        return RentalHistoryResponseForProfessorDto.of(professorApprovalId,
-            rentalPlaceInfoResponse,
-            studentInfoResponse);
+        FacilityResponse facilityResponse = FacilityResponse.fromRentalHistory(rentalHistory);
+
+        return RentalHistoryResponseForProfessorDto.of(
+            professorApprovalId,
+            rentalInfoResponse,
+            studentInfoResponse,
+            facilityResponse
+        );
 
     }
 
-    private RentalPlaceInfoResponse createRentalPlaceInfo(
-        RentalHistoryResponseDto rentalHistoryResponseDto
+    private RentalInfoResponse createRentalPlaceInfo(
+        RentalHistory rentalHistory
     ) {
+        LocalDateTime startDate = rentalHistory.getRentalStartDate();
+        LocalDateTime endDate = rentalHistory.getRentalEndDate();
 
-        LocalDate localDate = rentalHistoryResponseDto.getStartTime().toLocalDate();
-        String date = localDate.format(DateTimeFormatter.ofPattern("yyyy년 M월 d일"));
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        String startTime = rentalHistoryResponseDto.getStartTime().format(dateTimeFormatter);
-        String endTime = rentalHistoryResponseDto.getEndTime().format(dateTimeFormatter);
-        String time = startTime + " ~ " + endTime;
+        String date = RentalHistoryUtils.formatRentalDate(startDate);
+        String time = RentalHistoryUtils.formatRentalTime(startDate, endDate);
 
-        return RentalPlaceInfoResponse.of(
-            rentalHistoryResponseDto,
+        return RentalInfoResponse.of(
+            rentalHistory,
             date,
             time
         );
+    }
+
+    public void registerRentalResultByPic(
+        Long rentalHistoryId,
+        Pic pic,
+        RegisterRentalResultRequest registerRentalResultRequest
+    ) {
+        RentalHistory rentalHistory = rentalHistoryImpl.findById(rentalHistoryId);
+        rentalHistory.defineApplicationResult(pic, registerRentalResultRequest);
+
     }
 }
