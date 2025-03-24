@@ -5,6 +5,8 @@ import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.example.ApiErrorCodeExample;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 public interface ApprovalControllerDocs {
 
@@ -15,4 +17,8 @@ public interface ApprovalControllerDocs {
         RegisterRentalResultRequest registerRentalResultRequest
     );
 
+    @GetMapping("/professor/{professorApprovalId}")
+    ApiResponse<?> registerProfessorApproval(
+        @PathVariable(name = "professorApprovalId") Long professorApprovalId
+    );
 }
