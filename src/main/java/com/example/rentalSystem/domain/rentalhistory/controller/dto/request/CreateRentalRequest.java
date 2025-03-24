@@ -21,7 +21,7 @@ public record CreateRentalRequest(
     @Schema(description = "조직명", example = "COW")
     String organization,
     @Schema(description = "사용자 수", example = "4")
-    String numberOfPeople,
+    int numberOfPeople,
     @Schema(description = "책임 교수 Id", example = "1")
     String professorId,
     @Schema(description = "사용 목적", example = "동아리 활동")
@@ -37,6 +37,7 @@ public record CreateRentalRequest(
             .rentalApplicationResult(RentalApplicationResult.WAITING)
             .student(student)
             .facility(facility)
+            .numberOfPeople(numberOfPeople)
             .build();
     }
 
