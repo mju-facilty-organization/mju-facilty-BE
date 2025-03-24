@@ -5,7 +5,7 @@ import com.example.rentalSystem.domain.student.entity.Student;
 import lombok.Builder;
 
 @Builder
-public record StudentResponse(
+public record StudentInfoResponse(
     String studentName,
     String studentNumber,
     String email,
@@ -15,14 +15,14 @@ public record StudentResponse(
     String warning
 ) {
 
-    public static StudentResponse toSimpleStudentResponse(Student student) {
-        return StudentResponse.builder()
+    public static StudentInfoResponse toSimpleStudentResponse(Student student) {
+        return StudentInfoResponse.builder()
             .studentName(student.getName())
             .build();
     }
 
-    public static StudentResponse toStudentResponse(Student student) {
-        return StudentResponse.builder()
+    public static StudentInfoResponse toStudentInfoResponse(Student student) {
+        return StudentInfoResponse.builder()
             .studentName(student.getName())
             .studentNumber(student.getStudentNumber())
             .email(student.getEmail())

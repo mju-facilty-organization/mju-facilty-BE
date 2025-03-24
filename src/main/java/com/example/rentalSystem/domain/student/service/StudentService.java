@@ -3,8 +3,8 @@ package com.example.rentalSystem.domain.student.service;
 import com.example.rentalSystem.domain.student.controller.dto.request.StudentSignInRequest;
 import com.example.rentalSystem.domain.student.controller.dto.request.StudentSignUpRequest;
 import com.example.rentalSystem.domain.student.controller.dto.request.StudentUpdateRequest;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentInfoResponse;
 import com.example.rentalSystem.domain.student.controller.dto.response.StudentListResponse;
-import com.example.rentalSystem.domain.student.controller.dto.response.StudentResponse;
 import com.example.rentalSystem.domain.student.controller.dto.response.StudentSignUpResponse;
 import com.example.rentalSystem.domain.student.controller.dto.response.StudentUpdateResponse;
 import com.example.rentalSystem.domain.student.entity.Student;
@@ -44,8 +44,8 @@ public class StudentService {
     }
 
     public StudentListResponse retrieveAllStudent() {
-        List<StudentResponse> studentResponses = studentImpl.retrieveAllStdent();
-        return new StudentListResponse(studentResponses);
+        List<StudentInfoResponse> studentInfoResponses = studentImpl.retrieveAllStdent();
+        return new StudentListResponse(studentInfoResponses);
     }
 
     @Transactional

@@ -60,7 +60,7 @@ public class RentalController implements RentalControllerDocs {
     public ApiResponse<?> getRentalHistoryDetail(
         @PathVariable(name = "rentalHistoryId") Long rentalHistoryId
     ) {
-        RentalHistoryDetailResponseDto rentalHistoryDetailResponseDto = rentalService.getRentalHistoryById(
+        RentalHistoryDetailResponseDto rentalHistoryDetailResponseDto = rentalService.getRentalHistoryDetailById(
             rentalHistoryId);
         return ApiResponse.success(SuccessType.SUCCESS, rentalHistoryDetailResponseDto);
     }
