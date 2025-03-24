@@ -40,7 +40,7 @@ public class ApprovalService {
         ProfessorApproval professorApproval = professorApprovalImpl.findById(professorApprovalId);
 
         RentalHistory rentalHistory = professorApproval.getRentalHistory();
-        RentalInfoResponse rentalInfoResponse = createRentalPlaceInfo(rentalHistory);
+        RentalInfoResponse rentalInfoResponse = createRentalInfo(rentalHistory);
 
         Student student = rentalHistory.getStudent();
         StudentInfoResponse studentInfoResponse = StudentInfoResponse.toStudentInfoResponse(
@@ -57,7 +57,7 @@ public class ApprovalService {
 
     }
 
-    private RentalInfoResponse createRentalPlaceInfo(
+    private RentalInfoResponse createRentalInfo(
         RentalHistory rentalHistory
     ) {
         LocalDateTime startDate = rentalHistory.getRentalStartDate();
