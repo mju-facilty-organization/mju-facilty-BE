@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.student.implement;
 
-import com.example.rentalSystem.domain.student.controller.dto.response.StudentResponse;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentInfoResponse;
 import com.example.rentalSystem.domain.student.entity.Student;
 import com.example.rentalSystem.domain.student.repository.StudentRepository;
 import com.example.rentalSystem.global.exception.custom.CustomException;
@@ -16,9 +16,9 @@ public class StudentImpl {
 
     private final StudentRepository studentRepository;
 
-    public List<StudentResponse> retrieveAllStdent() {
+    public List<StudentInfoResponse> retrieveAllStdent() {
         return getStudentAll().stream()
-            .map(StudentResponse::toSimpleStudentResponse)
+            .map(StudentInfoResponse::toSimpleStudentResponse)
             .collect(Collectors.toList());
     }
 

@@ -4,8 +4,8 @@ import static org.mockito.Mockito.doReturn;
 
 import com.example.rentalSystem.domain.student.controller.dto.request.StudentSignInRequest;
 import com.example.rentalSystem.domain.student.controller.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.student.controller.dto.response.StudentInfoResponse;
 import com.example.rentalSystem.domain.student.controller.dto.response.StudentListResponse;
-import com.example.rentalSystem.domain.student.controller.dto.response.StudentResponse;
 import com.example.rentalSystem.domain.student.controller.dto.response.StudentSignUpResponse;
 import com.example.rentalSystem.domain.student.entity.Student;
 import java.util.List;
@@ -43,9 +43,9 @@ public class StudentFixture {
     }
 
     public static StudentListResponse studentListResponse() {
-        List<StudentResponse> studentResponseList = List.of(
-            StudentResponse.toStudentResponse(createStudent()));
-        return new StudentListResponse(studentResponseList);
+        List<StudentInfoResponse> studentInfoResponseList = List.of(
+            StudentInfoResponse.toStudentInfoResponse(createStudent()));
+        return new StudentListResponse(studentInfoResponseList);
     }
 
     public static StudentSignInRequest studentSignInReqquest() {

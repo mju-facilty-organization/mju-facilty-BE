@@ -3,7 +3,7 @@ package com.example.rentalSystem.domain.email.service;
 import com.example.rentalSystem.domain.email.controller.dto.request.EmailRequest;
 import com.example.rentalSystem.domain.email.controller.dto.response.EmailVerificationResult;
 import com.example.rentalSystem.domain.email.implement.MailChecker;
-import com.example.rentalSystem.domain.email.implement.MailHandler;
+import com.example.rentalSystem.domain.email.implement.MailImpl;
 import com.example.rentalSystem.domain.email.implement.MailMaker;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
@@ -21,7 +21,7 @@ public class EmailService {
 
     private final MailChecker mailChecker;
     private final MailMaker mailMaker;
-    private final MailHandler mailHandler;
+    private final MailImpl mailImpl;
     private final JavaMailSender javaMailSender;
 
     public void checkDuplicatedEmail(EmailRequest emailRequest) {
@@ -33,7 +33,7 @@ public class EmailService {
         String authCode = mailMaker.makeAuthCode();
         SimpleMailMessage emailForm = mailMaker.createEmailForm(emailRequest.email(), authCode);
         sendEmail(emailForm);
-        mailHandler.save(emailRequest.email(), authCode);
+        mailImpl.save(emailRequest.email(), authCode);
     }
 
     private void sendEmail(SimpleMailMessage emailForm) {
@@ -45,7 +45,7 @@ public class EmailService {
     }
 
     public EmailVerificationResult verificationCode(String email, String code) {
-        String saveCode = mailHandler.getAuthCode(email);
+        String saveCode = mailImpl.getAuthCode(email);
         boolean verificationResult = mailChecker.checkAuthCode(saveCode, code);
         return EmailVerificationResult.from(verificationResult);
     }
@@ -53,7 +53,7 @@ public class EmailService {
     @Async("threadPoolTaskExecutor")
     public void sendProfessorRentalConfirm(String email) {
         String token = UUID.randomUUID().toString();
-        mailHandler.saveToken(email, token);
+        mailImpl.saveToken(token, email);
         sendEmail(mailMaker.makeProfessorConfirmEmail(email, token));
     }
 }

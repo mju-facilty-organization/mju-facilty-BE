@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class MailHandler {
+public class MailImpl {
 
     private final MailRepository mailRepository;
 
@@ -25,7 +25,11 @@ public class MailHandler {
         mailRepository.save(email, authCode);
     }
 
-    public void saveToken(String email, String token) {
-        mailRepository.saveToken(email, token);
+    public void saveToken(String token, String email) {
+        mailRepository.saveToken(token, email);
+    }
+
+    public String getProfessorEmail(String token) {
+        return mailRepository.getProfessorEmail(token);
     }
 }

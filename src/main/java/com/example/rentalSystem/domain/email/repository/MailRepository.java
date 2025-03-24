@@ -30,7 +30,11 @@ public class MailRepository {
         return findByEmailAddress(email) != null;
     }
 
-    public void saveToken(String professorEmail, String token) {
-        authMailRepository.put(professorEmail, token);
+    public void saveToken(String token, String professorEmail) {
+        professorTokenRepository.put(token, professorEmail);
+    }
+
+    public String getProfessorEmail(String token) {
+        return professorTokenRepository.get(token);
     }
 }

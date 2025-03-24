@@ -68,11 +68,17 @@ public class RentalService {
             .toList();
     }
 
-    public RentalHistoryDetailResponseDto getRentalHistoryById(Long rentalHistoryId) {
+    public RentalHistoryDetailResponseDto getRentalHistoryDetailById(Long rentalHistoryId) {
         RentalHistory rentalHistory = rentalHistoryImpl.findById(rentalHistoryId);
         ProfessorApproval professorApproval = professorApprovalImpl.findByRentalHistory(
             rentalHistory);
         Student student = rentalHistory.getStudent();
         return RentalHistoryDetailResponseDto.of(rentalHistory, professorApproval, student);
+    }
+
+    public RentalHistoryResponseDto getRentalHistoryById(Long rentalHistoryId) {
+        RentalHistory rentalHistory = rentalHistoryImpl.findById(rentalHistoryId);
+
+        return RentalHistoryResponseDto.from(rentalHistory);
     }
 }
