@@ -1,5 +1,7 @@
 package com.example.rentalSystem.domain.rentalhistory.service;
 
+import static com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.WAITING;
+
 import com.example.rentalSystem.domain.approval.entity.ProfessorApproval;
 import com.example.rentalSystem.domain.approval.implement.ProfessorApprovalImpl;
 import com.example.rentalSystem.domain.email.service.EmailService;
@@ -73,7 +75,11 @@ public class RentalService {
         ProfessorApproval professorApproval = professorApprovalImpl.findByRentalHistory(
             rentalHistory);
         Student student = rentalHistory.getStudent();
-        return RentalHistoryDetailResponseDto.of(rentalHistory, professorApproval, student);
+        if (rentalHistory.getRentalApplicationResult() == WAITING) {
+            return RentalHistoryDetailResponseDto.of(rentalHistory, professorApproval, student);
+        }
+        return RentalHistoryDetailResponseDto.of(rentalHistory, professorApproval, student,
+            rentalHistory.getPic());
     }
 
     public RentalHistoryResponseDto getRentalHistoryById(Long rentalHistoryId) {

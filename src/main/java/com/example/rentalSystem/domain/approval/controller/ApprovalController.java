@@ -3,9 +3,11 @@ package com.example.rentalSystem.domain.approval.controller;
 import com.example.rentalSystem.domain.approval.controller.dto.request.RegisterRentalResultRequest;
 import com.example.rentalSystem.domain.approval.controller.dto.response.RentalHistoryResponseForProfessorDto;
 import com.example.rentalSystem.domain.approval.service.ApprovalService;
+import com.example.rentalSystem.domain.member.entity.CustomerDetails;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.type.SuccessType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,17 +27,34 @@ public class ApprovalController implements ApprovalControllerDocs {
     public ApiResponse<?> registerProfessorApproval(
         @PathVariable(name = "professorApprovalId") Long professorApprovalId,
         @RequestBody RegisterRentalResultRequest registerRentalResultRequest) {
-        approvalService.registerRentalResult(professorApprovalId, registerRentalResultRequest);
+        approvalService.registerRentalResultByProfessor(professorApprovalId,
+            registerRentalResultRequest);
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 
     @Override
     @GetMapping("/professor/{professorApprovalId}")
-    public ApiResponse<?> registerProfessorApproval(
+    public ApiResponse<?> getRentalHistoryInfo(
         @PathVariable(name = "professorApprovalId") Long professorApprovalId
     ) {
         RentalHistoryResponseForProfessorDto rentalHistoryResponseDto = approvalService.getRentalHistoryInfo(
             professorApprovalId);
         return ApiResponse.success(SuccessType.SUCCESS, rentalHistoryResponseDto);
     }
+
+    @Override
+    @PostMapping("/pic/{rentalHistoryId}")
+    public ApiResponse<?> registerPicApproval(
+        @PathVariable Long rentalHistoryId,
+        @AuthenticationPrincipal CustomerDetails customerDetails,
+        @RequestBody RegisterRentalResultRequest registerRentalResultRequest
+    ) {
+        approvalService.registerRentalResultByPic(
+            rentalHistoryId,
+            customerDetails.getPic(),
+            registerRentalResultRequest
+        );
+        return ApiResponse.success(SuccessType.SUCCESS);
+    }
+
 }

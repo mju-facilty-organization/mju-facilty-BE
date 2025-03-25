@@ -1,5 +1,8 @@
 package com.example.rentalSystem.domain.rentalhistory.entity;
 
+import static com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.DENIED;
+
+import com.example.rentalSystem.domain.approval.controller.dto.request.RegisterRentalResultRequest;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.pic.entity.Pic;
@@ -13,10 +16,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Null;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class RentalHistory extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rentalHistory_id")
     private Long id;
 
     @Column(nullable = false)
@@ -59,6 +61,11 @@ public class RentalHistory extends BaseTimeEntity {
     @JoinColumn(name = "pic_id")
     private Pic pic;
 
+    @Column
+    private int numberOfPeople;
+
+    private String reason;
+
     @Builder
     public RentalHistory(
         String purpose,
@@ -67,6 +74,7 @@ public class RentalHistory extends BaseTimeEntity {
         LocalDateTime rentalEndDate,
         RentalApplicationResult rentalApplicationResult,
         Student student,
+        int numberOfPeople,
         Facility facility
     ) {
         this.purpose = purpose;
@@ -76,6 +84,19 @@ public class RentalHistory extends BaseTimeEntity {
         this.rentalApplicationResult = rentalApplicationResult;
         this.student = student;
         this.facility = facility;
+        this.numberOfPeople = numberOfPeople;
     }
 
+    public void defineApplicationResult(
+        Pic pic,
+        RegisterRentalResultRequest registerRentalResultRequest
+    ) {
+        this.pic = pic;
+        this.rentalApplicationResult = registerRentalResultRequest.rentalApplicationResult();
+        this.defineDateTime = LocalDateTime.now();
+
+        if (this.rentalApplicationResult == DENIED) {
+            this.reason = registerRentalResultRequest.reason();
+        }
+    }
 }

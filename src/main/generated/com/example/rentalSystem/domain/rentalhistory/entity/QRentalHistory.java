@@ -33,11 +33,15 @@ public class QRentalHistory extends EntityPathBase<RentalHistory> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final NumberPath<Integer> numberOfPeople = createNumber("numberOfPeople", Integer.class);
+
     public final StringPath organization = createString("organization");
 
     public final com.example.rentalSystem.domain.pic.entity.QPic pic;
 
     public final StringPath purpose = createString("purpose");
+
+    public final StringPath reason = createString("reason");
 
     public final EnumPath<RentalApplicationResult> rentalApplicationResult = createEnum("rentalApplicationResult", RentalApplicationResult.class);
 
