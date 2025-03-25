@@ -29,7 +29,7 @@ public class RentalHistory extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rentalHostory_id")
+    @Column(name = "rentalHistory_id")
     private Long id;
 
     @Column(nullable = false)

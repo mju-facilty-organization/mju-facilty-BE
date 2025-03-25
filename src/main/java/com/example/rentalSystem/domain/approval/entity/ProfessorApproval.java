@@ -35,7 +35,7 @@ public class ProfessorApproval extends BaseTimeEntity {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "rentalHostory_id")
+    @JoinColumn(name = "rentalHistory_id")
     private RentalHistory rentalHistory;
 
     @ManyToOne
