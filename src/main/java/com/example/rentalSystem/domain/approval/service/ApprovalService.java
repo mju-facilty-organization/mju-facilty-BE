@@ -9,6 +9,7 @@ import com.example.rentalSystem.domain.facility.controller.dto.response.Facility
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.pic.entity.Pic;
 import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalInfoResponse;
+import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.rentalhistory.implement.FacilityScheduleManager;
 import com.example.rentalSystem.domain.rentalhistory.implement.RentalHistoryImpl;
@@ -37,14 +38,8 @@ public class ApprovalService {
         ProfessorApproval professorApproval = professorApprovalImpl.findById(professorApprovalId);
         professorApproval.registerResult(registerRentalResultRequest);
 
-        Facility facility = professorApproval.getRentalHistory().getFacility();
         RentalHistory rentalHistory = professorApproval.getRentalHistory();
-
-        LocalDateTime rentalStartDateTime = rentalHistory.getRentalStartDateTime();
-        LocalDateTime rentalEndDateTime = rentalHistory.getRentalEndDateTime();
-
-        facilityScheduleManager.updateTimeStatus(facility, rentalStartDateTime,
-            rentalEndDateTime,
+        updateFacilityTimeStatus(rentalHistory,
             registerRentalResultRequest.rentalApplicationResult());
     }
 
@@ -70,6 +65,19 @@ public class ApprovalService {
 
     }
 
+    public void registerRentalResultByPic(
+        Long rentalHistoryId,
+        Pic pic,
+        RegisterRentalResultRequest registerRentalResultRequest
+    ) {
+        RentalHistory rentalHistory = rentalHistoryImpl.findById(rentalHistoryId);
+        rentalHistory.registerApplicationResult(pic, registerRentalResultRequest);
+
+        updateFacilityTimeStatus(rentalHistory,
+            registerRentalResultRequest.rentalApplicationResult());
+    }
+
+
     private RentalInfoResponse createRentalInfo(
         RentalHistory rentalHistory
     ) {
@@ -86,21 +94,21 @@ public class ApprovalService {
         );
     }
 
-    public void registerRentalResultByPic(
-        Long rentalHistoryId,
-        Pic pic,
-        RegisterRentalResultRequest registerRentalResultRequest
+
+    private void updateFacilityTimeStatus(
+        RentalHistory rentalHistory,
+        RentalApplicationResult result
     ) {
-        RentalHistory rentalHistory = rentalHistoryImpl.findById(rentalHistoryId);
-        rentalHistory.registerApplicationResult(pic, registerRentalResultRequest);
-
         Facility facility = rentalHistory.getFacility();
-
         LocalDateTime rentalStartDateTime = rentalHistory.getRentalStartDateTime();
         LocalDateTime rentalEndDateTime = rentalHistory.getRentalEndDateTime();
 
-        facilityScheduleManager.updateTimeStatus(facility, rentalStartDateTime,
+        facilityScheduleManager.updateTimeStatus(
+            facility,
+            rentalStartDateTime,
             rentalEndDateTime,
-            registerRentalResultRequest.rentalApplicationResult());
+            result
+        );
     }
+
 }
