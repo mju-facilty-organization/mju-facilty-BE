@@ -1,6 +1,7 @@
 package com.example.rentalSystem.domain.rentalhistory.entity;
 
-import static com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.DENIED;
+import static com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.PIC_DENIED;
+import static com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.PROFESSOR_DENIED;
 
 import com.example.rentalSystem.domain.approval.controller.dto.request.RegisterRentalResultRequest;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
@@ -39,10 +40,10 @@ public class RentalHistory extends BaseTimeEntity {
     private String organization;
 
     @Column(nullable = false)
-    private LocalDateTime rentalStartDate;
+    private LocalDateTime rentalStartDateTime;
 
     @Column(nullable = false)
-    private LocalDateTime rentalEndDate;
+    private LocalDateTime rentalEndDateTime;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -70,8 +71,8 @@ public class RentalHistory extends BaseTimeEntity {
     public RentalHistory(
         String purpose,
         String organization,
-        LocalDateTime rentalStartDate,
-        LocalDateTime rentalEndDate,
+        LocalDateTime rentalStartDateTime,
+        LocalDateTime rentalEndDateTime,
         RentalApplicationResult rentalApplicationResult,
         Student student,
         int numberOfPeople,
@@ -79,15 +80,15 @@ public class RentalHistory extends BaseTimeEntity {
     ) {
         this.purpose = purpose;
         this.organization = organization;
-        this.rentalStartDate = rentalStartDate;
-        this.rentalEndDate = rentalEndDate;
+        this.rentalStartDateTime = rentalStartDateTime;
+        this.rentalEndDateTime = rentalEndDateTime;
         this.rentalApplicationResult = rentalApplicationResult;
         this.student = student;
         this.facility = facility;
         this.numberOfPeople = numberOfPeople;
     }
 
-    public void defineApplicationResult(
+    public void registerApplicationResult(
         Pic pic,
         RegisterRentalResultRequest registerRentalResultRequest
     ) {
@@ -95,8 +96,20 @@ public class RentalHistory extends BaseTimeEntity {
         this.rentalApplicationResult = registerRentalResultRequest.rentalApplicationResult();
         this.defineDateTime = LocalDateTime.now();
 
-        if (this.rentalApplicationResult == DENIED) {
+        if (this.rentalApplicationResult == PIC_DENIED) {
             this.reason = registerRentalResultRequest.reason();
+        }
+    }
+
+    public void registerApplicationResult(
+        RentalApplicationResult rentalApplicationResult
+    ) {
+
+        this.rentalApplicationResult = rentalApplicationResult;
+        this.defineDateTime = LocalDateTime.now();
+
+        if (this.rentalApplicationResult == PROFESSOR_DENIED) {
+            this.reason = "교수님의 승인 거절";
         }
     }
 }

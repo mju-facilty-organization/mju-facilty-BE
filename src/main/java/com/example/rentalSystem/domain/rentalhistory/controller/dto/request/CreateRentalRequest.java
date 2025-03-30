@@ -15,9 +15,9 @@ public record CreateRentalRequest(
     @Schema(example = "1")
     String facilityId,
     @Schema(description = "대여 시작 시간", example = "YYYY-MM-DDTHH:MM:SS")
-    LocalDateTime startTime,
+    LocalDateTime startDateTime,
     @Schema(description = "대역 종료 시간", example = "YYYY-MM-DDTHH:MM:SS")
-    LocalDateTime endTime,
+    LocalDateTime endDateTime,
     @Schema(description = "조직명", example = "COW")
     String organization,
     @Schema(description = "사용자 수", example = "4")
@@ -32,8 +32,8 @@ public record CreateRentalRequest(
         return RentalHistory.builder()
             .purpose(this.purpose)
             .organization(this.organization)
-            .rentalStartDate(startTime)
-            .rentalEndDate(endTime)
+            .rentalStartDateTime(startDateTime)
+            .rentalEndDateTime(endDateTime)
             .rentalApplicationResult(RentalApplicationResult.WAITING)
             .student(student)
             .facility(facility)

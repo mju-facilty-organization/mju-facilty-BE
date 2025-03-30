@@ -51,8 +51,8 @@ public class RentalHistoryResponseDto {
                 FacilityResponse.fromRentalHistory(rentalHistory))
             .professorApprovalResponse(
                 ProfessorApprovalResponse.from(professorApproval))
-            .startTime(rentalHistory.getRentalStartDate())
-            .endTime(rentalHistory.getRentalEndDate())
+            .startTime(rentalHistory.getRentalStartDateTime())
+            .endTime(rentalHistory.getRentalEndDateTime())
             .organization(rentalHistory.getOrganization())
             .purpose(rentalHistory.getPurpose())
             .createAt(rentalHistory.getCreated_at())
