@@ -78,7 +78,10 @@ public class FacilityScheduleManager {
                 updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, CURRENT);
             case PIC_PERMITTED ->
                 updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, RESERVED);
-            default -> updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, AVAILABLE);
+            case PIC_DENIED, PROFESSOR_DENIED ->
+                updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, AVAILABLE);
+            case WAITING ->
+                updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, WAITING);
         }
     }
 
