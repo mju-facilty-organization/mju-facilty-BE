@@ -1,6 +1,8 @@
 package com.example.rentalSystem.domain.rentalhistory.implement;
 
 import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.AVAILABLE;
+import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.CURRENT;
+import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.RESERVED;
 import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.UNAVAILABLE;
 import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.WAITING;
 
@@ -8,6 +10,7 @@ import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
 import com.example.rentalSystem.domain.facility.reposiotry.TimeTableRepository;
+import com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import java.time.LocalDate;
@@ -19,11 +22,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RentalScheduler {
+public class FacilityScheduleManager {
 
     final TimeTableRepository tableRepository;
 
-    public void checkSchedule(
+    public void checkAvailabilityAndReserve(
         Facility facility,
         LocalDateTime startDateTime,
         LocalDateTime endDateTime
@@ -32,8 +35,7 @@ public class RentalScheduler {
         LocalTime startTime = startDateTime.toLocalTime();
         LocalTime endTime = endDateTime.toLocalTime();
 
-        TimeTable timeTable = tableRepository.findByFacilityAndDate(facility, startDate)
-            .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
+        TimeTable timeTable = findTimeTable(facility, startDate);
 
         LinkedHashMap<LocalTime, TimeStatus> timeSlot = timeTable.getTimeSlot();
 
@@ -60,5 +62,28 @@ public class RentalScheduler {
             timeSlot.put(time, newStatus);
             time = time.plusMinutes(30);
         }
+    }
+
+    public void updateTimeStatus(Facility facility, LocalDateTime rentalStartDateTime,
+        LocalDateTime rentalEndDateTime, RentalApplicationResult rentalApplicationResult) {
+
+        LocalDate startDate = rentalStartDateTime.toLocalDate();
+        LocalTime startTime = rentalStartDateTime.toLocalTime();
+        LocalTime endTime = rentalEndDateTime.toLocalTime();
+
+        TimeTable timeTable = findTimeTable(facility, startDate);
+
+        switch (rentalApplicationResult) {
+            case PROFESSOR_PERMITTED ->
+                updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, CURRENT);
+            case PIC_PERMITTED ->
+                updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, RESERVED);
+            default -> updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, AVAILABLE);
+        }
+    }
+
+    private TimeTable findTimeTable(Facility facility, LocalDate startDate) {
+        return tableRepository.findByFacilityAndDate(facility, startDate)
+            .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
     }
 }

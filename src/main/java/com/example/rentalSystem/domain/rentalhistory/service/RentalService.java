@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.rentalhistory.service;
 
+import static com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.PROFESSOR_DENIED;
 import static com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.WAITING;
 
 import com.example.rentalSystem.domain.approval.entity.ProfessorApproval;
@@ -13,8 +14,8 @@ import com.example.rentalSystem.domain.rentalhistory.controller.dto.request.Crea
 import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryDetailResponseDto;
 import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryResponseDto;
 import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
+import com.example.rentalSystem.domain.rentalhistory.implement.FacilityScheduleManager;
 import com.example.rentalSystem.domain.rentalhistory.implement.RentalHistoryImpl;
-import com.example.rentalSystem.domain.rentalhistory.implement.RentalScheduler;
 import com.example.rentalSystem.domain.student.entity.Student;
 import com.example.rentalSystem.domain.student.implement.StudentImpl;
 import java.util.List;
@@ -34,7 +35,7 @@ public class RentalService {
     final StudentImpl studentImpl;
     final ProfessorManager professorManager;
     final ProfessorApprovalImpl professorApprovalImpl;
-    final RentalScheduler rentalScheduler;
+    final FacilityScheduleManager facilityScheduleManager;
     final EmailService emailService;
 
     @Transactional
@@ -42,16 +43,17 @@ public class RentalService {
         Facility facility = facilityImpl.findById(
             Long.parseLong(createRentalRequest.facilityId()));
 
-        rentalScheduler.checkSchedule(
+        facilityScheduleManager.checkAvailabilityAndReserve(
             facility,
-            createRentalRequest.startTime(),
-            createRentalRequest.endTime());
+            createRentalRequest.startDateTime(),
+            createRentalRequest.endDateTime());
 
         Professor professor = professorManager.findById(createRentalRequest.professorId());
         RentalHistory rentalHistory = createRentalRequest.toEntity(student, facility);
 
         ProfessorApproval professorApproval = createRentalRequest.toEntity(rentalHistory,
             professor);
+
         rentalHistoryImpl.save(rentalHistory);
         professorApprovalImpl.save(professorApproval);
         emailService.sendProfessorRentalConfirm(professor.getEmail());
@@ -75,7 +77,11 @@ public class RentalService {
         ProfessorApproval professorApproval = professorApprovalImpl.findByRentalHistory(
             rentalHistory);
         Student student = rentalHistory.getStudent();
-        if (rentalHistory.getRentalApplicationResult() == WAITING) {
+
+        if (
+            rentalHistory.getRentalApplicationResult() == WAITING ||
+                rentalHistory.getRentalApplicationResult() == PROFESSOR_DENIED
+        ) {
             return RentalHistoryDetailResponseDto.of(rentalHistory, professorApproval, student);
         }
         return RentalHistoryDetailResponseDto.of(rentalHistory, professorApproval, student,

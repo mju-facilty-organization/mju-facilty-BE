@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.approval.entity;
 
-import static com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.DENIED;
+import static com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.PROFESSOR_DENIED;
 
 import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.approval.controller.dto.request.RegisterRentalResultRequest;
@@ -62,10 +62,10 @@ public class ProfessorApproval extends BaseTimeEntity {
 
     public void registerResult(RegisterRentalResultRequest registerRentalResultRequest) {
         this.rentalApplicationResult = registerRentalResultRequest.rentalApplicationResult();
-        if (this.rentalApplicationResult == DENIED) {
+        if (this.rentalApplicationResult == PROFESSOR_DENIED) {
+            rentalHistory.registerApplicationResult(rentalApplicationResult);
             this.reason = registerRentalResultRequest.reason();
         }
-
     }
 }
 
