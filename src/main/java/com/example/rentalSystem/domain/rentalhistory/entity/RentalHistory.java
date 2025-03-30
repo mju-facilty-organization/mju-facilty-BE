@@ -93,9 +93,7 @@ public class RentalHistory extends BaseTimeEntity {
         RegisterRentalResultRequest registerRentalResultRequest
     ) {
         this.pic = pic;
-        this.rentalApplicationResult = registerRentalResultRequest.rentalApplicationResult();
-        this.defineDateTime = LocalDateTime.now();
-
+        setApplicationResult(registerRentalResultRequest.rentalApplicationResult());
         if (this.rentalApplicationResult == PIC_DENIED) {
             this.reason = registerRentalResultRequest.reason();
         }
@@ -105,11 +103,14 @@ public class RentalHistory extends BaseTimeEntity {
         RentalApplicationResult rentalApplicationResult
     ) {
 
-        this.rentalApplicationResult = rentalApplicationResult;
-        this.defineDateTime = LocalDateTime.now();
-
+        setApplicationResult(rentalApplicationResult);
         if (this.rentalApplicationResult == PROFESSOR_DENIED) {
             this.reason = "교수님의 승인 거절";
         }
+    }
+
+    private void setApplicationResult(RentalApplicationResult rentalApplicationResult) {
+        this.rentalApplicationResult = rentalApplicationResult;
+        this.defineDateTime = LocalDateTime.now();
     }
 }
