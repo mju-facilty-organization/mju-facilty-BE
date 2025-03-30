@@ -1,7 +1,5 @@
 package com.example.rentalSystem.global.config;
 
-import static java.rmi.server.LogStream.log;
-
 import com.example.rentalSystem.global.response.example.ApiErrorCodeExample;
 import com.example.rentalSystem.global.response.example.ApiErrorCodeExamples;
 import com.example.rentalSystem.global.response.example.ExampleHolder;

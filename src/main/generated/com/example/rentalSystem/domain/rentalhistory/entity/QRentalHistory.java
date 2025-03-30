@@ -45,9 +45,9 @@ public class QRentalHistory extends EntityPathBase<RentalHistory> {
 
     public final EnumPath<RentalApplicationResult> rentalApplicationResult = createEnum("rentalApplicationResult", RentalApplicationResult.class);
 
-    public final DateTimePath<java.time.LocalDateTime> rentalEndDate = createDateTime("rentalEndDate", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> rentalEndDateTime = createDateTime("rentalEndDateTime", java.time.LocalDateTime.class);
 
-    public final DateTimePath<java.time.LocalDateTime> rentalStartDate = createDateTime("rentalStartDate", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> rentalStartDateTime = createDateTime("rentalStartDateTime", java.time.LocalDateTime.class);
 
     public final com.example.rentalSystem.domain.student.entity.QStudent student;
 
