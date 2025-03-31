@@ -13,7 +13,7 @@ public class MailMaker {
 
     private final String AUTH_CODE_EMAIL_TITLE = "명지 Rental 이메일 인증 번호";
     private final String PROFESSOR_CONFIRM_EMAIL_TITLE = "명지대 대한 시설 대여 승인 이메일입니다.";
-    private final String CONFIRMATION_URL = "https://yourapp.com/request/confirm?token=";
+    private final String CONFIRMATION_URL = "http://localhost:3000/approval/professor";
     private final String PROFESSOR_CONFIRM_EMAIL_CONTENT = "명지대 시설 대여에 대한 승인 요청입니다.\n아래 링크를 클릭하여 요청을 확인해주세요:\n";
     public static final String INTRODUCE = "명지대 Rental 가입 인증 코드입니다.\n";
 
@@ -31,11 +31,12 @@ public class MailMaker {
         }
     }
 
-    public SimpleMailMessage makeProfessorConfirmEmail(String email, String token) {
+    public SimpleMailMessage makeProfessorConfirmEmail(String email, Long approvalId,
+        String token) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject(PROFESSOR_CONFIRM_EMAIL_TITLE);
-        String url = CONFIRMATION_URL + token;
+        String url = CONFIRMATION_URL + "/" + approvalId + "?token=" + token;
         message.setText(PROFESSOR_CONFIRM_EMAIL_CONTENT + url);
         return message;
     }
