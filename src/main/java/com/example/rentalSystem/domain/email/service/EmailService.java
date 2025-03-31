@@ -51,9 +51,9 @@ public class EmailService {
     }
 
     @Async("threadPoolTaskExecutor")
-    public void sendProfessorRentalConfirm(String email) {
+    public void sendProfessorRentalConfirm(String email, Long approvalId) {
         String token = UUID.randomUUID().toString();
         mailImpl.saveToken(token, email);
-        sendEmail(mailMaker.makeProfessorConfirmEmail(email, token));
+        sendEmail(mailMaker.makeProfessorConfirmEmail(email, approvalId, token));
     }
 }

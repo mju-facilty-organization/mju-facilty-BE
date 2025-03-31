@@ -56,7 +56,7 @@ public class RentalService {
 
         rentalHistoryImpl.save(rentalHistory);
         professorApprovalImpl.save(professorApproval);
-        emailService.sendProfessorRentalConfirm(professor.getEmail());
+        emailService.sendProfessorRentalConfirm(professor.getEmail(), professorApproval.getId());
     }
 
     public Page<RentalHistoryResponseDto> getAllRentalHistory(Pageable pageable) {
