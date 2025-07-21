@@ -2,6 +2,8 @@ package com.example.rentalSystem.domain.approval.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.example.rentalSystem.domain.rental.approval.entity.ProfessorApproval;
+import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalApplicationResult;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -33,7 +35,7 @@ public class QProfessorApproval extends EntityPathBase<ProfessorApproval> {
 
     public final StringPath reason = createString("reason");
 
-    public final EnumPath<com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult> rentalApplicationResult = createEnum("rentalApplicationResult", com.example.rentalSystem.domain.rentalhistory.entity.RentalApplicationResult.class);
+    public final EnumPath<RentalApplicationResult> rentalApplicationResult = createEnum("rentalApplicationResult", RentalApplicationResult.class);
 
     public final com.example.rentalSystem.domain.rentalhistory.entity.QRentalHistory rentalHistory;
 

@@ -1,9 +1,9 @@
 package com.example.rentalSystem.global.initializer;
 
-import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
-import com.example.rentalSystem.domain.member.entity.Role;
-import com.example.rentalSystem.domain.pic.entity.Pic;
-import com.example.rentalSystem.domain.professor.entity.Professor;
+import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.base.entity.type.Role;
+import com.example.rentalSystem.domain.member.pic.entity.Pic;
+import com.example.rentalSystem.domain.member.professor.entity.Professor;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import java.io.BufferedReader;

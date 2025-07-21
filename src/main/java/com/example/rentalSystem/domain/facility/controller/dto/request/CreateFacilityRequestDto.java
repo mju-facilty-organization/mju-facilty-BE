@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.facility.controller.dto.request;
 
-import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;

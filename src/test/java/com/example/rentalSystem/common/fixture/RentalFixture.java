@@ -3,10 +3,10 @@ package com.example.rentalSystem.common.fixture;
 import static org.mockito.Mockito.doReturn;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.rentalhistory.controller.dto.request.CreateRentalRequest;
-import com.example.rentalSystem.domain.rentalhistory.controller.dto.response.RentalHistoryResponseDto;
-import com.example.rentalSystem.domain.rentalhistory.entity.RentalHistory;
-import com.example.rentalSystem.domain.student.entity.Student;
+import com.example.rentalSystem.domain.member.student.entity.Student;
+import com.example.rentalSystem.domain.rental.rentalhistory.dto.request.CreateRentalRequest;
+import com.example.rentalSystem.domain.rental.rentalhistory.dto.response.RentalHistoryResponseDto;
+import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalHistory;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.mockito.Mockito;

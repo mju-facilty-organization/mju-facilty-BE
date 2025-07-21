@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.facility.convert;
 
-import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

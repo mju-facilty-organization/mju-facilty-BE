@@ -1,7 +1,6 @@
 package com.example.rentalSystem.domain.facility.entity;
 
-import com.example.rentalSystem.domain.affiliation.converter.AffiliationConverter;
-import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.convert.AffiliationListConverter;
 import com.example.rentalSystem.domain.facility.convert.FacilityTypeConverter;
@@ -20,7 +19,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLRestriction;
-import org.springframework.data.redis.connection.convert.ListConverter;
 
 @Entity
 

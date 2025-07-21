@@ -2,6 +2,9 @@ package com.example.rentalSystem.domain.member.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.base.entity.Member;
+import com.example.rentalSystem.domain.member.base.entity.type.Role;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -19,7 +22,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public static final QMember member = new QMember("member1");
 
-    public final EnumPath<com.example.rentalSystem.domain.affiliation.type.AffiliationType> college = createEnum("college", com.example.rentalSystem.domain.affiliation.type.AffiliationType.class);
+    public final EnumPath<AffiliationType> college = createEnum("college", AffiliationType.class);
 
     public final StringPath email = createString("email");
 

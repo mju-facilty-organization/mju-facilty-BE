@@ -12,9 +12,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.rentalSystem.common.fixture.EmailFixture;
 import com.example.rentalSystem.common.support.ApiTestSupport;
-import com.example.rentalSystem.domain.email.controller.EmailController;
-import com.example.rentalSystem.domain.email.controller.dto.request.EmailRequest;
-import com.example.rentalSystem.domain.email.service.EmailService;
+import com.example.rentalSystem.domain.rental.email.controller.EmailController;
+import com.example.rentalSystem.domain.rental.email.dto.request.EmailRequest;
+import com.example.rentalSystem.domain.rental.email.service.EmailService;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import org.junit.jupiter.api.Test;
