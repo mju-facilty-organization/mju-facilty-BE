@@ -1,9 +1,9 @@
 package com.example.rentalSystem.global.initializer;
 
-import com.example.rentalSystem.domain.pic.entity.Pic;
-import com.example.rentalSystem.domain.pic.repository.PicRepository;
-import com.example.rentalSystem.domain.professor.entity.Professor;
-import com.example.rentalSystem.domain.professor.repository.ProfessorRepository;
+import com.example.rentalSystem.domain.member.pic.entity.Pic;
+import com.example.rentalSystem.domain.member.pic.repository.PicRepository;
+import com.example.rentalSystem.domain.member.professor.entity.Professor;
+import com.example.rentalSystem.domain.member.professor.repository.ProfessorRepository;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

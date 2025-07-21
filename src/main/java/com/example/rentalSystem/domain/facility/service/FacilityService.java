@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.facility.service;
 
-import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.facility.controller.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.controller.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityDetailResponse;

@@ -3,7 +3,7 @@ package com.example.rentalSystem.common.fixture;
 import static com.example.rentalSystem.common.fixture.TimeTableFixture.createTimeTable;
 import static org.mockito.Mockito.doReturn;
 
-import com.example.rentalSystem.domain.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
 import com.example.rentalSystem.domain.facility.controller.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.controller.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityDetailResponse;

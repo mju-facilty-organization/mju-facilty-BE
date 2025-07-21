@@ -1,14 +1,11 @@
 package com.example.rentalSystem.global.auth.security;
 
-import com.example.rentalSystem.domain.member.entity.CustomerDetails;
-import com.example.rentalSystem.domain.member.entity.Member;
-import com.example.rentalSystem.domain.member.implement.MemberLoader;
+import com.example.rentalSystem.domain.member.base.entity.Member;
+import com.example.rentalSystem.domain.member.base.implement.MemberLoader;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor

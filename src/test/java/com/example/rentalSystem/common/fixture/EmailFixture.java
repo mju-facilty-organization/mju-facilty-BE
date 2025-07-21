@@ -1,6 +1,6 @@
 package com.example.rentalSystem.common.fixture;
 
-import com.example.rentalSystem.domain.email.controller.dto.request.EmailRequest;
+import com.example.rentalSystem.domain.rental.email.dto.request.EmailRequest;
 
 public class EmailFixture {
 

@@ -2,6 +2,8 @@ package com.example.rentalSystem.domain.rentalhistory.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalApplicationResult;
+import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalHistory;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
