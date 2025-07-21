@@ -2,7 +2,7 @@ package com.example.rentalSystem.domain.rental.approval.entity;
 
 import static com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalApplicationResult.PROFESSOR_DENIED;
 
-import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.rental.approval.dto.request.RegisterRentalResultRequest;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.member.professor.entity.Professor;

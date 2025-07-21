@@ -1,10 +1,10 @@
 package com.example.rentalSystem.domain.facility.controller;
 
-import com.example.rentalSystem.domain.facility.controller.dto.request.CreateFacilityRequestDto;
-import com.example.rentalSystem.domain.facility.controller.dto.request.UpdateFacilityRequestDto;
-import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityDetailResponse;
-import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityResponse;
-import com.example.rentalSystem.domain.facility.controller.dto.response.PreSignUrlListResponse;
+import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.facility.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.service.FacilityService;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.type.SuccessType;

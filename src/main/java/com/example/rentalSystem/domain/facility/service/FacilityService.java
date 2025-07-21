@@ -1,11 +1,11 @@
 package com.example.rentalSystem.domain.facility.service;
 
-import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
-import com.example.rentalSystem.domain.facility.controller.dto.request.CreateFacilityRequestDto;
-import com.example.rentalSystem.domain.facility.controller.dto.request.UpdateFacilityRequestDto;
-import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityDetailResponse;
-import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityResponse;
-import com.example.rentalSystem.domain.facility.controller.dto.response.PreSignUrlListResponse;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
+import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.facility.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.entity.FacilityType;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;

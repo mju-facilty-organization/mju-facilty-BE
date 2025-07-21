@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.member.student.implement;
 
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentInfoResponse;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentInfoResponse;
 import com.example.rentalSystem.domain.member.student.entity.Student;
 import com.example.rentalSystem.domain.member.student.repository.StudentRepository;
 import com.example.rentalSystem.global.exception.custom.CustomException;

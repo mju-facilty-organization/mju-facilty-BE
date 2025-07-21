@@ -1,7 +1,7 @@
 package com.example.rentalSystem.domain.facility.entity.timeTable;
 
 
-import com.example.rentalSystem.domain.facility.convert.TimeSlotConverter;
+import com.example.rentalSystem.domain.common.convert.TimeSlotConverter;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;

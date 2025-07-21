@@ -8,7 +8,7 @@ import com.example.rentalSystem.domain.rental.approval.implement.ProfessorApprov
 import com.example.rentalSystem.domain.rental.email.service.EmailService;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
-import com.example.rentalSystem.domain.member.professor.ProfessorManager;
+import com.example.rentalSystem.domain.member.professor.implement.ProfessorManager;
 import com.example.rentalSystem.domain.member.professor.entity.Professor;
 import com.example.rentalSystem.domain.member.student.entity.Student;
 import com.example.rentalSystem.domain.member.student.implement.StudentImpl;

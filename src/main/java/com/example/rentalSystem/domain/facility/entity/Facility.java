@@ -1,10 +1,10 @@
 package com.example.rentalSystem.domain.facility.entity;
 
-import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
-import com.example.rentalSystem.domain.facility.convert.AffiliationListConverter;
-import com.example.rentalSystem.domain.facility.convert.FacilityTypeConverter;
-import com.example.rentalSystem.domain.facility.convert.StringListConverter;
+import com.example.rentalSystem.domain.common.convert.AffiliationListConverter;
+import com.example.rentalSystem.domain.common.convert.FacilityTypeConverter;
+import com.example.rentalSystem.domain.common.convert.StringListConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

@@ -14,9 +14,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.rentalSystem.common.fixture.FacilityFixture;
 import com.example.rentalSystem.common.support.ApiTestSupport;
-import com.example.rentalSystem.domain.facility.controller.dto.request.CreateFacilityRequestDto;
-import com.example.rentalSystem.domain.facility.controller.dto.request.UpdateFacilityRequestDto;
-import com.example.rentalSystem.domain.facility.controller.dto.response.PreSignUrlListResponse;
+import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.service.FacilityService;
 import com.example.rentalSystem.global.response.type.ResultType;

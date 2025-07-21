@@ -5,10 +5,10 @@ import com.example.rentalSystem.domain.rental.approval.dto.response.RentalHistor
 import com.example.rentalSystem.domain.rental.approval.entity.ProfessorApproval;
 import com.example.rentalSystem.domain.rental.approval.implement.ProfessorApprovalImpl;
 import com.example.rentalSystem.domain.rental.email.implement.MailImpl;
-import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.member.pic.entity.Pic;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentInfoResponse;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentInfoResponse;
 import com.example.rentalSystem.domain.member.student.entity.Student;
 import com.example.rentalSystem.domain.rental.rentalhistory.dto.response.RentalInfoResponse;
 import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalApplicationResult;

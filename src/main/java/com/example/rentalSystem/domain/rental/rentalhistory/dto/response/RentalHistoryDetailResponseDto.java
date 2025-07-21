@@ -1,9 +1,9 @@
 package com.example.rentalSystem.domain.rental.rentalhistory.dto.response;
 
 import com.example.rentalSystem.domain.rental.approval.entity.ProfessorApproval;
-import com.example.rentalSystem.domain.member.pic.controller.dto.response.PicInfoResponse;
+import com.example.rentalSystem.domain.member.pic.dto.response.PicInfoResponse;
 import com.example.rentalSystem.domain.member.pic.entity.Pic;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentInfoResponse;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentInfoResponse;
 import com.example.rentalSystem.domain.member.student.entity.Student;
 import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalHistory;
 import com.fasterxml.jackson.annotation.JsonInclude;

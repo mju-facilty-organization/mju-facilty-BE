@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.member.base.entity;
 
-import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.member.base.entity.type.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;

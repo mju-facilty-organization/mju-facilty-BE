@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.member.professor.controller;
 
-import com.example.rentalSystem.domain.member.professor.controller.dto.response.ProfessorDetailResponse;
+import com.example.rentalSystem.domain.member.professor.dto.response.ProfessorDetailResponse;
 import com.example.rentalSystem.domain.member.professor.service.ProfessorService;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.type.SuccessType;

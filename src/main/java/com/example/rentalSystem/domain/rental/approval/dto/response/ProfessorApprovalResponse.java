@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.rental.approval.dto.response;
 
-import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.rental.approval.entity.ProfessorApproval;
 import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalApplicationResult;
 import lombok.Builder;

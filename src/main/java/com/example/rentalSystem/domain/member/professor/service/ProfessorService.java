@@ -1,7 +1,7 @@
 package com.example.rentalSystem.domain.member.professor.service;
 
-import com.example.rentalSystem.domain.member.professor.ProfessorManager;
-import com.example.rentalSystem.domain.member.professor.controller.dto.response.ProfessorDetailResponse;
+import com.example.rentalSystem.domain.member.professor.implement.ProfessorManager;
+import com.example.rentalSystem.domain.member.professor.dto.response.ProfessorDetailResponse;
 import com.example.rentalSystem.domain.member.professor.entity.Professor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -5,7 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.example.rentalSystem.common.fixture.FacilityFixture;
-import com.example.rentalSystem.domain.facility.controller.dto.request.UpdateFacilityRequestDto;
+import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
 import com.example.rentalSystem.domain.facility.implement.FacilityReader;
