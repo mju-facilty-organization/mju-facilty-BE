@@ -5,11 +5,11 @@ import static com.example.rentalSystem.global.response.type.ErrorType.ENTITY_NOT
 import static com.example.rentalSystem.global.response.type.ErrorType.FAIL_AUTHENTICATION;
 import static com.example.rentalSystem.global.response.type.ErrorType.INVALID_AFFILIATION_TYPE;
 
-import com.example.rentalSystem.domain.member.student.controller.dto.request.StudentSignInRequest;
-import com.example.rentalSystem.domain.member.student.controller.dto.request.StudentSignUpRequest;
-import com.example.rentalSystem.domain.member.student.controller.dto.request.StudentUpdateRequest;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentListResponse;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentSignUpResponse;
+import com.example.rentalSystem.domain.member.student.dto.request.StudentSignInRequest;
+import com.example.rentalSystem.domain.member.student.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.member.student.dto.request.StudentUpdateRequest;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentListResponse;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentSignUpResponse;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import com.example.rentalSystem.global.auth.security.CustomerDetails;
 import com.example.rentalSystem.global.response.ApiResponse;

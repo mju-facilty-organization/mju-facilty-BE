@@ -2,7 +2,7 @@ package com.example.rentalSystem.domain.rental.rentalhistory.dto.response;
 
 import com.example.rentalSystem.domain.rental.approval.dto.response.ProfessorApprovalResponse;
 import com.example.rentalSystem.domain.rental.approval.entity.ProfessorApproval;
-import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalApplicationResult;
 import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalHistory;
 import com.fasterxml.jackson.annotation.JsonInclude;

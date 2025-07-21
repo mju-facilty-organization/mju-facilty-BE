@@ -1,7 +1,7 @@
 package com.example.rentalSystem.domain.rental.approval.dto.response;
 
-import com.example.rentalSystem.domain.facility.controller.dto.response.FacilityResponse;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentInfoResponse;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentInfoResponse;
 import com.example.rentalSystem.domain.rental.rentalhistory.dto.response.RentalInfoResponse;
 
 public record RentalHistoryResponseForProfessorDto(

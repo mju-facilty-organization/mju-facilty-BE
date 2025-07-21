@@ -1,12 +1,12 @@
 package com.example.rentalSystem.domain.member.student.service;
 
-import com.example.rentalSystem.domain.member.student.controller.dto.request.StudentSignInRequest;
-import com.example.rentalSystem.domain.member.student.controller.dto.request.StudentSignUpRequest;
-import com.example.rentalSystem.domain.member.student.controller.dto.request.StudentUpdateRequest;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentInfoResponse;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentListResponse;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentSignUpResponse;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentUpdateResponse;
+import com.example.rentalSystem.domain.member.student.dto.request.StudentSignInRequest;
+import com.example.rentalSystem.domain.member.student.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.member.student.dto.request.StudentUpdateRequest;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentInfoResponse;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentListResponse;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentSignUpResponse;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentUpdateResponse;
 import com.example.rentalSystem.domain.member.student.entity.Student;
 import com.example.rentalSystem.domain.member.student.implement.StudentImpl;
 import com.example.rentalSystem.global.auth.AuthService;

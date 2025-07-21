@@ -1,6 +1,6 @@
 package com.example.rentalSystem.global.initializer;
 
-import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.member.base.entity.type.Role;
 import com.example.rentalSystem.domain.member.pic.entity.Pic;
 import com.example.rentalSystem.domain.member.professor.entity.Professor;

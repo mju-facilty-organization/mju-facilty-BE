@@ -2,7 +2,7 @@ package com.example.rentalSystem.domain.pic.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.member.base.entity.type.Role;
 import com.example.rentalSystem.domain.member.pic.entity.Pic;
 import com.querydsl.core.types.dsl.*;

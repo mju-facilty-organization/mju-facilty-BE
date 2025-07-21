@@ -2,11 +2,11 @@ package com.example.rentalSystem.common.fixture;
 
 import static org.mockito.Mockito.doReturn;
 
-import com.example.rentalSystem.domain.member.student.controller.dto.request.StudentSignInRequest;
-import com.example.rentalSystem.domain.member.student.controller.dto.request.StudentSignUpRequest;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentInfoResponse;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentListResponse;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentSignUpResponse;
+import com.example.rentalSystem.domain.member.student.dto.request.StudentSignInRequest;
+import com.example.rentalSystem.domain.member.student.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentInfoResponse;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentListResponse;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentSignUpResponse;
 import com.example.rentalSystem.domain.member.student.entity.Student;
 import java.util.List;
 import org.mockito.Mockito;

@@ -1,7 +1,7 @@
 package com.example.rentalSystem.domain.member.professor.entity;
 
-import com.example.rentalSystem.domain.member.affiliation.converter.AffiliationConverter;
-import com.example.rentalSystem.domain.member.affiliation.type.AffiliationType;
+import com.example.rentalSystem.domain.common.convert.AffiliationConverter;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;

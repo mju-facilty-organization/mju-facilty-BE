@@ -13,9 +13,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.rentalSystem.common.fixture.StudentFixture;
 import com.example.rentalSystem.common.support.ApiTestSupport;
 import com.example.rentalSystem.domain.member.student.controller.StudentController;
-import com.example.rentalSystem.domain.member.student.controller.dto.request.StudentSignInRequest;
-import com.example.rentalSystem.domain.member.student.controller.dto.request.StudentSignUpRequest;
-import com.example.rentalSystem.domain.member.student.controller.dto.response.StudentSignUpResponse;
+import com.example.rentalSystem.domain.member.student.dto.request.StudentSignInRequest;
+import com.example.rentalSystem.domain.member.student.dto.request.StudentSignUpRequest;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentSignUpResponse;
 import com.example.rentalSystem.domain.member.student.service.StudentService;
 import com.example.rentalSystem.global.auth.jwt.entity.JwtToken;
 import com.example.rentalSystem.global.exception.custom.CustomException;
