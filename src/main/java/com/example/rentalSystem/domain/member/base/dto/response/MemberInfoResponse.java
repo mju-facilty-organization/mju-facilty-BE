@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.member.base.controller.dto.response;
+package com.example.rentalSystem.domain.member.base.dto.response;
 
 import lombok.Builder;
 

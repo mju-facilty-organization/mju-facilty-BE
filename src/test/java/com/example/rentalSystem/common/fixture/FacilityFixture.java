@@ -1,15 +1,14 @@
 package com.example.rentalSystem.common.fixture;
 
-import static com.example.rentalSystem.common.fixture.TimeTableFixture.createTimeTable;
 import static org.mockito.Mockito.doReturn;
 
-import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -105,7 +104,7 @@ public class FacilityFixture {
     }
 
     public static FacilityDetailResponse getFacilityDetail() {
-        return FacilityDetailResponse.of(createFacility(), createTimeTable());
+        return null;
     }
 
 }

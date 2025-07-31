@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.member.base.controller;
 
-import com.example.rentalSystem.domain.member.base.controller.dto.response.MemberInfoResponse;
+import com.example.rentalSystem.domain.member.base.dto.response.MemberInfoResponse;
 import com.example.rentalSystem.global.auth.security.CustomerDetails;
 import com.example.rentalSystem.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;

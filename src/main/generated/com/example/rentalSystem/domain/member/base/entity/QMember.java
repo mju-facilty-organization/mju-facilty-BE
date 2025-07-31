@@ -1,10 +1,7 @@
-package com.example.rentalSystem.domain.member.entity;
+package com.example.rentalSystem.domain.member.base.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
-import com.example.rentalSystem.domain.member.base.entity.Member;
-import com.example.rentalSystem.domain.member.base.entity.type.Role;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -18,11 +15,11 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMember extends EntityPathBase<Member> {
 
-    private static final long serialVersionUID = 486125457L;
+    private static final long serialVersionUID = -761529892L;
 
     public static final QMember member = new QMember("member1");
 
-    public final EnumPath<AffiliationType> college = createEnum("college", AffiliationType.class);
+    public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType> college = createEnum("college", com.example.rentalSystem.domain.member.base.entity.type.AffiliationType.class);
 
     public final StringPath email = createString("email");
 
@@ -34,7 +31,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath phoneNumber = createString("phoneNumber");
 
-    public final EnumPath<Role> role = createEnum("role", Role.class);
+    public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.Role> role = createEnum("role", com.example.rentalSystem.domain.member.base.entity.type.Role.class);
 
     public QMember(String variable) {
         super(Member.class, forVariable(variable));

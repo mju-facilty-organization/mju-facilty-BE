@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.facility.entity;
+package com.example.rentalSystem.domain.facility.entity.type;
 
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;

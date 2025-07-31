@@ -1,9 +1,7 @@
-package com.example.rentalSystem.domain.professor.entity;
+package com.example.rentalSystem.domain.member.professor.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
-import com.example.rentalSystem.domain.member.professor.entity.Professor;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,15 +15,15 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QProfessor extends EntityPathBase<Professor> {
 
-    private static final long serialVersionUID = 128783459L;
+    private static final long serialVersionUID = 2063813303L;
 
     public static final QProfessor professor = new QProfessor("professor");
 
     public final com.example.rentalSystem.domain.common.QBaseTimeEntity _super = new com.example.rentalSystem.domain.common.QBaseTimeEntity(this);
 
-    public final EnumPath<AffiliationType> campusType = createEnum("campusType", AffiliationType.class);
+    public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType> campusType = createEnum("campusType", com.example.rentalSystem.domain.member.base.entity.type.AffiliationType.class);
 
-    public final EnumPath<AffiliationType> college = createEnum("college", AffiliationType.class);
+    public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType> college = createEnum("college", com.example.rentalSystem.domain.member.base.entity.type.AffiliationType.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> created_at = _super.created_at;
@@ -34,7 +32,7 @@ public class QProfessor extends EntityPathBase<Professor> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final EnumPath<AffiliationType> major = createEnum("major", AffiliationType.class);
+    public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType> major = createEnum("major", com.example.rentalSystem.domain.member.base.entity.type.AffiliationType.class);
 
     public final StringPath name = createString("name");
 

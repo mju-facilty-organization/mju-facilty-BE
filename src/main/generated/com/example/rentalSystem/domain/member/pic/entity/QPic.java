@@ -1,10 +1,7 @@
-package com.example.rentalSystem.domain.pic.entity;
+package com.example.rentalSystem.domain.member.pic.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
-import com.example.rentalSystem.domain.member.base.entity.type.Role;
-import com.example.rentalSystem.domain.member.pic.entity.Pic;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -18,14 +15,14 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QPic extends EntityPathBase<Pic> {
 
-    private static final long serialVersionUID = -779502461L;
+    private static final long serialVersionUID = 1449119959L;
 
     public static final QPic pic = new QPic("pic");
 
-    public final com.example.rentalSystem.domain.member.entity.QMember _super = new com.example.rentalSystem.domain.member.entity.QMember(this);
+    public final com.example.rentalSystem.domain.member.base.entity.QMember _super = new com.example.rentalSystem.domain.member.base.entity.QMember(this);
 
     //inherited
-    public final EnumPath<AffiliationType> college = _super.college;
+    public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType> college = _super.college;
 
     //inherited
     public final StringPath email = _super.email;
@@ -43,7 +40,7 @@ public class QPic extends EntityPathBase<Pic> {
     public final StringPath phoneNumber = _super.phoneNumber;
 
     //inherited
-    public final EnumPath<Role> role = _super.role;
+    public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.Role> role = _super.role;
 
     public QPic(String variable) {
         super(Pic.class, forVariable(variable));

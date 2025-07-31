@@ -2,8 +2,8 @@ package com.example.rentalSystem.domain.member.professor.implement;
 
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.member.professor.entity.Professor;
+import com.example.rentalSystem.domain.member.professor.entity.QProfessor;
 import com.example.rentalSystem.domain.member.professor.repository.ProfessorRepository;
-import com.example.rentalSystem.domain.professor.entity.QProfessor;
 import com.querydsl.core.BooleanBuilder;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
