@@ -77,9 +77,6 @@ dependencies {
 
     // cache
     implementation 'com.google.guava:guava:33.4.0-jre'
-
-    annotationProcessor project(":hello-processor") // annotation processor 모듈
-
 }
 // Querydsl 빌드 옵션 설정
 def generated = 'src/main/generated'

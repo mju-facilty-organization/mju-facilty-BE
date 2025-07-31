@@ -1,6 +1,5 @@
 package com.example.rentalSystem.domain.facility.service;
 
-import com.example.annotation.Hello;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Hello
 @RequiredArgsConstructor
 public class FacilityService {
 
