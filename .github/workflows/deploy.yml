@@ -90,9 +90,7 @@ jobs:
       - name: Logout from Amazon ECR
         run: docker logout ${{ steps.ecr-login.outputs.registry }}
 
-  # 위 과정에서 푸시한 이미지를 ec2에서 풀받아서 실행시키는 과정
   run-docker-image-on-ec2:
-    # build-docker-image (위)과정이 완료되어야 실행됩니다.
     needs: build-docker-image
     runs-on: ubuntu-latest
 
@@ -111,102 +109,66 @@ jobs:
         id: ecr-login
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: SSH into EC2 and Deploy with Docker Compose
+      - name: SSH into EC2 and prepare environment
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
           chmod 600 ec2_key.pem
-          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@${{ secrets.SERVER_IP }} << 'EOF'
-            sudo usermod -aG docker $USER || true
-            newgrp docker || true
-
-            # Stop existing containers
-            if [ -f docker-compose.yml ]; then
-              echo "Stopping existing containers..."
-              sudo docker-compose down
-            else
-              echo "No existing Docker Compose setup. Proceeding with deployment..."
-            fi
-
-            # Clean up previous files
-            sudo rm -f docker-compose.yml
-          EOF
-
-      - name: Install Docker if not present
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            # Update package index
-            sudo apt-get update -y
-
-            # Install Docker if not installed
+          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ec2-user@${{ secrets.SERVER_IP }} << 'EOF'
+            sudo yum update -y
+          
+            # Docker 설치
             if ! command -v docker >/dev/null 2>&1; then
               echo "Installing Docker..."
-              sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-              curl -fsSL https://get.docker.com -o get-docker.sh
-              sudo sh get-docker.sh
+              sudo yum install -y docker
               sudo systemctl enable docker
               sudo systemctl start docker
-            else
-              echo "Docker is already installed."
+              sudo usermod -aG docker ec2-user
             fi
-            
+          
+            # Docker Compose 설치
             if ! command -v docker-compose >/dev/null 2>&1; then
               echo "Installing Docker Compose..."
               sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
               sudo chmod +x /usr/local/bin/docker-compose
-            else
-              echo "Docker Compose already installed."
             fi
+          
+            # AWS CLI 설치
+            if ! command -v aws >/dev/null 2>&1; then
+              echo "Installing AWS CLI..."
+              sudo yum install -y unzip
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
+            fi
+          
+            # 기존 docker-compose 내려감
+            cd /home/ec2-user
+            if [ -f docker-compose.yml ]; then
+              docker-compose down
+            fi
+          
+            rm -f docker-compose.yml .env
+          EOF
 
-      - name: Copy docker-compose.yml to EC2
+      - name: Copy docker-compose.yml and .env to EC2
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
           chmod 600 ec2_key.pem
-          scp -o StrictHostKeyChecking=no -i ec2_key.pem ./docker-compose.yml ubuntu@${{ secrets.SERVER_IP }}:~/docker-compose.yml
-
-      - name: Create and Copy .env to EC2
-        run: |
+          
           echo "SERVER_IMAGE_URL=${{ steps.ecr-login.outputs.registry }}/dding-gi/repo:latest" > .env
-          echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
-          chmod 600 ec2_key.pem
-          scp -o StrictHostKeyChecking=no -i ec2_key.pem ./.env ubuntu@${{ secrets.SERVER_IP }}:~/.env
-
-      - name: Install AWS CLI if not present
-        run: |
-          echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
-          chmod 600 ec2_key.pem
-
-          # Update package index
-          sudo apt-get update -y
-
-          # Install unzip if not present
-          if ! command -v unzip >/dev/null 2>&1; then
-            echo "Installing unzip..."
-            sudo apt-get install -y unzip
-          fi
-
-          # Install AWS CLI if not installed
-          if ! command -v aws >/dev/null 2>&1; then
-            echo "Installing AWS CLI..."
-            sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            sudo unzip awscliv2.zip
-            sudo ./aws/install
-          else
-            echo "AWS CLI is already installed."
-          fi
+          
+          scp -o StrictHostKeyChecking=no -i ec2_key.pem docker-compose.yml ec2-user@${{ secrets.SERVER_IP }}:/home/ec2-user/docker-compose.yml
+          scp -o StrictHostKeyChecking=no -i ec2_key.pem .env ec2-user@${{ secrets.SERVER_IP }}:/home/ec2-user/.env
 
       - name: Start services using Docker Compose
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
           chmod 600 ec2_key.pem
-          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@${{ secrets.SERVER_IP }} << 'EOF'
-            cd /home/ubuntu
+          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ec2-user@${{ secrets.SERVER_IP }} << 'EOF'
+            cd /home/ec2-user
             docker login -u AWS -p $(aws ecr get-login-password --region ap-northeast-2) ${{ steps.ecr-login.outputs.registry }}
-            docker-compose -f docker-compose.yml pull
-            docker-compose -f docker-compose.yml up -d
+            docker-compose pull
+            docker-compose up -d
             docker system prune -af
           EOF
 
