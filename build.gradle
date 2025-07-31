@@ -2,8 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.5'
     id 'io.spring.dependency-management' version '1.1.4'
-    id 'org.asciidoctor.jvm.convert' version '3.3.2'
-    id 'com.epages.restdocs-api-spec' version '0.18.2' //api-spec plugin for documentation
 }
 
 group = 'com.example'
@@ -14,8 +12,6 @@ java {
 }
 
 configurations {
-    asciidoctorExt // 2
-
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -39,16 +35,14 @@ dependencies {
 
     //	validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     //	DB
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
-    // query dsl 버전 명시해야 jakarta사용 (javax X)
-    implementation 'com.querydsl:querydsl-apt:5.0.0'
+    // query dsl 버전 명시해야 jakarta사용 (javax X) 
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-    implementation 'com.querydsl:querydsl-core:5.0.0'
-
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
 
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
@@ -58,9 +52,8 @@ dependencies {
 
     // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
-    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2', 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
     // MAIL
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -74,56 +67,25 @@ dependencies {
     // TestContainer
     testImplementation 'org.testcontainers:testcontainers:1.20.0'
     testImplementation 'org.testcontainers:junit-jupiter:1.20.0'
+
     // mysql 컨테이너
     testImplementation 'org.testcontainers:mysql:1.20.0'
 
-    //document
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2'
-    //restdock
-    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     //aws
     implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.1'
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.767'
 
     // cache
     implementation 'com.google.guava:guava:33.4.0-jre'
-}
 
-ext {
-    snippetsDir = file('build/generated-snippets')
-}
+    annotationProcessor project(":hello-processor") // annotation processor 모듈
 
-tasks.named('test') { // (6)
-    outputs.dir snippetsDir
 }
-
-asciidoctor { // (7)
-    configurations 'asciidoctorExt'
-    baseDirFollowsSourceDir()
-    inputs.dir snippetsDir // (8)
-    dependsOn test // (10)
-}
-
-asciidoctor.doFirst {
-    delete file('src/main/resources/static/docs')  // (11)
-}
-
-task copyDocument(type: Copy) { // (12)
-    dependsOn asciidoctor
-    from file("build/docs/asciidoc")
-    into file("src/main/resources/static/docs")
-}
-
-build {
-    dependsOn copyDocument
-}
-
 // Querydsl 빌드 옵션 설정
 def generated = 'src/main/generated'
 
 // querydsl QClass 파일 생성 위치를 지정
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
 
