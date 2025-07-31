@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.common.convert;
 
-import com.example.rentalSystem.domain.facility.entity.FacilityType;
+import com.example.rentalSystem.domain.facility.entity.type.FacilityType;
 import jakarta.persistence.AttributeConverter;
 
 public class FacilityTypeConverter implements AttributeConverter<FacilityType, String> {

@@ -1,10 +1,7 @@
-package com.example.rentalSystem.domain.student.entity;
+package com.example.rentalSystem.domain.member.student.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
-import com.example.rentalSystem.domain.member.base.entity.type.Role;
-import com.example.rentalSystem.domain.member.student.entity.Student;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -18,14 +15,14 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QStudent extends EntityPathBase<Student> {
 
-    private static final long serialVersionUID = 1895145443L;
+    private static final long serialVersionUID = -1091821513L;
 
     public static final QStudent student = new QStudent("student");
 
-    public final com.example.rentalSystem.domain.member.entity.QMember _super = new com.example.rentalSystem.domain.member.entity.QMember(this);
+    public final com.example.rentalSystem.domain.member.base.entity.QMember _super = new com.example.rentalSystem.domain.member.base.entity.QMember(this);
 
     //inherited
-    public final EnumPath<AffiliationType> college = _super.college;
+    public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType> college = _super.college;
 
     //inherited
     public final StringPath email = _super.email;
@@ -33,7 +30,7 @@ public class QStudent extends EntityPathBase<Student> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final EnumPath<AffiliationType> major = createEnum("major", AffiliationType.class);
+    public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType> major = createEnum("major", com.example.rentalSystem.domain.member.base.entity.type.AffiliationType.class);
 
     //inherited
     public final StringPath name = _super.name;
@@ -45,7 +42,7 @@ public class QStudent extends EntityPathBase<Student> {
     public final StringPath phoneNumber = _super.phoneNumber;
 
     //inherited
-    public final EnumPath<Role> role = _super.role;
+    public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.Role> role = _super.role;
 
     public final StringPath studentNumber = createString("studentNumber");
 

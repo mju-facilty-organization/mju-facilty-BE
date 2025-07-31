@@ -1,9 +1,7 @@
-package com.example.rentalSystem.domain.approval.entity;
+package com.example.rentalSystem.domain.rental.approval.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.example.rentalSystem.domain.rental.approval.entity.ProfessorApproval;
-import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalApplicationResult;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -18,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QProfessorApproval extends EntityPathBase<ProfessorApproval> {
 
-    private static final long serialVersionUID = -23576334L;
+    private static final long serialVersionUID = 276812840L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -31,13 +29,13 @@ public class QProfessorApproval extends EntityPathBase<ProfessorApproval> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final com.example.rentalSystem.domain.professor.entity.QProfessor professor;
+    public final com.example.rentalSystem.domain.member.professor.entity.QProfessor professor;
 
     public final StringPath reason = createString("reason");
 
-    public final EnumPath<RentalApplicationResult> rentalApplicationResult = createEnum("rentalApplicationResult", RentalApplicationResult.class);
+    public final EnumPath<com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalApplicationResult> rentalApplicationResult = createEnum("rentalApplicationResult", com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalApplicationResult.class);
 
-    public final com.example.rentalSystem.domain.rentalhistory.entity.QRentalHistory rentalHistory;
+    public final com.example.rentalSystem.domain.rental.rentalhistory.entity.QRentalHistory rentalHistory;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updated_at = _super.updated_at;
@@ -60,8 +58,8 @@ public class QProfessorApproval extends EntityPathBase<ProfessorApproval> {
 
     public QProfessorApproval(Class<? extends ProfessorApproval> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.professor = inits.isInitialized("professor") ? new com.example.rentalSystem.domain.professor.entity.QProfessor(forProperty("professor")) : null;
-        this.rentalHistory = inits.isInitialized("rentalHistory") ? new com.example.rentalSystem.domain.rentalhistory.entity.QRentalHistory(forProperty("rentalHistory"), inits.get("rentalHistory")) : null;
+        this.professor = inits.isInitialized("professor") ? new com.example.rentalSystem.domain.member.professor.entity.QProfessor(forProperty("professor")) : null;
+        this.rentalHistory = inits.isInitialized("rentalHistory") ? new com.example.rentalSystem.domain.rental.rentalhistory.entity.QRentalHistory(forProperty("rentalHistory"), inits.get("rentalHistory")) : null;
     }
 
 }

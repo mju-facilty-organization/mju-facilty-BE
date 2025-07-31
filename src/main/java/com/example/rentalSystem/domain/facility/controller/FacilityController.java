@@ -73,7 +73,8 @@ public class FacilityController implements FacilityControllerDocs {
         @RequestParam(name = "date") LocalDate date
     ) {
         FacilityDetailResponse facilityDetailResponse = facilityService.getFacilityDetail(
-            facilityId, date);
+            facilityId, date
+        );
         return ApiResponse.success(SuccessType.SUCCESS, facilityDetailResponse);
     }
 }

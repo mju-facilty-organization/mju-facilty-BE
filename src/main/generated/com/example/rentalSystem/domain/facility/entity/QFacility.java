@@ -2,7 +2,6 @@ package com.example.rentalSystem.domain.facility.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -23,7 +22,7 @@ public class QFacility extends EntityPathBase<Facility> {
 
     public final com.example.rentalSystem.domain.common.QBaseTimeEntity _super = new com.example.rentalSystem.domain.common.QBaseTimeEntity(this);
 
-    public final ListPath<AffiliationType, EnumPath<AffiliationType>> allowedBoundary = this.<AffiliationType, EnumPath<AffiliationType>>createList("allowedBoundary", AffiliationType.class, EnumPath.class, PathInits.DIRECT2);
+    public final ListPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType, EnumPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType>> allowedBoundary = this.<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType, EnumPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType>>createList("allowedBoundary", com.example.rentalSystem.domain.member.base.entity.type.AffiliationType.class, EnumPath.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> capacity = createNumber("capacity", Long.class);
 
@@ -34,7 +33,7 @@ public class QFacility extends EntityPathBase<Facility> {
 
     public final StringPath facilityNumber = createString("facilityNumber");
 
-    public final EnumPath<FacilityType> facilityType = createEnum("facilityType", FacilityType.class);
+    public final EnumPath<com.example.rentalSystem.domain.facility.entity.type.FacilityType> facilityType = createEnum("facilityType", com.example.rentalSystem.domain.facility.entity.type.FacilityType.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 

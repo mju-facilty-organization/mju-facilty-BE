@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.member.base.controller;
 
-import com.example.rentalSystem.domain.member.base.controller.dto.response.MemberInfoResponse;
+import com.example.rentalSystem.domain.member.base.dto.response.MemberInfoResponse;
 import com.example.rentalSystem.domain.member.base.service.MemberService;
 import com.example.rentalSystem.global.auth.security.CustomerDetails;
 import com.example.rentalSystem.global.response.ApiResponse;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @RequestMapping("/members")
+@RestController
 @RequiredArgsConstructor
 public class MemberController implements MemberControllerDocs {
 

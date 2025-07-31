@@ -1,19 +1,20 @@
 package com.example.rentalSystem.domain.facility.service;
 
-import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
+import com.example.annotation.Hello;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.FacilityType;
 import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
+import com.example.rentalSystem.domain.facility.entity.type.FacilityType;
 import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
 import com.example.rentalSystem.domain.facility.implement.FacilityRemover;
 import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
 import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
 import com.example.rentalSystem.domain.facility.reposiotry.TimeTableRepository;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.global.cloud.S3Service;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
@@ -27,8 +28,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Hello
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class FacilityService {
 
     private final FacilityJpaRepository facilityJpaRepository;
@@ -49,7 +50,8 @@ public class FacilityService {
                 .toList();
 
         List<AffiliationType> affiliationTypes = AffiliationType.getChildList(
-            createFacilityRequestDto.college());
+            createFacilityRequestDto.college()
+        );
 
         Facility facility = createFacilityRequestDto.toFacility(imageUrlList, affiliationTypes);
         facilitySaver.save(facility);
@@ -82,6 +84,7 @@ public class FacilityService {
         facilityRemover.delete(facility);
     }
 
+    @Transactional(readOnly = true)
     public Page<FacilityResponse> getAll(Pageable pageable, String facilityType) {
         Page<Facility> page;
         if (Objects.isNull(facilityType)) {
@@ -97,6 +100,7 @@ public class FacilityService {
         });
     }
 
+    @Transactional(readOnly = true)
     public FacilityDetailResponse getFacilityDetail(Long facilityId, LocalDate localDate) {
         Facility facility = findFacilityById(facilityId);
         TimeTable timeTable = findTimeTableByFacilityAndDate(facility, localDate);

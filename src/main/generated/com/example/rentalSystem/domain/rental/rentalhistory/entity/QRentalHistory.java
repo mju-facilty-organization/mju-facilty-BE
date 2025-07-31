@@ -1,9 +1,7 @@
-package com.example.rentalSystem.domain.rentalhistory.entity;
+package com.example.rentalSystem.domain.rental.rentalhistory.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalApplicationResult;
-import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalHistory;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -18,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QRentalHistory extends EntityPathBase<RentalHistory> {
 
-    private static final long serialVersionUID = -529253149L;
+    private static final long serialVersionUID = 192876653L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -39,7 +37,7 @@ public class QRentalHistory extends EntityPathBase<RentalHistory> {
 
     public final StringPath organization = createString("organization");
 
-    public final com.example.rentalSystem.domain.pic.entity.QPic pic;
+    public final com.example.rentalSystem.domain.member.pic.entity.QPic pic;
 
     public final StringPath purpose = createString("purpose");
 
@@ -51,7 +49,7 @@ public class QRentalHistory extends EntityPathBase<RentalHistory> {
 
     public final DateTimePath<java.time.LocalDateTime> rentalStartDateTime = createDateTime("rentalStartDateTime", java.time.LocalDateTime.class);
 
-    public final com.example.rentalSystem.domain.student.entity.QStudent student;
+    public final com.example.rentalSystem.domain.member.student.entity.QStudent student;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updated_at = _super.updated_at;
@@ -75,8 +73,8 @@ public class QRentalHistory extends EntityPathBase<RentalHistory> {
     public QRentalHistory(Class<? extends RentalHistory> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.facility = inits.isInitialized("facility") ? new com.example.rentalSystem.domain.facility.entity.QFacility(forProperty("facility")) : null;
-        this.pic = inits.isInitialized("pic") ? new com.example.rentalSystem.domain.pic.entity.QPic(forProperty("pic")) : null;
-        this.student = inits.isInitialized("student") ? new com.example.rentalSystem.domain.student.entity.QStudent(forProperty("student")) : null;
+        this.pic = inits.isInitialized("pic") ? new com.example.rentalSystem.domain.member.pic.entity.QPic(forProperty("pic")) : null;
+        this.student = inits.isInitialized("student") ? new com.example.rentalSystem.domain.member.student.entity.QStudent(forProperty("student")) : null;
     }
 
 }
