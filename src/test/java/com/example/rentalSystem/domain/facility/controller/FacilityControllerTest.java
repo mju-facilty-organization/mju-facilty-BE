@@ -2,9 +2,6 @@ package com.example.rentalSystem.domain.facility.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,7 +27,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.ResultActions;
@@ -57,14 +53,10 @@ class FacilityControllerTest extends ApiTestSupport {
             .create(any(CreateFacilityRequestDto.class));
         // When
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post("/admin/facilities")
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(toJson(requestDto)))
-            .andDo(MockMvcRestDocumentation.document("facility/시설등록",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
-
+            MockMvcRequestBuilders.post("/admin/facilities")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(requestDto)));
         // Then
         resultActions
             .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
@@ -123,15 +115,11 @@ class FacilityControllerTest extends ApiTestSupport {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                get("/admin/facilities")
-                    .param("page", "1")
-                    .param("size", "10")
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON))
-            .andDo(MockMvcRestDocumentation.document("facility/시설 전체 조회",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
-
+            get("/admin/facilities")
+                .param("page", "1")
+                .param("size", "10")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isOk());
     }
 
@@ -146,16 +134,12 @@ class FacilityControllerTest extends ApiTestSupport {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                get("/admin/facilities")
-                    .param("page", "1")
-                    .param("size", "10")
-                    .param("facility_type", "본관")
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON))
-            .andDo(MockMvcRestDocumentation.document("facility/타입별 시설 전체 조회",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
-
+            get("/admin/facilities")
+                .param("page", "1")
+                .param("size", "10")
+                .param("facility_type", "본관")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isOk());
     }
 
@@ -171,14 +155,10 @@ class FacilityControllerTest extends ApiTestSupport {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                get("/admin/facilities/{facilityId}", facilityId)
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .param("date", LocalDate.now().toString()))
-            .andDo(MockMvcRestDocumentation.document("facility/시설 상세 조회",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
-
+            get("/admin/facilities/{facilityId}", facilityId)
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("date", LocalDate.now().toString()));
         resultActions.andExpect(status().isOk());
     }
 }

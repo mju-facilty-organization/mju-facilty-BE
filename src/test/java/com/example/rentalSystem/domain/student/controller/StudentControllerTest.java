@@ -3,9 +3,6 @@ package com.example.rentalSystem.domain.student.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,7 +25,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.ResultActions;
@@ -59,10 +55,7 @@ public class StudentControllerTest extends ApiTestSupport {
                     .with(csrf())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(toJson(studentSignUpRequest)))
-            .andDo(MockMvcResultHandlers.print())
-            .andDo(MockMvcRestDocumentation.document("students/회원가입 성공",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
+            .andDo(MockMvcResultHandlers.print());
 
         // then
         resultActions
@@ -85,10 +78,7 @@ public class StudentControllerTest extends ApiTestSupport {
                     .with(csrf())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(toJson(studentSignUpRequest)))
-            .andDo(MockMvcResultHandlers.print())
-            .andDo(MockMvcRestDocumentation.document("students/회원가입 실패",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
+            .andDo(MockMvcResultHandlers.print());
 
         // then
         resultActions.andExpect(status().isConflict()) // 409 Conflict
@@ -115,13 +105,10 @@ public class StudentControllerTest extends ApiTestSupport {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post("/students/sign-in")
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(toJson(studentSignInRequest)))
-            .andDo(MockMvcRestDocumentation.document("students/로그인성공",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
+            MockMvcRequestBuilders.post("/students/sign-in")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(studentSignInRequest)));
         // then
         resultActions
             .andExpect(status().isOk())
@@ -139,12 +126,9 @@ public class StudentControllerTest extends ApiTestSupport {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/students")
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON))
-            .andDo(MockMvcRestDocumentation.document("students/학생 전체 조회",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
+            MockMvcRequestBuilders.get("/students")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON));
 
         resultActions.andExpect(status().isOk());
     }

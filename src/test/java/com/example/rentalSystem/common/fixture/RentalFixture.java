@@ -22,7 +22,7 @@ public class RentalFixture {
             LocalDateTime.parse("2025-01-31T12:00:00"),
             LocalDateTime.parse("2025-01-31T16:00:00"),
             "COW",
-            "10",
+            10,
             "최성운",
             "동아리 활동"
         );

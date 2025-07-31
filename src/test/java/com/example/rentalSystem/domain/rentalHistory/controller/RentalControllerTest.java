@@ -2,9 +2,6 @@ package com.example.rentalSystem.domain.rentalHistory.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -28,7 +25,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -65,14 +61,10 @@ public class RentalControllerTest extends ApiTestSupport {
 
         // When
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post("/rental")
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(toJson(createRentalRequest)))
-            .andDo(MockMvcRestDocumentation.document("rental/대여 신청",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
-
+            MockMvcRequestBuilders.post("/rental")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(createRentalRequest)));
         // Then
         resultActions
             .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
@@ -91,14 +83,10 @@ public class RentalControllerTest extends ApiTestSupport {
 
         // When
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/rental")
-                    .param("page", "1")
-                    .param("size", "10")
-                    .with(csrf()))
-            .andDo(MockMvcRestDocumentation.document("rental/대여 내역 전체 조회",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
-
+            MockMvcRequestBuilders.get("/rental")
+                .param("page", "1")
+                .param("size", "10")
+                .with(csrf()));
         // Then
         resultActions
             .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))

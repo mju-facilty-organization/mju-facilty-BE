@@ -3,9 +3,6 @@ package com.example.rentalSystem.domain.email;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,7 +19,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.ResultActions;
@@ -50,10 +46,7 @@ public class EmailControllerTest extends ApiTestSupport {
                     .with(csrf())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(toJson(request)))
-            .andDo(MockMvcResultHandlers.print())
-            .andDo(MockMvcRestDocumentation.document("email/중복체크-성공",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
+            .andDo(MockMvcResultHandlers.print());
         // then
         resultActions.andExpect(status().isOk());
     }
@@ -72,10 +65,7 @@ public class EmailControllerTest extends ApiTestSupport {
                     .with(csrf())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(toJson(request)))
-            .andDo(MockMvcResultHandlers.print())
-            .andDo(MockMvcRestDocumentation.document("email/중복체크-중복",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
+            .andDo(MockMvcResultHandlers.print());
         // then
         resultActions.andExpect(status().isConflict()) // 409 Conflict
             .andExpect(
@@ -97,13 +87,10 @@ public class EmailControllerTest extends ApiTestSupport {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post("/email/send-code")
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(toJson(emailRequest)))
-            .andDo(MockMvcRestDocumentation.document("email/인증코드-요청",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint())));
+            MockMvcRequestBuilders.post("/email/send-code")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(emailRequest)));
         // then
         resultActions.andExpect(status().isOk());
     }
