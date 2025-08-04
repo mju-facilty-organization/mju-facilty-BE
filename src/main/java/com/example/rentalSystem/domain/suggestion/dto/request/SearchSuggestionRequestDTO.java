@@ -11,8 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SearchSuggestionRequestDTO {
 
-    private SuggestionCategory category;    // 분야 (nullable)
-    private SuggestionStatus status;        // 상태 (nullable)
-    private String keyword;                 // 제목/내용 검색 (nullable)
-    private Integer page = 0;
+    private SuggestionCategory category;
+    private SuggestionStatus status;
+    private String keyword;
 }

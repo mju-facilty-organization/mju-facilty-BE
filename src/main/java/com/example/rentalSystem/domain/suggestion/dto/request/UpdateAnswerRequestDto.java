@@ -2,7 +2,6 @@ package com.example.rentalSystem.domain.suggestion.dto.request;
 
 import com.example.rentalSystem.domain.suggestion.entity.SuggestionStatus;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

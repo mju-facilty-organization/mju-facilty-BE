@@ -7,6 +7,7 @@ import com.example.rentalSystem.domain.suggestion.dto.request.UpdateAnswerReques
 import com.example.rentalSystem.domain.suggestion.dto.response.SuggestionResponse;
 import com.example.rentalSystem.domain.suggestion.dto.response.SuggestionStatisticsResponse;
 import com.example.rentalSystem.domain.suggestion.entity.SuggestionStatus;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -20,8 +21,7 @@ public interface SuggestionService {
 
     SuggestionStatisticsResponse getSuggestionStatistics();
 
-    List<SuggestionResponse> getSuggestions(SearchSuggestionRequestDTO request, Student loginUser);
-
+    List<SuggestionResponse> getSuggestions(SearchSuggestionRequestDTO request, Student loginUser, Pageable pageable);
 
     List<SuggestionResponse> getMySuggestions(Student student);
 

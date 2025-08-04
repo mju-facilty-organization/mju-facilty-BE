@@ -13,6 +13,7 @@ import com.example.rentalSystem.global.response.type.ErrorType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -34,7 +35,10 @@ public interface SuggestionControllerDocs {
                                     @Parameter(hidden = true) CustomerDetails customerDetails);
 
     @Operation(summary = "전체 건의 목록 조회 (비로그인 허용, 필터링 지원)")
-    ApiResponse<List<SuggestionResponse>> getSuggestions(SearchSuggestionRequestDTO requestDTO);
+    ApiResponse<List<SuggestionResponse>> getSuggestions(
+            SearchSuggestionRequestDTO requestDTO,
+            Pageable pageable
+    );
 
     @Operation(summary = "내가 작성한 건의 목록 조회 (학생 전용)")
     ApiResponse<List<SuggestionResponse>> getMySuggestions(

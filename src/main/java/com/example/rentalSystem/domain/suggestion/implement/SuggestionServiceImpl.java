@@ -16,13 +16,11 @@ import com.example.rentalSystem.domain.suggestion.service.SuggestionService;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -35,7 +33,6 @@ public class SuggestionServiceImpl implements SuggestionService {
     private final FacilityJpaRepository facilityRepository;
     private final SuggestionQueryRepository suggestionQueryRepository;
 
-    private static final int SUGGESTIONS_PER_PAGE = 5;
 
     @Override
     @Transactional
@@ -89,8 +86,8 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
-    public List<SuggestionResponse> getSuggestions(SearchSuggestionRequestDTO request, Student loginUser) {
-        return suggestionQueryRepository.searchSuggestions(request, loginUser, SUGGESTIONS_PER_PAGE);
+    public List<SuggestionResponse> getSuggestions(SearchSuggestionRequestDTO request, Student loginUser, Pageable pageable) {
+        return suggestionQueryRepository.searchSuggestions(request, loginUser, pageable);
     }
 
     @Override

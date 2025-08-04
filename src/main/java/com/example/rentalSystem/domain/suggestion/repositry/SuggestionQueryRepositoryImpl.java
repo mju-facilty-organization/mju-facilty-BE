@@ -5,12 +5,12 @@ import com.example.rentalSystem.domain.suggestion.dto.request.SearchSuggestionRe
 import com.example.rentalSystem.domain.suggestion.dto.response.SuggestionResponse;
 import com.example.rentalSystem.domain.suggestion.entity.QSuggestion;
 import com.example.rentalSystem.domain.suggestion.entity.Suggestion;
-
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,9 +22,11 @@ public class SuggestionQueryRepositoryImpl implements SuggestionQueryRepository 
     private final JPAQueryFactory queryFactory;
     private static final QSuggestion qSuggestion = QSuggestion.suggestion;
 
-    @Override
-    public List<SuggestionResponse> searchSuggestions(SearchSuggestionRequestDTO request, Student loginUser, int size) {
+    private static final int DEFAULT_PAGE_SIZE = 5;
+    private static final int MAX_PAGE_SIZE = 20;
 
+    @Override
+    public List<SuggestionResponse> searchSuggestions(SearchSuggestionRequestDTO request, Student loginUser, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
 
         if (request.getStatus() != null) {
@@ -36,8 +38,8 @@ public class SuggestionQueryRepositoryImpl implements SuggestionQueryRepository 
 
         if (request.getKeyword() != null && !request.getKeyword().isBlank()) {
             String[] keywords = request.getKeyword().trim().split("\\s+");
-
             BooleanBuilder keywordBuilder = new BooleanBuilder();
+
             for (String word : keywords) {
                 String pattern = "%" + word.toLowerCase() + "%";
 
@@ -46,17 +48,21 @@ public class SuggestionQueryRepositoryImpl implements SuggestionQueryRepository 
                                 .or(Expressions.stringTemplate("lower(cast({0} as string))", qSuggestion.content).like(pattern))
                 );
             }
+
             builder.and(keywordBuilder);
         }
 
-        int page = request.getPage() != null ? request.getPage() : 0;
+        int requestedSize = pageable.getPageSize() > 0 ? pageable.getPageSize() : DEFAULT_PAGE_SIZE;
+        int safeSize = Math.min(requestedSize, MAX_PAGE_SIZE);
+
+        Pageable safePageable = PageRequest.of(pageable.getPageNumber(), safeSize, pageable.getSort());
 
         List<Suggestion> suggestions = queryFactory
                 .selectFrom(qSuggestion)
                 .where(builder)
                 .orderBy(qSuggestion.createdAt.desc())
-                .offset((long) page * size)
-                .limit(size)
+                .offset(safePageable.getOffset())
+                .limit(safePageable.getPageSize())
                 .fetch();
 
         return suggestions.stream()
