@@ -11,6 +11,7 @@ import com.example.rentalSystem.domain.suggestion.dto.response.SuggestionStatist
 import com.example.rentalSystem.domain.suggestion.entity.Suggestion;
 import com.example.rentalSystem.domain.suggestion.entity.SuggestionStatus;
 import com.example.rentalSystem.domain.suggestion.repositry.SuggestionJpaRepository;
+import com.example.rentalSystem.domain.suggestion.repositry.SuggestionQueryRepository;
 import com.example.rentalSystem.domain.suggestion.service.SuggestionService;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Slf4j
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -32,6 +33,7 @@ public class SuggestionServiceImpl implements SuggestionService {
 
     private final SuggestionJpaRepository suggestionRepository;
     private final FacilityJpaRepository facilityRepository;
+    private final SuggestionQueryRepository suggestionQueryRepository;
 
     private static final int SUGGESTIONS_PER_PAGE = 5;
 
@@ -86,40 +88,9 @@ public class SuggestionServiceImpl implements SuggestionService {
         );
     }
 
-
     @Override
     public List<SuggestionResponse> getSuggestions(SearchSuggestionRequestDTO request, Student loginUser) {
-        Pageable pageable = PageRequest.of(
-                Optional.ofNullable(request.getPage()).orElse(0),
-                SUGGESTIONS_PER_PAGE,
-                Sort.by(Sort.Direction.DESC, "createdAt")
-        );
-
-        return suggestionRepository.findAll(pageable).getContent().stream()
-                .filter(s -> isCategoryMatch(s, request))
-                .filter(s -> isStatusMatch(s, request))
-                .filter(s -> isKeywordMatch(s, request))
-                .map(s -> SuggestionResponse.from(s, canViewAnswer(s, loginUser)))
-                .collect(Collectors.toList());
-    }
-
-    private boolean isCategoryMatch(Suggestion s, SearchSuggestionRequestDTO request) {
-        return request.getCategory() == null || s.getCategory() == request.getCategory();
-    }
-
-    private boolean isStatusMatch(Suggestion s, SearchSuggestionRequestDTO request) {
-        return request.getStatus() == null || s.getStatus() == request.getStatus();
-    }
-
-    private boolean isKeywordMatch(Suggestion s, SearchSuggestionRequestDTO request) {
-        String keyword = request.getKeyword();
-        return keyword == null || keyword.isBlank()
-                || s.getTitle().toLowerCase().contains(keyword.toLowerCase())
-                || s.getContent().toLowerCase().contains(keyword.toLowerCase());
-    }
-
-    private boolean canViewAnswer(Suggestion s, Student loginUser) {
-        return true;
+        return suggestionQueryRepository.searchSuggestions(request, loginUser, SUGGESTIONS_PER_PAGE);
     }
 
     @Override

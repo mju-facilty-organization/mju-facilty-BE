@@ -4,8 +4,10 @@ import com.example.rentalSystem.domain.suggestion.entity.SuggestionCategory;
 import com.example.rentalSystem.domain.suggestion.entity.SuggestionStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class SearchSuggestionRequestDTO {
 

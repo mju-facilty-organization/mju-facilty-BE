@@ -14,4 +14,14 @@ public enum SuggestionStatus {
     SuggestionStatus(String label) {
         this.label = label;
     }
+
+    @JsonCreator
+    public static SuggestionStatus from(String input) {
+        for (SuggestionStatus status : SuggestionStatus.values()) {
+            if (status.name().equalsIgnoreCase(input) || status.label.equalsIgnoreCase(input)) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Unknown status: " + input);
+    }
 }
