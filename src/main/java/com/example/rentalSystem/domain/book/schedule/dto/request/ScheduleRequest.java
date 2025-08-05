@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.book.rentalhistory.dto;
+package com.example.rentalSystem.domain.book.schedule.dto.request;
 
 import com.example.rentalSystem.domain.book.schedule.entity.Schedule;
 import com.example.rentalSystem.domain.facility.entity.Facility;
@@ -20,7 +20,7 @@ public record ScheduleRequest(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     LocalTime rentalStartTime,
 
-    @Schema(type = "string", description = "대여 시작 시간", example = "12:00")
+    @Schema(type = "string", description = "대여 종료 시간", example = "12:00")
     @NotNull(message = "종료 시간은 필수입니다.")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     LocalTime rentalEndTime

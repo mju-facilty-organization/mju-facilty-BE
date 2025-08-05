@@ -1,10 +1,10 @@
 package com.example.rentalSystem.domain.book.schedule.dto.request;
 
-import com.example.rentalSystem.domain.book.rentalhistory.dto.ScheduleRequest;
 import com.example.rentalSystem.domain.book.schedule.entity.Schedule;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.entity.type.ScheduleType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
@@ -26,7 +26,7 @@ public record CreateRegularScheduleRequest(
     @Schema(type = "array", description = "정기 스케줄 목록",
         example = "[{\"dayOfWeek\": \"MONDAY\", \"rentalStartTime\": \"10:00\", \"rentalEndTime\": \"12:00\"}]"
     )
-    @NotNull(message = "스케줄 목록은 필수입니다.")
+    @NotEmpty(message = "스케줄 목록은 필수입니다.")
     List<ScheduleRequest> schedules,
 
     @Schema(description = "스케줄 유효 시작일", example = "2025-08-01")

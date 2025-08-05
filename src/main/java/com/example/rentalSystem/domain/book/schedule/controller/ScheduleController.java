@@ -4,6 +4,7 @@ import com.example.rentalSystem.domain.book.schedule.dto.request.CreateRegularSc
 import com.example.rentalSystem.domain.book.schedule.service.ScheduleService;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.type.SuccessType;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ public class ScheduleController implements ScheduleControllerDocs {
 
     @PostMapping("/regular")
     public ApiResponse<?> createRegularFacility(
-        @RequestBody CreateRegularScheduleRequest request
+        @Valid @RequestBody CreateRegularScheduleRequest request
     ) {
         scheduleService.createSchedule(request);
         return ApiResponse.success(SuccessType.SUCCESS);
