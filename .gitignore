@@ -47,3 +47,5 @@ out/
 # resources 디렉토리 내 파일 모두 무시
 !/src/main/resources/static/**
 
+# QueryDSL Q-Classes
+build/
