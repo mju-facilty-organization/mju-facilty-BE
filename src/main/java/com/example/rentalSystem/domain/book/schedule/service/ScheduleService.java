@@ -1,7 +1,7 @@
 package com.example.rentalSystem.domain.book.schedule.service;
 
-import com.example.rentalSystem.domain.book.rentalhistory.dto.ScheduleRequest;
 import com.example.rentalSystem.domain.book.schedule.dto.request.CreateRegularScheduleRequest;
+import com.example.rentalSystem.domain.book.schedule.dto.request.ScheduleRequest;
 import com.example.rentalSystem.domain.book.schedule.entity.Schedule;
 import com.example.rentalSystem.domain.book.schedule.implement.ScheduleReader;
 import com.example.rentalSystem.domain.book.schedule.implement.ScheduleSaver;
@@ -27,9 +27,16 @@ public class ScheduleService {
     @Transactional
     public void createSchedule(CreateRegularScheduleRequest request) {
         Facility facility = facilityImpl.findById(request.facilityId());
+        checkInvalidDateRange(request);
         validateAndCheckConflicts(facility, request);
         List<Schedule> newSchedules = request.toEntities(facility);
         scheduleSaver.saveAll(newSchedules);
+    }
+
+    private void checkInvalidDateRange(CreateRegularScheduleRequest request) {
+        if (request.validStartDate().isAfter(request.validEndDate())) {
+            throw new CustomException(ErrorType.INVALID_DATE_RANGE);
+        }
     }
 
     private void validateAndCheckConflicts(Facility facility,

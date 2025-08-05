@@ -29,7 +29,8 @@ public enum ErrorType {
     NO_ANSWER_YET(400, "아직 답변이 등록되지 않았습니다."),
     ALREADY_COMPLETED(400, "처리완료 상태에서는 답변을 수정하거나 등록할 수 없습니다."),
     INVALID_TIME_RANGE(400, "시작 시간이 종료 시간보다 빠를 수 없습니다."),
-    SCHEDULE_CONFLICT(400, "이미 스케줄이 겹치는 시간이 있습니다.");
+    SCHEDULE_CONFLICT(400, "이미 스케줄이 겹치는 시간이 있습니다."),
+    INVALID_DATE_RANGE(400, "유효 날짜가 올바르지 않습니다.");
 
     private final int httpStatusCode;
     private final String message;
