@@ -36,7 +36,7 @@ public class RentalFixture {
         rentalHistory = Mockito.spy(rentalHistory);
         doReturn(1L).when(rentalHistory).getId();
         doReturn(LocalDateTime.parse("2025-02-02T22:49:40.772231")).when(rentalHistory)
-            .getCreated_at();
+            .getCreatedAt();
 
         return rentalHistory;
     }

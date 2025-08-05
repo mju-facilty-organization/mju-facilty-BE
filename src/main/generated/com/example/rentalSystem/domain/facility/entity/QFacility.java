@@ -27,7 +27,7 @@ public class QFacility extends EntityPathBase<Facility> {
     public final NumberPath<Long> capacity = createNumber("capacity", Long.class);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> created_at = _super.created_at;
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final TimePath<java.time.LocalTime> endTime = createTime("endTime", java.time.LocalTime.class);
 
@@ -50,7 +50,7 @@ public class QFacility extends EntityPathBase<Facility> {
     public final ListPath<String, StringPath> supportFacilities = this.<String, StringPath>createList("supportFacilities", String.class, StringPath.class, PathInits.DIRECT2);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> updated_at = _super.updated_at;
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QFacility(String variable) {
         super(Facility.class, forVariable(variable));

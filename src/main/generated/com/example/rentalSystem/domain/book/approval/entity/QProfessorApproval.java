@@ -25,7 +25,7 @@ public class QProfessorApproval extends EntityPathBase<ProfessorApproval> {
     public final com.example.rentalSystem.domain.common.QBaseTimeEntity _super = new com.example.rentalSystem.domain.common.QBaseTimeEntity(this);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> created_at = _super.created_at;
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -38,7 +38,7 @@ public class QProfessorApproval extends EntityPathBase<ProfessorApproval> {
     public final com.example.rentalSystem.domain.book.rentalhistory.entity.QRentalHistory rentalHistory;
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> updated_at = _super.updated_at;
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QProfessorApproval(String variable) {
         this(ProfessorApproval.class, forVariable(variable), INITS);

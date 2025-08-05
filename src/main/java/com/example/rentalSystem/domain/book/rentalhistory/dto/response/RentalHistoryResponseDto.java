@@ -37,7 +37,7 @@ public class RentalHistoryResponseDto {
                 FacilityResponse.fromRentalHistory(rentalHistory))
             .organization(rentalHistory.getOrganization())
             .purpose(rentalHistory.getPurpose())
-            .createAt(rentalHistory.getCreated_at())
+            .createAt(rentalHistory.getCreatedAt())
             .defineDateTime(rentalHistory.getDefineDateTime())
             .applicationResult(rentalHistory.getRentalApplicationResult())
             .build();
@@ -55,7 +55,7 @@ public class RentalHistoryResponseDto {
             .endTime(rentalHistory.getRentalEndDateTime())
             .organization(rentalHistory.getOrganization())
             .purpose(rentalHistory.getPurpose())
-            .createAt(rentalHistory.getCreated_at())
+            .createAt(rentalHistory.getCreatedAt())
             .defineDateTime(rentalHistory.getDefineDateTime())
             .applicationResult(rentalHistory.getRentalApplicationResult())
             .build();

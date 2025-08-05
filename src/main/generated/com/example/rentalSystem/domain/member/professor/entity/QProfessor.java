@@ -26,7 +26,7 @@ public class QProfessor extends EntityPathBase<Professor> {
     public final EnumPath<com.example.rentalSystem.domain.member.base.entity.type.AffiliationType> college = createEnum("college", com.example.rentalSystem.domain.member.base.entity.type.AffiliationType.class);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> created_at = _super.created_at;
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final StringPath email = createString("email");
 
@@ -37,7 +37,7 @@ public class QProfessor extends EntityPathBase<Professor> {
     public final StringPath name = createString("name");
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> updated_at = _super.updated_at;
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QProfessor(String variable) {
         super(Professor.class, forVariable(variable));
