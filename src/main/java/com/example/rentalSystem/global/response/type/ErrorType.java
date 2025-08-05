@@ -23,7 +23,9 @@ public enum ErrorType {
     FAIL_RENTAL_REQUEST(409, "예약 신청이 불가능한 시간입니다."),
     INVALID_FACILITY_TYPE(400, "유효한 시설 타입이 아닙니다."),
     INVALID_AFFILIATION_TYPE(400, "유효한 소속이 아닙니다."),
-    FAIL_READ_CSV(400, "CSV 파일 읽기를 실패했습니다.");
+    FAIL_READ_CSV(400, "CSV 파일 읽기를 실패했습니다."),
+    INVALID_TIME_RANGE(400, "시작 시간이 종료 시간보다 빠를 수 없습니다."),
+    SCHEDULE_CONFLICT(400, "이미 스케줄이 겹치는 시간이 있습니다.");
 
     private final int httpStatusCode;
     private final String message;
