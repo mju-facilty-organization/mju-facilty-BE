@@ -25,7 +25,7 @@ public class QRentalHistory extends EntityPathBase<RentalHistory> {
     public final com.example.rentalSystem.domain.common.QBaseTimeEntity _super = new com.example.rentalSystem.domain.common.QBaseTimeEntity(this);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> created_at = _super.created_at;
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final DateTimePath<java.time.LocalDateTime> defineDateTime = createDateTime("defineDateTime", java.time.LocalDateTime.class);
 
@@ -52,7 +52,7 @@ public class QRentalHistory extends EntityPathBase<RentalHistory> {
     public final com.example.rentalSystem.domain.member.student.entity.QStudent student;
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> updated_at = _super.updated_at;
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QRentalHistory(String variable) {
         this(RentalHistory.class, forVariable(variable), INITS);

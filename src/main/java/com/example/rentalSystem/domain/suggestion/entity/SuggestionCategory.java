@@ -14,11 +14,15 @@ public enum SuggestionCategory {
     BROKEN("안되요"),
     ETC("기타");
 
-    @JsonValue
     private final String label;
 
     SuggestionCategory(String label) {
         this.label = label;
+    }
+
+    @JsonValue
+    public String getName() {
+        return this.name();
     }
 
     @JsonCreator

@@ -22,8 +22,7 @@ public class SuggestionQueryRepositoryImpl implements SuggestionQueryRepository 
     private final JPAQueryFactory queryFactory;
     private static final QSuggestion qSuggestion = QSuggestion.suggestion;
 
-    private static final int DEFAULT_PAGE_SIZE = 5;
-    private static final int MAX_PAGE_SIZE = 20;
+    private static final int MAX_PAGE_SIZE = 10;
 
     @Override
     public List<SuggestionResponse> searchSuggestions(SearchSuggestionRequestDTO request, Student loginUser, Pageable pageable) {
@@ -52,9 +51,7 @@ public class SuggestionQueryRepositoryImpl implements SuggestionQueryRepository 
             builder.and(keywordBuilder);
         }
 
-        int requestedSize = pageable.getPageSize() > 0 ? pageable.getPageSize() : DEFAULT_PAGE_SIZE;
-        int safeSize = Math.min(requestedSize, MAX_PAGE_SIZE);
-
+        int safeSize = Math.min(pageable.getPageSize(), MAX_PAGE_SIZE);
         Pageable safePageable = PageRequest.of(pageable.getPageNumber(), safeSize, pageable.getSort());
 
         List<Suggestion> suggestions = queryFactory

@@ -25,7 +25,9 @@ public interface SuggestionService {
 
     List<SuggestionResponse> getMySuggestions(Student student);
 
-    void answer(Long suggestionId, UpdateAnswerRequestDto dto);
+    void createAnswer(Long suggestionId, UpdateAnswerRequestDto dto);
+
+    void updateAnswer(Long suggestionId, UpdateAnswerRequestDto dto);
 
     void updateStatus(Long suggestionId, SuggestionStatus status);
 }

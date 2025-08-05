@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity
 @Slf4j
 public class SecurityConfig {
 
@@ -28,28 +30,42 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-            // REST API이므로 basic auth 및 csrf 보안을 사용하지 않음
-            .httpBasic(HttpBasicConfigurer::disable)
-            .csrf(CsrfConfigurer::disable)
-            // JWT를 사용하기 때문에 세션을 사용하지 않음
-            .sessionManagement(
-                session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(authorize -> authorize
-                // 해당 API에 대해서는 모든 요청을 허가
-                .requestMatchers("/members/sign-in").permitAll()
-                .requestMatchers("/members/sign-up/**").permitAll()
-                .requestMatchers("/email/**").permitAll()
-                .requestMatchers(HttpMethod.PATCH, ("/members")).hasRole("USER")
-                .requestMatchers("/swagger-ui/**").permitAll()
-                // USER 권한이 있어야 요청할 수 있음
-                .requestMatchers("/members/test").hasAnyRole("ADMIN", "USER")
-                // 이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
-                .anyRequest().permitAll()
-            )
-            // JWT 인증을 위하여 직접 구현한 필터를 UsernamePasswordAuthenticationFilter 전에 실행
-            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                UsernamePasswordAuthenticationFilter.class)
-            .build();
+                // REST API이므로 basic auth 및 csrf 보안을 사용하지 않음
+                .httpBasic(HttpBasicConfigurer::disable)
+                .csrf(CsrfConfigurer::disable)
+                // JWT를 사용하기 때문에 세션을 사용하지 않음
+                .sessionManagement(
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                        // 해당 API에 대해서는 모든 요청을 허가
+                        .requestMatchers("/members/sign-in").permitAll()
+                        .requestMatchers("/members/sign-up/**").permitAll()
+                        .requestMatchers("/email/**").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, ("/members")).hasRole("USER")
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        // USER 권한이 있어야 요청할 수 있음
+                        .requestMatchers("/members/test").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET, "/suggestions").permitAll()
+
+                        // 건의함 STUDENT 권한
+                        .requestMatchers(HttpMethod.POST, "/suggestions").hasRole("STUDENT")
+                        .requestMatchers(HttpMethod.PATCH, "/suggestions/*").hasRole("STUDENT")
+                        .requestMatchers(HttpMethod.DELETE, "/suggestions/*").hasRole("STUDENT")
+                        .requestMatchers(HttpMethod.GET, "/suggestions/me").hasRole("STUDENT")
+
+                        // 건의함 ADMIN ADMIN 권한
+                        .requestMatchers(HttpMethod.POST, "/suggestions/*/answer").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/suggestions/*/answer").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/suggestions/*/status").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/suggestions/statistics").hasRole("ADMIN")
+
+                        // 이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
+                        .anyRequest().permitAll()
+                )
+                // JWT 인증을 위하여 직접 구현한 필터를 UsernamePasswordAuthenticationFilter 전에 실행
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                        UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean

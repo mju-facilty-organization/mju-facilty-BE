@@ -22,11 +22,14 @@ public class AffiliationListConverter implements AttributeConverter<List<Affilia
 
     @Override
     public List<AffiliationType> convertToEntityAttribute(String s) {
+        if (s == null || s.isBlank()) {
+            return List.of();
+        }
+
         try {
-            return mapper.readValue(s, new TypeReference<List<AffiliationType>>() {
-            });
+            return mapper.readValue(s, new TypeReference<List<AffiliationType>>() {});
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("JSON 파싱 실패: " + s, e);
         }
     }
 }

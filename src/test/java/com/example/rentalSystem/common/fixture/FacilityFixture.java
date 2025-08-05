@@ -34,7 +34,7 @@ public class FacilityFixture {
             .build();
         facility = Mockito.spy(facility);
         doReturn(1L).when(facility).getId();
-        doReturn(LocalDateTime.parse("2025-02-02T22:49:40.772231")).when(facility).getCreated_at();
+        doReturn(LocalDateTime.parse("2025-02-02T22:49:40.772231")).when(facility).getCreatedAt();
         return facility;
     }
 

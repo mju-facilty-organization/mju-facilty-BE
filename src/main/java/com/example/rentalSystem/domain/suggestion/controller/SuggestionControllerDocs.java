@@ -13,6 +13,7 @@ import com.example.rentalSystem.global.response.type.ErrorType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -36,17 +37,21 @@ public interface SuggestionControllerDocs {
 
     @Operation(summary = "전체 건의 목록 조회 (비로그인 허용, 필터링 지원)")
     ApiResponse<List<SuggestionResponse>> getSuggestions(
-            SearchSuggestionRequestDTO requestDTO,
-            Pageable pageable
+            @ParameterObject SearchSuggestionRequestDTO requestDTO,
+            @Parameter(hidden = true) Pageable pageable
     );
 
     @Operation(summary = "내가 작성한 건의 목록 조회 (학생 전용)")
     ApiResponse<List<SuggestionResponse>> getMySuggestions(
             @Parameter(hidden = true) CustomerDetails customerDetails);
 
-    @Operation(summary = "건의 답변 등록 (관리자 전용, 상태 자동 완료)")
+    @Operation(summary = "건의 답변 등록 API (관리자 전용, 최초 작성 시)")
     @ApiErrorCodeExample(ErrorType.ENTITY_NOT_FOUND)
-    ApiResponse<?> answerSuggestion(Long suggestionId, UpdateAnswerRequestDto requestDto);
+    ApiResponse<?> createAnswer(Long suggestionId, UpdateAnswerRequestDto requestDto);
+
+    @Operation(summary = "건의 답변 수정 API (관리자 전용)")
+    @ApiErrorCodeExample(ErrorType.ENTITY_NOT_FOUND)
+    ApiResponse<?> updateAnswer(Long suggestionId, UpdateAnswerRequestDto requestDto);
 
     @Operation(summary = "건의 상태만 변경 (관리자 전용)")
     ApiResponse<?> updateStatus(Long suggestionId, SuggestionStatus status);

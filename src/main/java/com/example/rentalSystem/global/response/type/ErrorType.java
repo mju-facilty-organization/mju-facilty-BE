@@ -23,7 +23,11 @@ public enum ErrorType {
     FAIL_RENTAL_REQUEST(409, "예약 신청이 불가능한 시간입니다."),
     INVALID_FACILITY_TYPE(400, "유효한 시설 타입이 아닙니다."),
     INVALID_AFFILIATION_TYPE(400, "유효한 소속이 아닙니다."),
-    FAIL_READ_CSV(400, "CSV 파일 읽기를 실패했습니다."), FORBIDDEN(403, "해당 요청에 대한 권한이 없습니다.");
+    FAIL_READ_CSV(400, "CSV 파일 읽기를 실패했습니다."),
+    FORBIDDEN(403, "해당 요청에 대한 권한이 없습니다."),
+    ALREADY_ANSWERED(400, "이미 답변이 작성된 건의입니다."),
+    NO_ANSWER_YET(400, "아직 답변이 등록되지 않았습니다."),
+    ALREADY_COMPLETED(400, "처리완료 상태에서는 답변을 수정하거나 등록할 수 없습니다.");
 
     private final int httpStatusCode;
     private final String message;

@@ -46,7 +46,6 @@ public class SuggestionController implements SuggestionControllerDocs {
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 
-    // 3. 내 건의 수정 - 학생만 가능
     @PreAuthorize("hasRole('STUDENT')")
     @PatchMapping("/{suggestionId}")
     public ApiResponse<?> updateSuggestion(
@@ -58,7 +57,6 @@ public class SuggestionController implements SuggestionControllerDocs {
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 
-    // 4. 전체 건의 목록 조회 (비로그인도 허용)
     @GetMapping
     public ApiResponse<List<SuggestionResponse>> getSuggestions(
             @ModelAttribute SearchSuggestionRequestDTO requestDTO,
@@ -69,7 +67,6 @@ public class SuggestionController implements SuggestionControllerDocs {
                 suggestionService.getSuggestions(requestDTO, null, pageable)
         );
     }
-
 
     @PreAuthorize("hasRole('STUDENT')")
     @GetMapping("/me")
@@ -82,14 +79,23 @@ public class SuggestionController implements SuggestionControllerDocs {
         );
     }
 
-
     @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping("/{suggestionId}/answer")
-    public ApiResponse<?> answerSuggestion(
+    @PostMapping("/{suggestionId}/answer")
+    public ApiResponse<?> createAnswer(
             @PathVariable Long suggestionId,
             @RequestBody @Valid UpdateAnswerRequestDto requestDto
     ) {
-        suggestionService.answer(suggestionId, requestDto);
+        suggestionService.createAnswer(suggestionId, requestDto);
+        return ApiResponse.success(SuccessType.SUCCESS);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/{suggestionId}/answer")
+    public ApiResponse<?> updateAnswer(
+            @PathVariable Long suggestionId,
+            @RequestBody @Valid UpdateAnswerRequestDto requestDto
+    ) {
+        suggestionService.updateAnswer(suggestionId, requestDto);
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 

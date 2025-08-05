@@ -1,6 +1,7 @@
 package com.example.rentalSystem.domain.suggestion.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
@@ -13,6 +14,11 @@ public enum SuggestionStatus {
 
     SuggestionStatus(String label) {
         this.label = label;
+    }
+
+    @JsonValue
+    public String getName() {
+        return this.name();
     }
 
     @JsonCreator

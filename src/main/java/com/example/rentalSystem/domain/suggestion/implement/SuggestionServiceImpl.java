@@ -61,6 +61,10 @@ public class SuggestionServiceImpl implements SuggestionService {
             throw new CustomException(ErrorType.FORBIDDEN);
         }
 
+        if (suggestion.getAnswer() != null && !suggestion.getAnswer().isBlank()) {
+            throw new CustomException(ErrorType.ALREADY_ANSWERED);
+        }
+
         suggestionRepository.delete(suggestion);
     }
 
@@ -72,6 +76,10 @@ public class SuggestionServiceImpl implements SuggestionService {
 
         if (!suggestion.getStudent().getId().equals(student.getId())) {
             throw new CustomException(ErrorType.FORBIDDEN);
+        }
+
+        if (suggestion.getAnswer() != null && !suggestion.getAnswer().isBlank()) {
+            throw new CustomException(ErrorType.ALREADY_ANSWERED);
         }
 
         Facility facility = facilityRepository.findById(requestDto.getFacilityId())
@@ -99,9 +107,17 @@ public class SuggestionServiceImpl implements SuggestionService {
 
     @Override
     @Transactional
-    public void answer(Long suggestionId, UpdateAnswerRequestDto dto) {
+    public void createAnswer(Long suggestionId, UpdateAnswerRequestDto dto) {
         Suggestion suggestion = suggestionRepository.findById(suggestionId)
                 .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
+
+        if (suggestion.getStatus() == SuggestionStatus.COMPLETED) {
+            throw new CustomException(ErrorType.ALREADY_COMPLETED);
+        }
+
+        if (suggestion.getAnswer() != null && !suggestion.getAnswer().isBlank()) {
+            throw new CustomException(ErrorType.ALREADY_ANSWERED);
+        }
 
         suggestion.updateAnswer(dto.getAnswer());
 
@@ -114,9 +130,35 @@ public class SuggestionServiceImpl implements SuggestionService {
 
     @Override
     @Transactional
+    public void updateAnswer(Long suggestionId, UpdateAnswerRequestDto dto) {
+        Suggestion suggestion = suggestionRepository.findById(suggestionId)
+                .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
+
+        if (suggestion.getStatus() == SuggestionStatus.COMPLETED) {
+            throw new CustomException(ErrorType.ALREADY_COMPLETED);
+        }
+
+        if (suggestion.getAnswer() == null || suggestion.getAnswer().isBlank()) {
+            throw new CustomException(ErrorType.NO_ANSWER_YET);
+        }
+
+        suggestion.updateAnswer(dto.getAnswer());
+
+        if (dto.getStatus() != null) {
+            suggestion.setStatus(dto.getStatus());
+        }
+    }
+
+    @Override
+    @Transactional
     public void updateStatus(Long suggestionId, SuggestionStatus status) {
         Suggestion suggestion = suggestionRepository.findById(suggestionId)
                 .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
+
+        if (status == SuggestionStatus.COMPLETED &&
+                (suggestion.getAnswer() == null || suggestion.getAnswer().isBlank())) {
+            throw new CustomException(ErrorType.NO_ANSWER_YET);
+        }
 
         suggestion.setStatus(status);
     }
