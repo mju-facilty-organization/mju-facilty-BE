@@ -43,8 +43,6 @@ public class QFacility extends EntityPathBase<Facility> {
 
     public final BooleanPath isDeleted = createBoolean("isDeleted");
 
-    public final ListPath<com.example.rentalSystem.domain.book.schedule.entity.Schedule, com.example.rentalSystem.domain.book.schedule.entity.QSchedule> schedules = this.<com.example.rentalSystem.domain.book.schedule.entity.Schedule, com.example.rentalSystem.domain.book.schedule.entity.QSchedule>createList("schedules", com.example.rentalSystem.domain.book.schedule.entity.Schedule.class, com.example.rentalSystem.domain.book.schedule.entity.QSchedule.class, PathInits.DIRECT2);
-
     public final TimePath<java.time.LocalTime> startTime = createTime("startTime", java.time.LocalTime.class);
 
     public final ListPath<String, StringPath> supportFacilities = this.<String, StringPath>createList("supportFacilities", String.class, StringPath.class, PathInits.DIRECT2);
