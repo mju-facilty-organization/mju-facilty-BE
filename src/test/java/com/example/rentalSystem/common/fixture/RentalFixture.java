@@ -4,9 +4,9 @@ import static org.mockito.Mockito.doReturn;
 
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.member.student.entity.Student;
-import com.example.rentalSystem.domain.rental.rentalhistory.dto.request.CreateRentalRequest;
-import com.example.rentalSystem.domain.rental.rentalhistory.dto.response.RentalHistoryResponseDto;
-import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalHistory;
+import com.example.rentalSystem.domain.book.rentalhistory.dto.request.CreateRentalRequest;
+import com.example.rentalSystem.domain.book.rentalhistory.dto.response.RentalHistoryResponseDto;
+import com.example.rentalSystem.domain.book.rentalhistory.entity.RentalHistory;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.mockito.Mockito;
