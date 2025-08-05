@@ -48,7 +48,6 @@ public class FacilityScheduleManager {
         Facility facility,
         LocalDate startDate,
         LocalTime startTime,
-        LocalDate endDate,
         LocalTime endTime
     ) {
         TimeTable timeTable = findTimeTable(facility, startDate);
