@@ -3,7 +3,7 @@ package com.example.rentalSystem.domain.facility.dto.response;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.entity.type.FacilityType;
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
-import com.example.rentalSystem.domain.rental.rentalhistory.entity.RentalHistory;
+import com.example.rentalSystem.domain.book.rentalhistory.entity.RentalHistory;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.List;
