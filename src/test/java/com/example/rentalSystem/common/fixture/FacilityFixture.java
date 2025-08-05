@@ -45,8 +45,8 @@ public class FacilityFixture {
 //            .capacity(10L)
 //            .chargeProfessor("수정된 교수")
 //            .isAvailable(true)
-//            .startTime(LocalTime.now().minusHours(2))
-//            .endTime(LocalTime.now().plusHours(4))
+//            .rentalStartTime(LocalTime.now().minusHours(2))
+//            .rentalEndTime(LocalTime.now().plusHours(4))
 //            .build();
         return null;
     }

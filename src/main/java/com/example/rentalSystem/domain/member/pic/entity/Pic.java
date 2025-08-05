@@ -1,7 +1,7 @@
 package com.example.rentalSystem.domain.member.pic.entity;
 
-import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.member.base.entity.Member;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.domain.member.base.entity.type.Role;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
