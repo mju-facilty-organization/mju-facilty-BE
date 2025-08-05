@@ -24,38 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/suggestions")
 public class SuggestionController implements SuggestionControllerDocs {
+
     private final SuggestionService suggestionService;
-
-    @PreAuthorize("hasRole('STUDENT')")
-    @PostMapping
-    public ApiResponse<?> createSuggestion(
-            @RequestBody @Valid CreateSuggestionRequestDto requestDto,
-            @AuthenticationPrincipal CustomerDetails customerDetails
-    ) {
-        suggestionService.create(requestDto, customerDetails.getStudent());
-        return ApiResponse.success(SuccessType.CREATED);
-    }
-
-    @PreAuthorize("hasRole('STUDENT')")
-    @DeleteMapping("/{suggestionId}")
-    public ApiResponse<?> deleteSuggestion(
-            @PathVariable Long suggestionId,
-            @AuthenticationPrincipal CustomerDetails customerDetails
-    ) {
-        suggestionService.delete(suggestionId, customerDetails.getStudent());
-        return ApiResponse.success(SuccessType.SUCCESS);
-    }
-
-    @PreAuthorize("hasRole('STUDENT')")
-    @PatchMapping("/{suggestionId}")
-    public ApiResponse<?> updateSuggestion(
-            @PathVariable Long suggestionId,
-            @RequestBody @Valid CreateSuggestionRequestDto requestDto,
-            @AuthenticationPrincipal CustomerDetails customerDetails
-    ) {
-        suggestionService.update(suggestionId, requestDto, customerDetails.getStudent());
-        return ApiResponse.success(SuccessType.SUCCESS);
-    }
 
     @GetMapping
     public ApiResponse<List<SuggestionResponse>> getSuggestions(
@@ -77,6 +47,37 @@ public class SuggestionController implements SuggestionControllerDocs {
                 SuccessType.SUCCESS,
                 suggestionService.getMySuggestions(customerDetails.getStudent())
         );
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @PostMapping
+    public ApiResponse<?> createSuggestion(
+            @RequestBody @Valid CreateSuggestionRequestDto requestDto,
+            @AuthenticationPrincipal CustomerDetails customerDetails
+    ) {
+        suggestionService.create(requestDto, customerDetails.getStudent());
+        return ApiResponse.success(SuccessType.CREATED);
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @PatchMapping("/{suggestionId}")
+    public ApiResponse<?> updateSuggestion(
+            @PathVariable Long suggestionId,
+            @RequestBody @Valid CreateSuggestionRequestDto requestDto,
+            @AuthenticationPrincipal CustomerDetails customerDetails
+    ) {
+        suggestionService.update(suggestionId, requestDto, customerDetails.getStudent());
+        return ApiResponse.success(SuccessType.SUCCESS);
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @DeleteMapping("/{suggestionId}")
+    public ApiResponse<?> deleteSuggestion(
+            @PathVariable Long suggestionId,
+            @AuthenticationPrincipal CustomerDetails customerDetails
+    ) {
+        suggestionService.delete(suggestionId, customerDetails.getStudent());
+        return ApiResponse.success(SuccessType.SUCCESS);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

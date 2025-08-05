@@ -33,5 +33,3 @@ public enum SuggestionCategory {
                 .orElseThrow(() -> new IllegalArgumentException("Unknown category: " + input));
     }
 }
-
-

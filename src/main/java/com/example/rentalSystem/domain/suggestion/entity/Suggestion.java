@@ -4,7 +4,10 @@ import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.member.student.entity.Student;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -46,8 +49,8 @@ public class Suggestion extends BaseTimeEntity {
     private SuggestionStatus status;
 
     @Builder
-    public Suggestion(SuggestionCategory category, Facility facility, Student student,
-                      String title, String content) {
+    public Suggestion(SuggestionCategory category, Facility facility,
+                      Student student, String title, String content) {
         this.category = category;
         this.facility = facility;
         this.student = student;
@@ -79,7 +82,7 @@ public class Suggestion extends BaseTimeEntity {
     }
 
     public LocalDateTime getCreatedAt() {
-        return super.getCreatedAt(); // BaseTimeEntity에 정의된 필드 기준
+        return super.getCreatedAt();
     }
 
     public String getAnswer() {

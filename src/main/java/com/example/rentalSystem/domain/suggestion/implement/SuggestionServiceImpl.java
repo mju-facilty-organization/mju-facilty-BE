@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -33,6 +32,17 @@ public class SuggestionServiceImpl implements SuggestionService {
     private final FacilityJpaRepository facilityRepository;
     private final SuggestionQueryRepository suggestionQueryRepository;
 
+    @Override
+    public List<SuggestionResponse> getSuggestions(SearchSuggestionRequestDTO request, Student loginUser, Pageable pageable) {
+        return suggestionQueryRepository.searchSuggestions(request, loginUser, pageable);
+    }
+
+    @Override
+    public List<SuggestionResponse> getMySuggestions(Student student) {
+        return suggestionRepository.findByStudent(student).stream()
+                .map(s -> SuggestionResponse.from(s, true))
+                .collect(Collectors.toList());
+    }
 
     @Override
     @Transactional
@@ -49,23 +59,6 @@ public class SuggestionServiceImpl implements SuggestionService {
                 .build();
 
         suggestionRepository.save(suggestion);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Long suggestionId, Student student) {
-        Suggestion suggestion = suggestionRepository.findById(suggestionId)
-                .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
-
-        if (!suggestion.getStudent().getId().equals(student.getId())) {
-            throw new CustomException(ErrorType.FORBIDDEN);
-        }
-
-        if (suggestion.getAnswer() != null && !suggestion.getAnswer().isBlank()) {
-            throw new CustomException(ErrorType.ALREADY_ANSWERED);
-        }
-
-        suggestionRepository.delete(suggestion);
     }
 
     @Override
@@ -94,15 +87,20 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
-    public List<SuggestionResponse> getSuggestions(SearchSuggestionRequestDTO request, Student loginUser, Pageable pageable) {
-        return suggestionQueryRepository.searchSuggestions(request, loginUser, pageable);
-    }
+    @Transactional
+    public void delete(Long suggestionId, Student student) {
+        Suggestion suggestion = suggestionRepository.findById(suggestionId)
+                .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
 
-    @Override
-    public List<SuggestionResponse> getMySuggestions(Student student) {
-        return suggestionRepository.findByStudent(student).stream()
-                .map(s -> SuggestionResponse.from(s, true))
-                .collect(Collectors.toList());
+        if (!suggestion.getStudent().getId().equals(student.getId())) {
+            throw new CustomException(ErrorType.FORBIDDEN);
+        }
+
+        if (suggestion.getAnswer() != null && !suggestion.getAnswer().isBlank()) {
+            throw new CustomException(ErrorType.ALREADY_ANSWERED);
+        }
+
+        suggestionRepository.delete(suggestion);
     }
 
     @Override

@@ -22,6 +22,7 @@ public class SuggestionResponse {
     private String statusCode;
 
     private String maskedStudentName;
+
     private String facilityNumber;
 
     private String answer;
