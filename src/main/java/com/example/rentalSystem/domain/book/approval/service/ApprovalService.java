@@ -1,22 +1,19 @@
 package com.example.rentalSystem.domain.book.approval.service;
 
-import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
-import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.member.pic.entity.Pic;
-import com.example.rentalSystem.domain.member.student.dto.response.StudentInfoResponse;
-import com.example.rentalSystem.domain.member.student.entity.Student;
 import com.example.rentalSystem.domain.book.approval.dto.request.RegisterRentalResultRequest;
 import com.example.rentalSystem.domain.book.approval.dto.response.RentalHistoryResponseForProfessorDto;
 import com.example.rentalSystem.domain.book.approval.entity.ProfessorApproval;
 import com.example.rentalSystem.domain.book.approval.implement.ProfessorApprovalImpl;
-import com.example.rentalSystem.domain.book.email.implement.MailImpl;
 import com.example.rentalSystem.domain.book.rentalhistory.dto.response.RentalInfoResponse;
 import com.example.rentalSystem.domain.book.rentalhistory.entity.RentalHistory;
-import com.example.rentalSystem.domain.book.rentalhistory.entity.type.RentalApplicationResult;
 import com.example.rentalSystem.domain.book.rentalhistory.implement.FacilityScheduleManager;
 import com.example.rentalSystem.domain.book.rentalhistory.implement.RentalHistoryImpl;
 import com.example.rentalSystem.domain.book.rentalhistory.implement.RentalHistoryUtils;
-import java.time.LocalDateTime;
+import com.example.rentalSystem.domain.email.implement.MailImpl;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
+import com.example.rentalSystem.domain.member.pic.entity.Pic;
+import com.example.rentalSystem.domain.member.student.dto.response.StudentInfoResponse;
+import com.example.rentalSystem.domain.member.student.entity.Student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,10 +34,6 @@ public class ApprovalService {
     ) {
         ProfessorApproval professorApproval = professorApprovalImpl.findById(professorApprovalId);
         professorApproval.registerResult(registerRentalResultRequest);
-
-        RentalHistory rentalHistory = professorApproval.getRentalHistory();
-        updateFacilityTimeStatus(rentalHistory,
-            registerRentalResultRequest.rentalApplicationResult());
     }
 
     @Transactional(readOnly = true)
@@ -72,43 +65,19 @@ public class ApprovalService {
     ) {
         RentalHistory rentalHistory = rentalHistoryImpl.findById(rentalHistoryId);
         rentalHistory.registerApplicationResult(pic, registerRentalResultRequest);
-
-        updateFacilityTimeStatus(rentalHistory,
-            registerRentalResultRequest.rentalApplicationResult());
     }
 
 
     private RentalInfoResponse createRentalInfo(
         RentalHistory rentalHistory
     ) {
-        LocalDateTime startDate = rentalHistory.getRentalStartDateTime();
-        LocalDateTime endDate = rentalHistory.getRentalEndDateTime();
-
-        String date = RentalHistoryUtils.formatRentalDate(startDate);
-        String time = RentalHistoryUtils.formatRentalTime(startDate, endDate);
-
+        String date = RentalHistoryUtils.formatRentalDate(rentalHistory.getRentalStartDate());
+        String time = RentalHistoryUtils.formatRentalTime(rentalHistory.getRentalStartTime(),
+            rentalHistory.getRentalEndTime());
         return RentalInfoResponse.of(
             rentalHistory,
             date,
             time
         );
     }
-
-
-    private void updateFacilityTimeStatus(
-        RentalHistory rentalHistory,
-        RentalApplicationResult result
-    ) {
-        Facility facility = rentalHistory.getFacility();
-        LocalDateTime rentalStartDateTime = rentalHistory.getRentalStartDateTime();
-        LocalDateTime rentalEndDateTime = rentalHistory.getRentalEndDateTime();
-
-        facilityScheduleManager.updateTimeStatus(
-            facility,
-            rentalStartDateTime,
-            rentalEndDateTime,
-            result
-        );
-    }
-
 }

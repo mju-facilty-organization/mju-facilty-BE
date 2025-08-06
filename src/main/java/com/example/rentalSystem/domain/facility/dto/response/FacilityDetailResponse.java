@@ -1,8 +1,8 @@
 package com.example.rentalSystem.domain.facility.dto.response;
 
+import com.example.rentalSystem.domain.book.timetable.TimeStatus;
+import com.example.rentalSystem.domain.book.timetable.TimeTable;
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus;
-import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
 import com.example.rentalSystem.domain.facility.entity.type.FacilityType;
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import java.time.LocalTime;
@@ -36,7 +36,7 @@ public record FacilityDetailResponse(
             .capacity(facility.getCapacity())
             .supportFacilities(facility.getSupportFacilities())
             .date(timeTable.getDate().toString())
-            .timeSlot(timeTable.getTimeSlot())
+            .timeSlot(timeTable.getTimeTable())
             .allowedBoundary(facility.getAllowedBoundary())
             .build();
     }

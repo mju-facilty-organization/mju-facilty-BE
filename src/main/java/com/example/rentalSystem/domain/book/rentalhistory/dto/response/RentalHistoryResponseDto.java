@@ -1,10 +1,10 @@
 package com.example.rentalSystem.domain.book.rentalhistory.dto.response;
 
-import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.book.approval.dto.response.ProfessorApprovalResponse;
 import com.example.rentalSystem.domain.book.approval.entity.ProfessorApproval;
 import com.example.rentalSystem.domain.book.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.book.rentalhistory.entity.type.RentalApplicationResult;
+import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.time.LocalDateTime;
@@ -51,8 +51,8 @@ public class RentalHistoryResponseDto {
                 FacilityResponse.fromRentalHistory(rentalHistory))
             .professorApprovalResponse(
                 ProfessorApprovalResponse.from(professorApproval))
-            .startTime(rentalHistory.getRentalStartDateTime())
-            .endTime(rentalHistory.getRentalEndDateTime())
+            .startTime(rentalHistory.getStartDateTime())
+            .endTime(rentalHistory.getEndDateTime())
             .organization(rentalHistory.getOrganization())
             .purpose(rentalHistory.getPurpose())
             .createAt(rentalHistory.getCreatedAt())
