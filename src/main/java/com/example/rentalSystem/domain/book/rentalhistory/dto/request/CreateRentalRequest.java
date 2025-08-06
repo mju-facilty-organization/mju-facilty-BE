@@ -1,11 +1,11 @@
 package com.example.rentalSystem.domain.book.rentalhistory.dto.request;
 
-import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.member.professor.entity.Professor;
-import com.example.rentalSystem.domain.member.student.entity.Student;
 import com.example.rentalSystem.domain.book.approval.entity.ProfessorApproval;
 import com.example.rentalSystem.domain.book.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.book.rentalhistory.entity.type.RentalApplicationResult;
+import com.example.rentalSystem.domain.facility.entity.Facility;
+import com.example.rentalSystem.domain.member.professor.entity.Professor;
+import com.example.rentalSystem.domain.member.student.entity.Student;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -32,8 +32,10 @@ public record CreateRentalRequest(
         return RentalHistory.builder()
             .purpose(this.purpose)
             .organization(this.organization)
-            .rentalStartDateTime(startDateTime)
-            .rentalEndDateTime(endDateTime)
+            .rentalStartDate(startDateTime.toLocalDate())
+            .rentalEndDate(endDateTime.toLocalDate())
+            .rentalStartTime(startDateTime.toLocalTime())
+            .rentalEndTime(endDateTime.toLocalTime())
             .rentalApplicationResult(RentalApplicationResult.WAITING)
             .student(student)
             .facility(facility)
