@@ -1,6 +1,6 @@
 package com.example.rentalSystem.domain.common.convert;
 
-import com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus;
+import com.example.rentalSystem.domain.book.timetable.TimeStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
