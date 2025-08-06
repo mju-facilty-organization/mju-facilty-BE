@@ -1,10 +1,10 @@
-package com.example.rentalSystem.domain.book.email.service;
+package com.example.rentalSystem.domain.email.service;
 
-import com.example.rentalSystem.domain.book.email.dto.request.EmailRequest;
-import com.example.rentalSystem.domain.book.email.dto.response.EmailVerificationResult;
-import com.example.rentalSystem.domain.book.email.implement.MailChecker;
-import com.example.rentalSystem.domain.book.email.implement.MailImpl;
-import com.example.rentalSystem.domain.book.email.implement.MailMaker;
+import com.example.rentalSystem.domain.email.dto.request.EmailRequest;
+import com.example.rentalSystem.domain.email.dto.response.EmailVerificationResult;
+import com.example.rentalSystem.domain.email.implement.MailChecker;
+import com.example.rentalSystem.domain.email.implement.MailImpl;
+import com.example.rentalSystem.domain.email.implement.MailMaker;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import java.util.UUID;

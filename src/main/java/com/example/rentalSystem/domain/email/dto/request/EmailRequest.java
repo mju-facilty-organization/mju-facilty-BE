@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.book.email.dto.request;
+package com.example.rentalSystem.domain.email.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.book.email.dto.response;
+package com.example.rentalSystem.domain.email.dto.response;
 
 public record EmailVerificationResult(boolean authResult) {
 

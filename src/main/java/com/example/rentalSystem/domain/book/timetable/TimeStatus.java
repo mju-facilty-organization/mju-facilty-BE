@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.facility.entity.timeTable;
+package com.example.rentalSystem.domain.book.timetable;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

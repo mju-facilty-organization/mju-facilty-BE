@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.book.email.implement;
+package com.example.rentalSystem.domain.email.implement;
 
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
