@@ -1,22 +1,15 @@
 package com.example.rentalSystem.domain.book.rentalhistory.implement;
 
-import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.AVAILABLE;
-import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.CURRENT;
-import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.RESERVED;
-import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.UNAVAILABLE;
-import static com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus.WAITING;
-
-import com.example.rentalSystem.domain.book.rentalhistory.entity.type.RentalApplicationResult;
+import com.example.rentalSystem.domain.book.rentalhistory.entity.RentalHistory;
+import com.example.rentalSystem.domain.book.schedule.entity.Schedule;
+import com.example.rentalSystem.domain.book.schedule.implement.ScheduleReader;
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.timeTable.TimeStatus;
-import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
-import com.example.rentalSystem.domain.facility.reposiotry.TimeTableRepository;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.LinkedHashMap;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +17,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FacilityScheduleManager {
 
-    final TimeTableRepository tableRepository;
+    private final ScheduleReader scheduleReader;
+    private final RentalHistoryImpl rentalHistoryImpl;
 
     public void checkAvailabilityAndReserve(
-        //**TODO request 값을 바꾸면서 이걸 지우도록 하기.
         Facility facility,
         LocalDateTime startDateTime,
         LocalDateTime endDateTime
@@ -35,74 +28,41 @@ public class FacilityScheduleManager {
         LocalDate startDate = startDateTime.toLocalDate();
         LocalTime startTime = startDateTime.toLocalTime();
         LocalTime endTime = endDateTime.toLocalTime();
-
-        TimeTable timeTable = findTimeTable(facility, startDate);
-
-        LinkedHashMap<LocalTime, TimeStatus> timeSlot = timeTable.getTimeSlot();
-
-        validateTimeSlotAvailability(timeSlot, startTime, endTime);
-        updateTimeSlotStatus(timeSlot, startTime, endTime, WAITING);
+        checkScheduleAvailability(
+            facility.getId(), startDate,
+            startTime, endTime
+        );
+        checkRentalHistoryAvailability(
+            facility.getId(), startDate,
+            startTime, endTime
+        );
     }
 
-    public void checkAvailabilityAndReserve(
-        Facility facility,
-        LocalDate startDate,
-        LocalTime startTime,
-        LocalTime endTime
+    private void checkRentalHistoryAvailability(
+        Long facilityId, LocalDate startDate,
+        LocalTime startTime, LocalTime endTime
     ) {
-        TimeTable timeTable = findTimeTable(facility, startDate);
-
-        LinkedHashMap<LocalTime, TimeStatus> timeSlot = timeTable.getTimeSlot();
-
-        validateTimeSlotAvailability(timeSlot, startTime, endTime);
-        updateTimeSlotStatus(timeSlot, startTime, endTime, WAITING);
-    }
-
-
-    private void validateTimeSlotAvailability(LinkedHashMap<LocalTime, TimeStatus> timeSlot,
-        LocalTime startTime, LocalTime endTime) {
-        LocalTime time = startTime;
-        while (time.isBefore(endTime)) {
-            if (timeSlot.getOrDefault(time, UNAVAILABLE) != AVAILABLE) {
-                throw new CustomException(ErrorType.FAIL_RENTAL_REQUEST);
-            }
-            time = time.plusMinutes(30);
+        List<RentalHistory> rentalHistories = rentalHistoryImpl.getByFacilityIdAndDateAndBetweenTime(
+            facilityId,
+            startDate,
+            startTime,
+            endTime
+        );
+        if (!rentalHistories.isEmpty()) {
+            throw new CustomException(ErrorType.RENTAL_HISTORY_CONFLICT);
         }
     }
 
-    private void updateTimeSlotStatus(LinkedHashMap<LocalTime, TimeStatus> timeSlot,
-        LocalTime startTime, LocalTime endTime,
-        TimeStatus newStatus) {
-        LocalTime time = startTime;
-        while (time.isBefore(endTime)) {
-            timeSlot.put(time, newStatus);
-            time = time.plusMinutes(30);
+    private void checkScheduleAvailability(Long facilityId,
+        LocalDate startDate, LocalTime startTime, LocalTime endTime) {
+        List<Schedule> schedules = scheduleReader.getByFacilityIdAndDateAndBetweenTime(
+            facilityId,
+            startDate,
+            startTime,
+            endTime
+        );
+        if (!schedules.isEmpty()) {
+            throw new CustomException(ErrorType.SCHEDULE_CONFLICT);
         }
-    }
-
-    public void updateTimeStatus(Facility facility, LocalDateTime rentalStartDateTime,
-        LocalDateTime rentalEndDateTime, RentalApplicationResult rentalApplicationResult) {
-
-        LocalDate startDate = rentalStartDateTime.toLocalDate();
-        LocalTime startTime = rentalStartDateTime.toLocalTime();
-        LocalTime endTime = rentalEndDateTime.toLocalTime();
-
-        TimeTable timeTable = findTimeTable(facility, startDate);
-
-        switch (rentalApplicationResult) {
-            case PROFESSOR_PERMITTED ->
-                updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, CURRENT);
-            case PIC_PERMITTED ->
-                updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, RESERVED);
-            case PIC_DENIED, PROFESSOR_DENIED ->
-                updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, AVAILABLE);
-            case WAITING ->
-                updateTimeSlotStatus(timeTable.getTimeSlot(), startTime, endTime, WAITING);
-        }
-    }
-
-    private TimeTable findTimeTable(Facility facility, LocalDate startDate) {
-        return tableRepository.findByFacilityAndDate(facility, startDate)
-            .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
     }
 }
