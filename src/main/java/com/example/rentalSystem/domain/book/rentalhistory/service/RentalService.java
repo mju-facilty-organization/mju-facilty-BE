@@ -5,13 +5,13 @@ import static com.example.rentalSystem.domain.book.rentalhistory.entity.type.Ren
 
 import com.example.rentalSystem.domain.book.approval.entity.ProfessorApproval;
 import com.example.rentalSystem.domain.book.approval.implement.ProfessorApprovalImpl;
-import com.example.rentalSystem.domain.book.email.service.EmailService;
 import com.example.rentalSystem.domain.book.rentalhistory.dto.request.CreateRentalRequest;
 import com.example.rentalSystem.domain.book.rentalhistory.dto.response.RentalHistoryDetailResponseDto;
 import com.example.rentalSystem.domain.book.rentalhistory.dto.response.RentalHistoryResponseDto;
 import com.example.rentalSystem.domain.book.rentalhistory.entity.RentalHistory;
 import com.example.rentalSystem.domain.book.rentalhistory.implement.FacilityScheduleManager;
 import com.example.rentalSystem.domain.book.rentalhistory.implement.RentalHistoryImpl;
+import com.example.rentalSystem.domain.email.service.EmailService;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
 import com.example.rentalSystem.domain.member.professor.entity.Professor;
@@ -87,11 +87,5 @@ public class RentalService {
         }
         return RentalHistoryDetailResponseDto.of(rentalHistory, professorApproval, student,
             rentalHistory.getPic());
-    }
-
-    public RentalHistoryResponseDto getRentalHistoryById(Long rentalHistoryId) {
-        RentalHistory rentalHistory = rentalHistoryImpl.findById(rentalHistoryId);
-
-        return RentalHistoryResponseDto.from(rentalHistory);
     }
 }

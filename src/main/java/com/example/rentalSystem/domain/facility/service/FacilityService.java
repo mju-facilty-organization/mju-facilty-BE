@@ -1,18 +1,18 @@
 package com.example.rentalSystem.domain.facility.service;
 
+import com.example.rentalSystem.domain.book.timetable.TimeTable;
+import com.example.rentalSystem.domain.book.timetable.TimeTableService;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityResponse;
 import com.example.rentalSystem.domain.facility.dto.response.PreSignUrlListResponse;
 import com.example.rentalSystem.domain.facility.entity.Facility;
-import com.example.rentalSystem.domain.facility.entity.timeTable.TimeTable;
 import com.example.rentalSystem.domain.facility.entity.type.FacilityType;
 import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
 import com.example.rentalSystem.domain.facility.implement.FacilityRemover;
 import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
 import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
-import com.example.rentalSystem.domain.facility.reposiotry.TimeTableRepository;
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.global.cloud.S3Service;
 import com.example.rentalSystem.global.exception.custom.CustomException;
@@ -31,12 +31,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class FacilityService {
 
     private final FacilityJpaRepository facilityJpaRepository;
-    private final TimeTableRepository timeTableRepository;
     private final FacilitySaver facilitySaver;
     private final FacilityImpl facilityImpl;
     private final FacilityRemover facilityRemover;
 
     private final S3Service s3Service;
+    private final TimeTableService timeTableService;
 
     @Transactional
     public PreSignUrlListResponse create(CreateFacilityRequestDto createFacilityRequestDto) {
@@ -53,13 +53,6 @@ public class FacilityService {
 
         Facility facility = createFacilityRequestDto.toFacility(imageUrlList, affiliationTypes);
         facilitySaver.save(facility);
-
-        TimeTable timeTable = TimeTable.toEntity(
-            facility,
-            LocalDate.now(),
-            createFacilityRequestDto.startTime(),
-            createFacilityRequestDto.endTime());
-        timeTableRepository.save(timeTable);
 
         List<String> presignedUrlList = imageUrlList
             .stream()
@@ -101,18 +94,13 @@ public class FacilityService {
     @Transactional(readOnly = true)
     public FacilityDetailResponse getFacilityDetail(Long facilityId, LocalDate localDate) {
         Facility facility = findFacilityById(facilityId);
-        TimeTable timeTable = findTimeTableByFacilityAndDate(facility, localDate);
+        TimeTable timeTable = timeTableService.getTimeTable(facility, localDate);
         List<String> presignedUrls = s3Service.generatePresignedUrlsForGet(facility);
         return FacilityDetailResponse.of(facility, timeTable, presignedUrls);
     }
 
     private Facility findFacilityById(Long id) {
         return facilityJpaRepository.findById(id)
-            .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
-    }
-
-    private TimeTable findTimeTableByFacilityAndDate(Facility facility, LocalDate date) {
-        return timeTableRepository.findByFacilityAndDate(facility, date)
             .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
     }
 }

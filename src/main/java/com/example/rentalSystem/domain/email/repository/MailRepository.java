@@ -1,4 +1,4 @@
-package com.example.rentalSystem.domain.book.email.repository;
+package com.example.rentalSystem.domain.email.repository;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

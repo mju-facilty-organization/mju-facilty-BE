@@ -1,11 +1,11 @@
 package com.example.rentalSystem.domain.book.rentalhistory.entity;
 
+import com.example.rentalSystem.domain.book.approval.dto.request.RegisterRentalResultRequest;
+import com.example.rentalSystem.domain.book.rentalhistory.entity.type.RentalApplicationResult;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.member.pic.entity.Pic;
 import com.example.rentalSystem.domain.member.student.entity.Student;
-import com.example.rentalSystem.domain.book.approval.dto.request.RegisterRentalResultRequest;
-import com.example.rentalSystem.domain.book.rentalhistory.entity.type.RentalApplicationResult;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,14 +15,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RentalHistory extends BaseTimeEntity {
 
@@ -38,10 +43,16 @@ public class RentalHistory extends BaseTimeEntity {
     private String organization;
 
     @Column(nullable = false)
-    private LocalDateTime rentalStartDateTime;
+    private LocalDate rentalStartDate;
 
     @Column(nullable = false)
-    private LocalDateTime rentalEndDateTime;
+    private LocalDate rentalEndDate;
+
+    @Column(nullable = false)
+    private LocalTime rentalStartTime;
+
+    @Column(nullable = false)
+    private LocalTime rentalEndTime;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -64,27 +75,6 @@ public class RentalHistory extends BaseTimeEntity {
     private int numberOfPeople;
 
     private String reason;
-
-    @Builder
-    public RentalHistory(
-        String purpose,
-        String organization,
-        LocalDateTime rentalStartDateTime,
-        LocalDateTime rentalEndDateTime,
-        RentalApplicationResult rentalApplicationResult,
-        Student student,
-        int numberOfPeople,
-        Facility facility
-    ) {
-        this.purpose = purpose;
-        this.organization = organization;
-        this.rentalStartDateTime = rentalStartDateTime;
-        this.rentalEndDateTime = rentalEndDateTime;
-        this.rentalApplicationResult = rentalApplicationResult;
-        this.student = student;
-        this.facility = facility;
-        this.numberOfPeople = numberOfPeople;
-    }
 
     public void registerApplicationResult(
         Pic pic,
@@ -110,5 +100,13 @@ public class RentalHistory extends BaseTimeEntity {
     private void setApplicationResult(RentalApplicationResult rentalApplicationResult) {
         this.rentalApplicationResult = rentalApplicationResult;
         this.defineDateTime = LocalDateTime.now();
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return LocalDateTime.of(rentalStartDate, rentalStartTime);
+    }
+
+    public LocalDateTime getEndDateTime() {
+        return LocalDateTime.of(rentalEndDate, rentalEndTime);
     }
 }
