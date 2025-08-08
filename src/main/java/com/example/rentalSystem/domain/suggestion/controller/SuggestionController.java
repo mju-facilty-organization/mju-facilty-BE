@@ -80,7 +80,7 @@ public class SuggestionController implements SuggestionControllerDocs {
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PIC')")
     @PostMapping("/{suggestionId}/answer")
     public ApiResponse<?> createAnswer(
             @PathVariable Long suggestionId,
@@ -90,7 +90,7 @@ public class SuggestionController implements SuggestionControllerDocs {
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PIC')")
     @PatchMapping("/{suggestionId}/answer")
     public ApiResponse<?> updateAnswer(
             @PathVariable Long suggestionId,
@@ -100,7 +100,7 @@ public class SuggestionController implements SuggestionControllerDocs {
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PIC')")
     @PatchMapping("/{suggestionId}/status")
     public ApiResponse<?> updateStatus(
             @PathVariable Long suggestionId,
@@ -110,7 +110,7 @@ public class SuggestionController implements SuggestionControllerDocs {
         return ApiResponse.success(SuccessType.SUCCESS);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PIC')")
     @GetMapping("/statistics")
     public ApiResponse<SuggestionStatisticsResponse> getStatistics() {
         return ApiResponse.success(

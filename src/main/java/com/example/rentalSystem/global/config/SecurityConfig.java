@@ -54,10 +54,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/suggestions/me").hasRole("STUDENT")
 
                         // 건의함 ADMIN ADMIN 권한
-                        .requestMatchers(HttpMethod.POST, "/suggestions/*/answer").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/suggestions/*/answer").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/suggestions/*/status").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/suggestions/statistics").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/suggestions/*/answer").hasAnyRole("ADMIN", "PIC")
+                        .requestMatchers(HttpMethod.PATCH, "/suggestions/*/answer").hasAnyRole("ADMIN", "PIC")
+                        .requestMatchers(HttpMethod.PATCH, "/suggestions/*/status").hasAnyRole("ADMIN", "PIC")
+                        .requestMatchers(HttpMethod.GET, "/suggestions/statistics").hasAnyRole("ADMIN", "PIC")
 
                         // 이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
                         .anyRequest().permitAll()
