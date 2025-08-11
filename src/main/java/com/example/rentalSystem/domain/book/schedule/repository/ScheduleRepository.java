@@ -15,7 +15,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Query("SELECT s FROM Schedule s " + "WHERE s.facility.id = :facilityId "
         + "AND s.dayOfWeek  = :dayOfWeek "
         + "AND s.validEndDate >= :validStartDate AND s.validStartDate <= :validEndDate")
-    List<Schedule> findConflictsBy(
+    List<Schedule> findValidSchedulesForDayOfWeek(
         @Param("facilityId") Long facilityId,
         @Param("dayOfWeek") DayOfWeek dayOfWeek,
         @Param("validStartDate") LocalDate validStartDate,
@@ -32,11 +32,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     );
 
     @Query("SELECT s FROM Schedule s " + "WHERE s.facility.id = :facilityId "
-        + "AND s.dayOfWeek = :dayOfWeek "
         + "AND s.validStartDate <= :validationDate AND s.validEndDate >= :validationDate")
-    List<Schedule> findByFacilityIdAndDate(
+    List<Schedule> findValidSchedulesByFacilityIdAndDate(
         @Param("facilityId") Long facilityId,
-        @Param("dayOfWeek") DayOfWeek dayOfWeek,
         @Param("validationDate") LocalDate validationDate
     );
 }

@@ -15,13 +15,15 @@ public class ScheduleReader {
 
     private final ScheduleRepository scheduleRepository;
 
-    public List<Schedule> getSchedulesInBoundary(
+    public List<Schedule> getValidSchedulesForDayOfWeek(
         Long facilityId,
         DayOfWeek dayOfWeek,
         LocalDate validStartDate,
         LocalDate validEndDate
     ) {
-        return scheduleRepository.findConflictsBy(facilityId, dayOfWeek, validStartDate,
+        // 날짜사이의 특정 요일만 가져온다?
+        return scheduleRepository.findValidSchedulesForDayOfWeek(facilityId, dayOfWeek,
+            validStartDate,
             validEndDate);
     }
 
@@ -32,8 +34,16 @@ public class ScheduleReader {
             startTime, endTime);
     }
 
-    public List<Schedule> getByFacilityIdAndDate(Long facilityId, LocalDate localDate) {
-        return scheduleRepository.findByFacilityIdAndDate(facilityId, localDate.getDayOfWeek(),
-            localDate);
+    public List<Schedule> getFacilityTodaySchedules(Long facilityId, LocalDate localDate) {
+
+        // 데이터베이스에서 스케줄을 가져옵니다.
+        List<Schedule> schedules = scheduleRepository.findValidSchedulesByFacilityIdAndDate(
+            facilityId, localDate);
+
+        // 이제 비즈니스 로직에서 요일을 확인하여 필터링합니다.
+        DayOfWeek currentDay = localDate.getDayOfWeek();
+        return schedules.stream()
+            .filter(schedule -> schedule.getDayOfWeek() == currentDay)
+            .toList();
     }
 }

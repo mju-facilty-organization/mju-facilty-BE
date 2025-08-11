@@ -35,8 +35,8 @@ public record FacilityDetailResponse(
             .images(presignedUrls)
             .capacity(facility.getCapacity())
             .supportFacilities(facility.getSupportFacilities())
-            .date(timeTable.getDate().toString())
-            .timeSlot(timeTable.getTimeTable())
+            .date(timeTable.date().toString())
+            .timeSlot(timeTable.timeTable())
             .allowedBoundary(facility.getAllowedBoundary())
             .build();
     }
