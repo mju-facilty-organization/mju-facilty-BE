@@ -1,21 +1,15 @@
 package com.example.rentalSystem.domain.book.timetable;
 
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedHashMap;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@Getter
 @Builder
-@RequiredArgsConstructor
-public class TimeTable {
-
-    private final LinkedHashMap<LocalTime, TimeStatus> timeTable;
-
-    private final LocalDate date;
+@JsonPropertyOrder({"date", "timeTable"})
+public record TimeTable(LinkedHashMap<LocalTime, TimeStatus> timeTable, LocalDate date) {
 
     public static TimeTable createTimeTable(LocalTime startTime, LocalTime endTime,
         LocalDate date) {
