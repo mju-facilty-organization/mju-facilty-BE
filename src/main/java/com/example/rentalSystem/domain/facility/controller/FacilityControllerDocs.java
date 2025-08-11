@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.facility.controller;
 
+import com.example.rentalSystem.domain.book.timetable.TimeTable;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
@@ -12,8 +13,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Tag(name = "시설 관련 API", description = "시설 등록, 조회등에 대한 API")
 public interface FacilityControllerDocs {
@@ -47,4 +50,13 @@ public interface FacilityControllerDocs {
         Long facilityId,
         @Parameter(description = "조회할 날짜", example = "YYYY-MM-DD")
         LocalDate date);
+
+    @Operation(summary = "시설 기간 타임 테이블 조회 API")
+    ApiResponse<List<TimeTable>> getFacilitySchedules(
+        @PathVariable("facilityId") Long facilityId,
+        @Parameter(description = "조회할 시작 날짜", example = "YYYY-MM-DD")
+        LocalDate startDate,
+        @Parameter(description = "조회할 끝 날짜", example = "YYYY-MM-DD")
+        LocalDate endDate
+    );
 }

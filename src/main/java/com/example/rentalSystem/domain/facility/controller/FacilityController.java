@@ -1,5 +1,6 @@
 package com.example.rentalSystem.domain.facility.controller;
 
+import com.example.rentalSystem.domain.book.timetable.TimeTable;
 import com.example.rentalSystem.domain.facility.dto.request.CreateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.request.UpdateFacilityRequestDto;
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;
@@ -10,6 +11,7 @@ import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.type.SuccessType;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -77,4 +79,18 @@ public class FacilityController implements FacilityControllerDocs {
         );
         return ApiResponse.success(SuccessType.SUCCESS, facilityDetailResponse);
     }
+
+    @Override
+    @GetMapping("/{facilityId}/schedules")
+    public ApiResponse<List<TimeTable>> getFacilitySchedules(
+        @PathVariable("facilityId") Long facilityId,
+        @RequestParam(name = "startDate") LocalDate startDate,
+        @RequestParam(name = "endDate") LocalDate endDate
+    ) {
+        List<TimeTable> timeTables = facilityService.getFacilityWeeklySchedule(
+            facilityId, startDate, endDate
+        );
+        return ApiResponse.success(SuccessType.SUCCESS, timeTables);
+    }
+
 }
