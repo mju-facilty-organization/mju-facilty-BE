@@ -108,6 +108,9 @@ public class FacilityService {
     public List<TimeTable> getFacilityWeeklySchedule(
         Long facilityId, LocalDate startDate, LocalDate endDate
     ) {
+        if (startDate.isAfter(endDate)) {
+            throw new CustomException(ErrorType.INVALID_DATE_RANGE);
+        }
         Facility facility = facilityImpl.findById(facilityId);
         return timeTableService.getPeriodTimeTables(facility,
             startDate, endDate);
