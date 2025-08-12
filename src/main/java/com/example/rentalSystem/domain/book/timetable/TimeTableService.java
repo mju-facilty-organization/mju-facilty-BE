@@ -7,6 +7,7 @@ import com.example.rentalSystem.domain.book.schedule.implement.ScheduleReader;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,8 +25,10 @@ public class TimeTableService {
             facility.getStartTime(), facility.getEndTime(), localDate
         );
 
-        List<Schedule> schedules = scheduleReader.getByFacilityIdAndDate(facility.getId(),
-            localDate);
+        List<Schedule> schedules = scheduleReader.getFacilityTodaySchedules(
+            facility.getId(),
+            localDate
+        );
         applySchedules(timeTable, schedules);
 
         List<RentalHistory> rentalHistories = rentalHistoryImpl.getByFacilityIdAndDate(
@@ -46,6 +49,18 @@ public class TimeTableService {
                 currentTime = currentTime.plusMinutes(30);
             }
         }
+    }
+
+    public List<TimeTable> getPeriodTimeTables(Facility facility, LocalDate startDate,
+        LocalDate endDate) {
+        List<TimeTable> timeTables = new ArrayList<>();
+
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            TimeTable timeTable = getTimeTable(facility, date);
+            timeTables.add(timeTable);
+        }
+
+        return timeTables;
     }
 
     private void applySchedules(TimeTable timeTable, List<Schedule> schedules) {

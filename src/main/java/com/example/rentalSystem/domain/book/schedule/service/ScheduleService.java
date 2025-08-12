@@ -51,7 +51,7 @@ public class ScheduleService {
                 throw new CustomException(ErrorType.INVALID_TIME_RANGE);
             }
 
-            List<Schedule> existingSchedules = scheduleReader.getSchedulesInBoundary(
+            List<Schedule> existingSchedules = scheduleReader.getValidSchedulesForDayOfWeek(
                 facility.getId(), dayOfWeek, request.validStartDate(), request.validEndDate());
 
             for (Schedule existingSchedule : existingSchedules) {
