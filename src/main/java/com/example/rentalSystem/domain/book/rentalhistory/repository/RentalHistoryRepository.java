@@ -35,6 +35,7 @@ public interface RentalHistoryRepository extends JpaRepository<RentalHistory, Lo
     @Query("""
                 SELECT r
                 FROM RentalHistory r
+                JOIN FETCH r.student s
                 WHERE r.facility.id = :facilityId
                   AND (r.rentalStartDate < :today OR (r.rentalStartDate = :today AND r.rentalStartTime <= :nowTime))
                   AND (r.rentalEndDate   > :today OR (r.rentalEndDate   = :today AND r.rentalEndTime   >= :nowTime))

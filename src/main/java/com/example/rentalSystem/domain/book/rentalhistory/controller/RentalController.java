@@ -65,9 +65,10 @@ public class RentalController implements RentalControllerDocs {
     @Override
     @GetMapping("/facilities/{facilityId}/in-use")
     public ApiResponse<List<CurrentInUseGroupResponse>> getCurrentInUseByFacility(
-            @PathVariable(name = "facilityId") Long facilityId
+            @PathVariable Long facilityId
     ) {
-        List<CurrentInUseGroupResponse> result = rentalService.getCurrentInUseByFacility(facilityId);
-        return ApiResponse.success(SuccessType.SUCCESS, result); // 빈 배열이면 프런트에서 섹션 숨김
+        List<CurrentInUseGroupResponse> result =
+                rentalService.getCurrentInUseByFacility(facilityId);
+        return ApiResponse.success(SuccessType.SUCCESS, result);
     }
 }

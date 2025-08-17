@@ -41,8 +41,9 @@ public class RentalHistoryImpl {
             Long facilityId, LocalDate startDate,
             LocalTime startTime, LocalTime endTime
     ) {
-        return rentalHistoryRepository.findByFacilityIdAndDateAndBetweenTime(facilityId, startDate,
-                startTime, endTime);
+        return rentalHistoryRepository.findByFacilityIdAndDateAndBetweenTime(
+                facilityId, startDate, startTime, endTime
+        );
     }
 
     public List<RentalHistory> getByFacilityIdAndDate(Long facilityId, LocalDate localDate) {
@@ -55,4 +56,3 @@ public class RentalHistoryImpl {
         );
     }
 }
-

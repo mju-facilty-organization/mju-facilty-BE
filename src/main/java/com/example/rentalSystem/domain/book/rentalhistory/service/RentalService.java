@@ -99,9 +99,12 @@ public class RentalService {
         LocalDate today = LocalDate.now(ZONE_SEOUL);
         LocalTime nowTime = LocalTime.now(ZONE_SEOUL);
 
-        List<RentalHistory> inUse = rentalHistoryImpl.findCurrentlyInUseByFacility(facilityId, today, nowTime);
-        return inUse.stream().map(CurrentInUseGroupResponse::from).toList();
+        List<RentalHistory> inUse = rentalHistoryImpl.findCurrentlyInUseByFacility(
+                facilityId, today, nowTime
+        );
+        return inUse.stream()
+                .map(CurrentInUseGroupResponse::from)
+                .toList();
     }
-
 
 }

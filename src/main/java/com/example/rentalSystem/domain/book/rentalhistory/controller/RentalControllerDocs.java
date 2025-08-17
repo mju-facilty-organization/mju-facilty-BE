@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -49,7 +48,5 @@ public interface RentalControllerDocs {
 
 
     @Operation(summary = "특정 시설의 현재 이용 중인 단체 조회")
-    ApiResponse<List<CurrentInUseGroupResponse>> getCurrentInUseByFacility(
-            @PathVariable(name = "facilityId") Long facilityId
-    );
+    ApiResponse<List<CurrentInUseGroupResponse>> getCurrentInUseByFacility(Long facilityId);
 }
