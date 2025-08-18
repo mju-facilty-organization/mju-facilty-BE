@@ -7,9 +7,9 @@ import com.example.rentalSystem.domain.email.implement.MailImpl;
 import com.example.rentalSystem.domain.email.implement.MailMaker;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
+import jakarta.mail.internet.MimeMessage;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -31,12 +31,13 @@ public class EmailService {
     public void sendCodeToEmail(EmailRequest emailRequest) {
         mailChecker.checkDuplicateSend(emailRequest.email());
         String authCode = mailMaker.makeAuthCode();
-        SimpleMailMessage emailForm = mailMaker.createEmailForm(emailRequest.email(), authCode);
-        sendEmail(emailForm);
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessage message = mailMaker.createEmailForm(emailRequest.email(), authCode, mimeMessage);
+        sendEmail(message);
         mailImpl.save(emailRequest.email(), authCode);
     }
 
-    private void sendEmail(SimpleMailMessage emailForm) {
+    private void sendEmail(MimeMessage emailForm) {
         try {
             javaMailSender.send(emailForm);
         } catch (RuntimeException e) {
@@ -54,6 +55,8 @@ public class EmailService {
     public void sendProfessorRentalConfirm(String email, Long approvalId) {
         String token = UUID.randomUUID().toString();
         mailImpl.saveToken(token, email);
-        sendEmail(mailMaker.makeProfessorConfirmEmail(email, approvalId, token));
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessage message = mailMaker.makeProfessorConfirmEmail(email, approvalId, token, mimeMessage);
+        sendEmail(message);
     }
 }
