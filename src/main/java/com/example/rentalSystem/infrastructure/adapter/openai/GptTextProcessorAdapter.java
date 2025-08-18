@@ -3,7 +3,7 @@ package com.example.rentalSystem.infrastructure.adapter.openai;
 import com.example.rentalSystem.domain.chatbot.dto.response.ExtractResponse;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
-import com.example.rentalSystem.global.util.AIUtils;
+import com.example.rentalSystem.global.util.RequestUtils;
 import com.example.rentalSystem.infrastructure.adapter.openai.dto.ChatGptRequest;
 import com.example.rentalSystem.infrastructure.adapter.openai.dto.ChatGptResponse;
 import com.example.rentalSystem.infrastructure.adapter.openai.dto.Message;
@@ -49,7 +49,7 @@ public class GptTextProcessorAdapter implements AiTextProcessorPort {
 
     @Override
     public ExtractResponse extractItem(String question, String extractPrompt) {
-        Message message = createSystemMessage(AIUtils.merge(question, extractPrompt));
+        Message message = createSystemMessage(RequestUtils.merge(question, extractPrompt));
         ChatGptRequest request = createRequest(message);
 
         ChatGptResponse chatGptResponse = webClient.post()
