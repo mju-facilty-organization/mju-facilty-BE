@@ -77,6 +77,10 @@ dependencies {
 
     // cache
     implementation 'com.google.guava:guava:33.4.0-jre'
+
+    // apche
+    implementation 'org.apache.poi:poi:5.2.5'
+    implementation 'org.apache.poi:poi-ooxml:5.2.5'
 }
 // Querydsl 빌드 옵션 설정
 def generated = 'src/main/generated'
