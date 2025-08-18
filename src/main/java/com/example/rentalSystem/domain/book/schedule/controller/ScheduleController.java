@@ -20,7 +20,7 @@ public class ScheduleController implements ScheduleControllerDocs {
 
     @PostMapping("/regular")
     public ApiResponse<?> createRegularFacility(
-        @Valid @RequestBody CreateRegularScheduleRequest request
+            @Valid @RequestBody CreateRegularScheduleRequest request
     ) {
         scheduleService.createSchedule(request);
         return ApiResponse.success(SuccessType.SUCCESS);
