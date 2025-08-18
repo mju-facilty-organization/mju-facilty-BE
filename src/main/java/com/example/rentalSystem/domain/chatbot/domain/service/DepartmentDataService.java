@@ -6,7 +6,7 @@ import com.example.rentalSystem.domain.chatbot.service.QueryDataService;
 import com.example.rentalSystem.domain.facility.dto.FacilityDto;
 import com.example.rentalSystem.domain.facility.implement.FacilityReader;
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
-import com.example.rentalSystem.global.util.AIUtils;
+import com.example.rentalSystem.global.util.RequestUtils;
 import com.example.rentalSystem.infrastructure.port.openai.AiTextProcessorPort;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class DepartmentDataService implements QueryDataService {
 
         List<FacilityDto> facilityListBy = facilityReader.getFacilityListBy(byKeyword.get());
 
-        return AIUtils.createFacilityDataList(facilityListBy);
+        return RequestUtils.createFacilityDataList(facilityListBy);
     }
 
     @Override
