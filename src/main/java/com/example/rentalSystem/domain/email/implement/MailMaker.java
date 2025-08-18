@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
@@ -16,11 +17,12 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 @RequiredArgsConstructor
 public class MailMaker {
 
+    @Value("${mail.professor.base-url}")
+    private String CONFIRMATION_URL;
+
     private final SpringTemplateEngine templateEngine;
     private final String AUTH_CODE_EMAIL_TITLE = "명지 Rental 이메일 인증 번호";
     private final String PROFESSOR_CONFIRM_EMAIL_TITLE = "명지대 시설 대여 승인에 관한 이메일입니다!";
-    private final String CONFIRMATION_URL = "http://localhost:3000/approval/professor";
-    private final String PROFESSOR_CONFIRM_EMAIL_CONTENT = "명지대 시설 대여에 대한 승인 요청입니다.\n아래 링크를 클릭하여 요청을 확인해주세요:\n";
     public static final String INTRODUCE = "명지대 Rental 가입 인증 코드입니다.\n";
 
     public String makeAuthCode() {
