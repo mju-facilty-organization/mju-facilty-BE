@@ -32,7 +32,8 @@ public enum ErrorType {
     SCHEDULE_CONFLICT(400, "이미 스케줄이 겹치는 시간이 있습니다."),
     RENTAL_HISTORY_CONFLICT(400, "이미 대여 신청이 된 시간이 있습니다"),
     INVALID_DATE_RANGE(400, "유효 날짜가 올바르지 않습니다."),
-    FAIL_JSON_PARSING(501, "json 파싱을 실패하였습니다.");
+    FAIL_MAKE_EMAIL(500, "이메일 만들기를 실패했습니다."),
+    FAIL_JSON_PARSING(500, "json 파싱을 실패하였습니다.");
 
     private final int httpStatusCode;
     private final String message;
