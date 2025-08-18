@@ -4,6 +4,7 @@ import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -79,5 +80,11 @@ public enum AffiliationType {
         return Arrays.stream(AffiliationType.values())
             .filter(type -> type.getParent() != null && type.getParent().equals(parent))
             .toList();
+    }
+
+    public static Optional<AffiliationType> findByKeyword(String keyword) {
+        return Arrays.stream(values())
+            .filter(type -> type.getName().contains(keyword) || keyword.contains(type.getName()))
+            .findFirst();
     }
 }

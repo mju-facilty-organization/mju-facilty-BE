@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${title}">Email Title</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px;">
+<div style="max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
+  <h2 style="color: #004085;" th:text="${header}"></h2>
+  <p style="font-size: 16px; color: #111111">안녕하세요! 명지대 시설 대여 서비스입니다.</p>
+  <p style="font-size: 16px; color: #155724;">
+    <span th:text="${message}"></span>
+  </p>
+  <p style="font-size: 24px; font-weight: bold; color: #155724; text-align: center;" th:text="${authCode}"></p>
+  <p style="font-size: 14px; color: #888;">이 코드는 10분 동안 유효합니다. 만약 본인이 요청한 것이 아니라면 이 메일을 무시해 주세요.</p>
+  <hr style="border: 0; border-top: 1px solid #eee;">
+  <p style="font-size: 14px; text-align: center; color: #aaa;">명지대학교 Rental Service</p>
+</div>
+</body>
+</html>
