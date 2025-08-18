@@ -6,20 +6,15 @@ import com.example.rentalSystem.domain.common.convert.FacilityTypeConverter;
 import com.example.rentalSystem.domain.common.convert.StringListConverter;
 import com.example.rentalSystem.domain.facility.entity.type.FacilityType;
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalTime;
-import java.util.List;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLRestriction;
+
+import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 
@@ -68,15 +63,15 @@ public class Facility extends BaseTimeEntity {
 
     @Builder
     public Facility(
-        String facilityType,
-        String facilityNumber,
-        List<String> images,
-        Long capacity,
-        List<String> supportFacilities,
-        LocalTime startTime,
-        LocalTime endTime,
-        List<AffiliationType> allowedBoundary,
-        boolean isAvailable) {
+            String facilityType,
+            String facilityNumber,
+            List<String> images,
+            Long capacity,
+            List<String> supportFacilities,
+            LocalTime startTime,
+            LocalTime endTime,
+            List<AffiliationType> allowedBoundary,
+            boolean isAvailable) {
         this.facilityType = FacilityType.getInstanceByValue(facilityType);
         this.facilityNumber = facilityNumber;
         this.images = images;
@@ -97,4 +92,16 @@ public class Facility extends BaseTimeEntity {
         this.supportFacilities = updateFacility.getSupportFacilities();
         this.isAvailable = updateFacility.isAvailable();
     }
+
+    // 기존값이랑 겹칠 때 갱신용
+    public void updateMeta(long capacity, LocalTime start, LocalTime end,
+                           List<String> supports, List<AffiliationType> boundary, boolean available) {
+        this.capacity = capacity;
+        this.startTime = start;
+        this.endTime = end;
+        this.supportFacilities = supports;
+        this.allowedBoundary = boundary;
+        this.isAvailable = available;
+    }
+
 }

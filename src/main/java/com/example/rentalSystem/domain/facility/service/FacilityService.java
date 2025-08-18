@@ -17,14 +17,15 @@ import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.global.cloud.S3Service;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.type.ErrorType;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -41,23 +42,23 @@ public class FacilityService {
     @Transactional
     public PreSignUrlListResponse create(CreateFacilityRequestDto createFacilityRequestDto) {
         List<String> imageUrlList =
-            createFacilityRequestDto
-                .fileNames()
-                .stream()
-                .map(s3Service::generateFacilityS3Key)
-                .toList();
+                createFacilityRequestDto
+                        .fileNames()
+                        .stream()
+                        .map(s3Service::generateFacilityS3Key)
+                        .toList();
 
         List<AffiliationType> affiliationTypes = AffiliationType.getChildList(
-            createFacilityRequestDto.college()
+                createFacilityRequestDto.college()
         );
 
         Facility facility = createFacilityRequestDto.toFacility(imageUrlList, affiliationTypes);
         facilitySaver.save(facility);
 
         List<String> presignedUrlList = imageUrlList
-            .stream()
-            .map(s3Service::generatePresignedUrlForPut)
-            .toList();
+                .stream()
+                .map(s3Service::generatePresignedUrlForPut)
+                .toList();
         return PreSignUrlListResponse.from(presignedUrlList);
     }
 
@@ -82,8 +83,8 @@ public class FacilityService {
             page = facilityJpaRepository.findAll(pageable);
         } else {
             page = facilityJpaRepository.findByFacilityType(
-                FacilityType.getInstanceByValue(facilityType),
-                pageable);
+                    FacilityType.getInstanceByValue(facilityType),
+                    pageable);
         }
         return page.map(facility -> {
             List<String> presignedUrls = s3Service.generatePresignedUrlsForGet(facility);
@@ -101,18 +102,19 @@ public class FacilityService {
 
     private Facility findFacilityById(Long id) {
         return facilityJpaRepository.findById(id)
-            .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
     public List<TimeTable> getFacilityWeeklySchedule(
-        Long facilityId, LocalDate startDate, LocalDate endDate
+            Long facilityId, LocalDate startDate, LocalDate endDate
     ) {
         if (startDate.isAfter(endDate)) {
             throw new CustomException(ErrorType.INVALID_DATE_RANGE);
         }
         Facility facility = facilityImpl.findById(facilityId);
         return timeTableService.getPeriodTimeTables(facility,
-            startDate, endDate);
+                startDate, endDate);
     }
+
 }
