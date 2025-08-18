@@ -57,7 +57,7 @@ dependencies {
 
     // MAIL
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    
+
     //	test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
@@ -85,6 +85,7 @@ dependencies {
     // Web Client 의존성
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+
 }
 // Querydsl 빌드 옵션 설정
 def generated = 'src/main/generated'
