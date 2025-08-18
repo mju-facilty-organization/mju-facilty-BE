@@ -78,6 +78,10 @@ dependencies {
     // cache
     implementation 'com.google.guava:guava:33.4.0-jre'
 
+    // Web Client 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
     // Spring Boot Starter for Mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     // HTML 템플릿 엔진 (Thymeleaf)
