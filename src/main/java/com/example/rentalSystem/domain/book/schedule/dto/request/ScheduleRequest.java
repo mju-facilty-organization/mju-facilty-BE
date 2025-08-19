@@ -11,34 +11,34 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record ScheduleRequest(
-    @Schema(description = "요일") @NotNull DayOfWeek dayOfWeek,
-    @Schema(description = "대여 시작 시간", example = "10:00")
-    @NotNull @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    @Schema(description = "요일", example = "MONDAY")
+    @NotNull(message = "요일은 필수입니다.")
+    DayOfWeek dayOfWeek,
+
+    @Schema(type = "string", description = "대여 시작 시간", example = "10:00")
+    @NotNull(message = "시작 시간은 필수입니다.")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     LocalTime rentalStartTime,
-    @Schema(description = "대여 종료 시간", example = "12:00")
-    @NotNull @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-    LocalTime rentalEndTime,
-    @Schema(description = "과목명") String scheduleName,
-    @Schema(description = "담당 교수") String professorName,
-    @Schema(description = "수용 인원") Integer courseCapacity
+
+    @Schema(type = "string", description = "대여 종료 시간", example = "12:00")
+    @NotNull(message = "종료 시간은 필수입니다.")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    LocalTime rentalEndTime
 ) {
 
-  public Schedule toEntity(
-      Facility facility, String organization, ScheduleType scheduleType,
-      LocalDate validStartDate, LocalDate validEndDate
-  ) {
-    return Schedule.builder()
-        .facility(facility)
-        .organization(organization)
-        .scheduleType(scheduleType)
-        .validStartDate(validStartDate)
-        .validEndDate(validEndDate)
-        .rentalStartTime(rentalStartTime)
-        .rentalEndTime(rentalEndTime)
-        .dayOfWeek(dayOfWeek)
-        .scheduleName(scheduleName)
-        .professorName(professorName)
-        .courseCapacity(courseCapacity)
-        .build();
-  }
+
+    public Schedule toEntity(Facility facility, String organization, ScheduleType scheduleType,
+        LocalDate validStartDate, LocalDate validEndDate) {
+        return Schedule
+            .builder()
+            .facility(facility)
+            .organization(organization)
+            .scheduleType(scheduleType)
+            .validStartDate(validStartDate)
+            .validEndDate(validEndDate)
+            .rentalStartTime(rentalStartTime)
+            .rentalEndTime(rentalEndTime)
+            .dayOfWeek(dayOfWeek)
+            .build();
+    }
 }
