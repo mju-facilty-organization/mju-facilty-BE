@@ -39,6 +39,7 @@ public class Facility extends BaseTimeEntity {
     @Column(nullable = false)
     private String facilityNumber;
 
+    @Lob
     @Convert(converter = StringListConverter.class)
     private List<String> images;
 
@@ -122,4 +123,9 @@ public class Facility extends BaseTimeEntity {
             this.isAvailable = available;
         }
     }
+    
+    public void replaceImages(List<String> newImages) {
+        this.images = (newImages == null) ? new java.util.ArrayList<>() : new java.util.ArrayList<>(newImages);
+    }
+
 }

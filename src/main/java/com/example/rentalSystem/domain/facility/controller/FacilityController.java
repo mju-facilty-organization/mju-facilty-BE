@@ -49,12 +49,12 @@ public class FacilityController implements FacilityControllerDocs {
 
     @Override
     @PutMapping("/{facilityId}")
-    public ApiResponse<?> updateFacility(
+    public ApiResponse<PreSignUrlListResponse> updateFacility(
             @RequestBody UpdateFacilityRequestDto requestDto,
             @PathVariable Long facilityId
     ) {
-        facilityService.update(requestDto, facilityId);
-        return ApiResponse.success(SuccessType.SUCCESS);
+        PreSignUrlListResponse presigns = facilityService.update(requestDto, facilityId);
+        return ApiResponse.success(SuccessType.SUCCESS, presigns);
     }
 
     @Override

@@ -12,7 +12,11 @@ public record UpdateFacilityRequestDto(
         java.time.LocalTime endTime,
         Long capacity,
         Boolean isAvailable,
-        List<AffiliationType> allowedBoundary
+        List<AffiliationType> allowedBoundary,
+        List<String> addFileNames,
+        List<String> removeKeys,
+        List<String> newOrder,
+        Boolean hardDelete
 
 ) {
 
