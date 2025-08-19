@@ -11,17 +11,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FacilityImpl {
 
-  private final FacilityJpaRepository facilityJpaRepository;
+    private final FacilityJpaRepository facilityJpaRepository;
 
-  public Facility findById(Long id) {
-    return facilityJpaRepository.findById(id)
-        .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
-  }
-
-  public Facility findByFacilityNumber(String facilityNumber) {
-    return facilityJpaRepository.findByFacilityNumber(facilityNumber)
-        .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
-  }
+    public Facility findById(Long id) {
+        return facilityJpaRepository.findById(id)
+            .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
+    }
 
 //  public Facility findByNameAndLocation(String facilityName, String location) {
 //    return facilityJpaRepository.findByNameAndLocation(facilityName, location)
