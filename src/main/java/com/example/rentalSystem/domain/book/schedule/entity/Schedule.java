@@ -58,7 +58,8 @@ public class Schedule extends BaseTimeEntity {
     @Column(nullable = false)
     private ScheduleType scheduleType;
 
-    @Column(name = "schedule_name")
+    @Column(name = "schedule_name", nullable = true)
+
     private String scheduleName;
 
     @Column(name = "professor_name")
