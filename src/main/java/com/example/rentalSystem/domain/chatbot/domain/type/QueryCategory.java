@@ -2,6 +2,7 @@ package com.example.rentalSystem.domain.chatbot.domain.type;
 
 import static com.example.rentalSystem.domain.chatbot.domain.type.PromptConstant.DEPARTMENTAL_ASK_PROMPT;
 import static com.example.rentalSystem.domain.chatbot.domain.type.PromptConstant.DEPARTMENTAL_EXTRACT_PROMPT;
+import static com.example.rentalSystem.domain.chatbot.domain.type.PromptConstant.USER_ASK_PROMPT;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +11,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum QueryCategory {
     // 과별 강의실 (전공 강의실)
-    DEPARTMENTAL_FACILITY("학부/과별 강의실", DEPARTMENTAL_EXTRACT_PROMPT, DEPARTMENTAL_ASK_PROMPT),
+    DEPARTMENTAL_FACILITY("학부/과별 시실", DEPARTMENTAL_EXTRACT_PROMPT, DEPARTMENTAL_ASK_PROMPT),
 
     // 사용자가 소속된 과에 따라 필터링된 강의실
-    AVAILABLE_FACILITY("내가 빌릴 수 있는 강의실", null, null),
+    USER_FACILITY("유저와 관련된 시설 질문", null, USER_ASK_PROMPT),
 
     // 모든 사용자가 이용할 수 있는 공용 강의실
     GENERAL_FACILITY("공공 시설", null, null),
