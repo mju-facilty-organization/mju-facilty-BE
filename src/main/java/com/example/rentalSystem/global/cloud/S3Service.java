@@ -28,6 +28,17 @@ public class S3Service {
         return "facility/" + UUID.randomUUID() + "_" + fileName;
     }
 
+
+    public String generateNoticesS3Key(String fileName) {
+        return "notices/" + UUID.randomUUID() + "_" + fileName;
+    }
+
+    public String generatePresignedUrlForPut(String fileName) {
+        GeneratePresignedUrlRequest generatePresignedUrlRequest =
+            new GeneratePresignedUrlRequest(bucket, fileName)
+                .withMethod(HttpMethod.PUT)
+                .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
+
     public String generateFacilityS3Key(String originalFileName, Long facilityId) {
         return "facilities/" + facilityId + "/images/" + UUID.randomUUID() + "_" + originalFileName;
     }
@@ -37,7 +48,7 @@ public class S3Service {
                 new GeneratePresignedUrlRequest(bucket, objectKey)
                         .withMethod(HttpMethod.PUT)
                         .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
-
+      
         URL url = amazonS3.generatePresignedUrl(req);
         return url.toString();
     }
@@ -47,6 +58,18 @@ public class S3Service {
                 .map(this::generatePresignedUrlForGet)
                 .collect(Collectors.toList());
     }
+
+
+    public String generatePresignedUrlForGet(String imageName) {
+        return generatePresignedUrl(imageName);
+    }
+
+    private String generatePresignedUrl(String objectKey) {
+        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket, objectKey)
+            .withMethod(HttpMethod.GET)
+            .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
+
+        URL url = amazonS3.generatePresignedUrl(request);
 
     public String generatePresignedUrlForGet(String objectKey) {
         GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(bucket, objectKey)

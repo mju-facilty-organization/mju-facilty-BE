@@ -6,15 +6,22 @@ import com.example.rentalSystem.domain.common.convert.FacilityTypeConverter;
 import com.example.rentalSystem.domain.common.convert.StringListConverter;
 import com.example.rentalSystem.domain.facility.entity.type.FacilityType;
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import java.time.LocalTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLRestriction;
-
-import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,10 +29,9 @@ import java.util.List;
 //@SQLDelete(sql = "update facility set is_deleted = true where id=?")
 @SQLRestriction("is_deleted = false")
 @Table(
-        name = "facility",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"facility_number"})
+    name = "facility",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"facility_number"})
 )
-
 public class Facility extends BaseTimeEntity {
 
     @Id
@@ -67,15 +73,15 @@ public class Facility extends BaseTimeEntity {
 
     @Builder
     public Facility(
-            String facilityType,
-            String facilityNumber,
-            List<String> images,
-            Long capacity,
-            List<String> supportFacilities,
-            LocalTime startTime,
-            LocalTime endTime,
-            List<AffiliationType> allowedBoundary,
-            boolean isAvailable) {
+        String facilityType,
+        String facilityNumber,
+        List<String> images,
+        Long capacity,
+        List<String> supportFacilities,
+        LocalTime startTime,
+        LocalTime endTime,
+        List<AffiliationType> allowedBoundary,
+        boolean isAvailable) {
         this.facilityType = FacilityType.getInstanceByValue(facilityType);
         this.facilityNumber = facilityNumber;
         this.images = images;
@@ -89,14 +95,14 @@ public class Facility extends BaseTimeEntity {
     }
 
     public void updateAll(
-            FacilityType newType,           // 키 변경: null 이면 유지
-            String newNumber,               // 키 변경: null 이면 유지
-            Long capacity,                  // null 유지
-            LocalTime startTime,            // null 유지
-            LocalTime endTime,              // null 유지
-            List<String> supportFacilities, // null 유지
-            List<AffiliationType> boundary, // null 유지
-            Boolean available               // null 유지
+        FacilityType newType,           // 키 변경: null 이면 유지
+        String newNumber,               // 키 변경: null 이면 유지
+        Long capacity,                  // null 유지
+        LocalTime startTime,            // null 유지
+        LocalTime endTime,              // null 유지
+        List<String> supportFacilities, // null 유지
+        List<AffiliationType> boundary, // null 유지
+        Boolean available               // null 유지
     ) {
         if (newType != null) {
             this.facilityType = newType;
@@ -123,7 +129,7 @@ public class Facility extends BaseTimeEntity {
             this.isAvailable = available;
         }
     }
-    
+
     public void replaceImages(List<String> newImages) {
         this.images = (newImages == null) ? new java.util.ArrayList<>() : new java.util.ArrayList<>(newImages);
     }
