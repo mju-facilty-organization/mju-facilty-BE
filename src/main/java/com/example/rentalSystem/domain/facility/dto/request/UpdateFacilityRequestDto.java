@@ -1,29 +1,19 @@
 package com.example.rentalSystem.domain.facility.dto.request;
 
-import com.example.rentalSystem.domain.facility.entity.Facility;
-import java.time.LocalTime;
+import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
+
 import java.util.List;
 
 public record UpdateFacilityRequestDto(
-    String facilityType,
-    String facilityNumber,
-    String location,
-    String chargeProfessor,
-    List<String> supportFacilities,
-    List<String> possibleDays,
-    LocalTime startTime,
-    LocalTime endTime,
-    long capacity,
-    boolean isAvailable
+        String facilityType,
+        String facilityNumber,
+        List<String> supportFacilities,
+        java.time.LocalTime startTime,
+        java.time.LocalTime endTime,
+        Long capacity,
+        Boolean isAvailable,
+        List<AffiliationType> allowedBoundary
+
 ) {
 
-    public Facility toFacility() {
-        return Facility.builder()
-            .facilityType((facilityType))
-            .capacity(capacity)
-            .facilityNumber(facilityNumber)
-            .supportFacilities(supportFacilities)
-            .isAvailable(isAvailable)
-            .build();
-    }
 }

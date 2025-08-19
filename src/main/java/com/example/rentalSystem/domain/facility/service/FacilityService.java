@@ -12,6 +12,7 @@ import com.example.rentalSystem.domain.facility.entity.type.FacilityType;
 import com.example.rentalSystem.domain.facility.implement.FacilityImpl;
 import com.example.rentalSystem.domain.facility.implement.FacilityRemover;
 import com.example.rentalSystem.domain.facility.implement.FacilitySaver;
+import com.example.rentalSystem.domain.facility.importer.util.FacilityNumberNormalizer;
 import com.example.rentalSystem.domain.facility.reposiotry.FacilityJpaRepository;
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
 import com.example.rentalSystem.global.cloud.S3Service;
@@ -39,35 +40,78 @@ public class FacilityService {
     private final S3Service s3Service;
     private final TimeTableService timeTableService;
 
+
     @Transactional
-    public PreSignUrlListResponse create(CreateFacilityRequestDto createFacilityRequestDto) {
-        List<String> imageUrlList =
-                createFacilityRequestDto
-                        .fileNames()
-                        .stream()
-                        .map(s3Service::generateFacilityS3Key)
-                        .toList();
 
-        List<AffiliationType> affiliationTypes = AffiliationType.getChildList(
-                createFacilityRequestDto.college()
-        );
+    public PreSignUrlListResponse create(CreateFacilityRequestDto dto) {
+        String normalizedNo = FacilityNumberNormalizer.normalize(dto.facilityNumber());
 
-        Facility facility = createFacilityRequestDto.toFacility(imageUrlList, affiliationTypes);
+        // (변경) 타입+번호 → 번호만으로 중복 검사
+        facilityJpaRepository.findByFacilityNumber(normalizedNo)
+                .ifPresent(f -> {
+                    throw new CustomException(ErrorType.DUPLICATE_RESOURCE);
+                });
+
+        List<String> imageUrlList = (dto.fileNames() == null)
+                ? List.of()
+                : dto.fileNames().stream().map(s3Service::generateFacilityS3Key).toList();
+
+        List<AffiliationType> boundary = AffiliationType.getChildList(dto.college());
+
+        Facility facility = Facility.builder()
+                .facilityType(dto.facilityType())
+                .facilityNumber(normalizedNo)
+                .images(imageUrlList)
+                .capacity(dto.capacity())
+                .supportFacilities(dto.supportFacilities())
+                .startTime(dto.startTime())
+                .endTime(dto.endTime())
+                .allowedBoundary(boundary)
+                .isAvailable(dto.isAvailable())
+                .build();
+
         facilitySaver.save(facility);
 
-        List<String> presignedUrlList = imageUrlList
-                .stream()
+        List<String> presigned = imageUrlList.stream()
                 .map(s3Service::generatePresignedUrlForPut)
                 .toList();
-        return PreSignUrlListResponse.from(presignedUrlList);
+        return PreSignUrlListResponse.from(presigned);
     }
 
 
     @Transactional
-    public void update(UpdateFacilityRequestDto requestDto, Long facilityId) {
-        Facility originFacility = facilityImpl.findById(facilityId);
-        Facility updateFacility = requestDto.toFacility();
-        originFacility.update(updateFacility);
+    public void update(UpdateFacilityRequestDto dto, Long facilityId) {
+        Facility origin = facilityImpl.findById(facilityId);
+
+        // 번호만 표준화해서 충돌 체크(타입 변경은 중복성에 영향 없음)
+        String newNumber = (dto.facilityNumber() != null)
+                ? FacilityNumberNormalizer.normalize(dto.facilityNumber())
+                : null;
+
+        boolean willChangeNumber = newNumber != null && !newNumber.equals(origin.getFacilityNumber());
+        if (willChangeNumber) {
+            facilityJpaRepository.findByFacilityNumber(newNumber)
+                    .ifPresent(dup -> {
+                        if (!dup.getId().equals(origin.getId())) {
+                            throw new CustomException(ErrorType.DUPLICATE_RESOURCE);
+                        }
+                    });
+        }
+
+        FacilityType newType = (dto.facilityType() != null)
+                ? FacilityType.getInstanceByValue(dto.facilityType())
+                : null;
+
+        origin.updateAll(
+                newType,
+                newNumber,
+                dto.capacity(),
+                dto.startTime(),
+                dto.endTime(),
+                dto.supportFacilities(),
+                /* boundary */ null,
+                dto.isAvailable()
+        );
     }
 
     @Transactional

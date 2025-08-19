@@ -50,7 +50,7 @@ public class FacilityController implements FacilityControllerDocs {
     @Override
     @PutMapping("/{facilityId}")
     public ApiResponse<?> updateFacility(
-            UpdateFacilityRequestDto requestDto,
+            @RequestBody UpdateFacilityRequestDto requestDto,
             @PathVariable Long facilityId
     ) {
         facilityService.update(requestDto, facilityId);
