@@ -21,7 +21,7 @@ public class S3Service {
     private String bucket;
 
     private final AmazonS3 amazonS3;
-    private final long expirationTimeMillis = 1000 * 60 * 5; // 5분 동안 유효한 URL
+    private final long expirationTimeMillis = 1000 * 60 * 5;
 
     public String generateFacilityS3Key(String fileName) {
         return "facility/" + UUID.randomUUID() + "_" + fileName;
@@ -29,6 +29,10 @@ public class S3Service {
 
     public String generateNoticesS3Key(String fileName) {
         return "notices/" + UUID.randomUUID() + "_" + fileName;
+    }
+
+    public String generateFacilityS3Key(String originalFileName, Long facilityId) {
+        return "facilities/" + facilityId + "/images/" + UUID.randomUUID() + "_" + originalFileName;
     }
 
     public String generatePresignedUrlForPut(String fileName) {
@@ -60,4 +64,20 @@ public class S3Service {
         return url.toString();
     }
 
+    public boolean objectExists(String objectKey) {
+        try {
+            return amazonS3.doesObjectExist(bucket, objectKey);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void deleteObjectIfExists(String objectKey) {
+        try {
+            if (amazonS3.doesObjectExist(bucket, objectKey)) {
+                amazonS3.deleteObject(bucket, objectKey);
+            }
+        } catch (Exception ignore) {
+        }
+    }
 }
