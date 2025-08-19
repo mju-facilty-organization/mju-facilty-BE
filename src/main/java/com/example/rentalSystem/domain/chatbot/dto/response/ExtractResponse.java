@@ -9,7 +9,7 @@ public record ExtractResponse(
     String department,
     String date,
     String time,
-    String roomName
+    String facilityType
 ) {
 
     public ExtractResponse fillDateAndTime() {
@@ -20,6 +20,6 @@ public record ExtractResponse(
         String newTime = (time == null || time.isBlank()) ?
             LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) : time;
 
-        return new ExtractResponse(intent, department, newDate, newTime, roomName);
+        return new ExtractResponse(intent, department, newDate, newTime, facilityType);
     }
 }

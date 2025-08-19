@@ -11,17 +11,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class QueryServiceFactory {
 
-    private final Map<QueryCategory, QueryDataService> services;
+    private final Map<QueryCategory, ChatBotDomainService> services;
 
-    public QueryServiceFactory(List<QueryDataService> services) {
+    public QueryServiceFactory(List<ChatBotDomainService> services) {
         this.services = new EnumMap<>(QueryCategory.class);
         this.services.putAll(
             services.stream()
-                .collect(Collectors.toMap(QueryDataService::getQueryCategory, Function.identity()))
+                .collect(Collectors.toMap(ChatBotDomainService::getQueryCategory, Function.identity()))
         );
     }
 
-    public QueryDataService getDataService(QueryCategory queryCategory) {
+    public ChatBotDomainService getDataService(QueryCategory queryCategory) {
         return services.get(queryCategory);
     }
 
