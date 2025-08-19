@@ -27,6 +27,10 @@ public class S3Service {
         return "facility/" + UUID.randomUUID() + "_" + fileName;
     }
 
+    public String generateNoticesS3Key(String fileName) {
+        return "notices/" + UUID.randomUUID() + "_" + fileName;
+    }
+
     public String generatePresignedUrlForPut(String fileName) {
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
             new GeneratePresignedUrlRequest(bucket, fileName)
@@ -41,6 +45,10 @@ public class S3Service {
         return facility.getImages().stream()
             .map(this::generatePresignedUrl)
             .collect(Collectors.toList());
+    }
+
+    public String generatePresignedUrlForGet(String imageName) {
+        return generatePresignedUrl(imageName);
     }
 
     private String generatePresignedUrl(String objectKey) {
