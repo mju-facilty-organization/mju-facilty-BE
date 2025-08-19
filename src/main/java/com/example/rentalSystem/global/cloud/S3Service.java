@@ -4,14 +4,15 @@ import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.example.rentalSystem.domain.facility.entity.Facility;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class S3Service {
         return "facility/" + UUID.randomUUID() + "_" + fileName;
     }
 
+
     public String generateNoticesS3Key(String fileName) {
         return "notices/" + UUID.randomUUID() + "_" + fileName;
     }
@@ -41,15 +43,26 @@ public class S3Service {
                 .withMethod(HttpMethod.PUT)
                 .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
 
-        // Presigned URL 생성
-        return amazonS3.generatePresignedUrl(generatePresignedUrlRequest).toString();
+    public String generateFacilityS3Key(String originalFileName, Long facilityId) {
+        return "facilities/" + facilityId + "/images/" + UUID.randomUUID() + "_" + originalFileName;
+    }
+
+    public String generatePresignedUrlForPut(String objectKey) {
+        GeneratePresignedUrlRequest req =
+                new GeneratePresignedUrlRequest(bucket, objectKey)
+                        .withMethod(HttpMethod.PUT)
+                        .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
+      
+        URL url = amazonS3.generatePresignedUrl(req);
+        return url.toString();
     }
 
     public List<String> generatePresignedUrlsForGet(Facility facility) {
         return facility.getImages().stream()
-            .map(this::generatePresignedUrl)
-            .collect(Collectors.toList());
+                .map(this::generatePresignedUrlForGet)
+                .collect(Collectors.toList());
     }
+
 
     public String generatePresignedUrlForGet(String imageName) {
         return generatePresignedUrl(imageName);
@@ -61,6 +74,12 @@ public class S3Service {
             .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
 
         URL url = amazonS3.generatePresignedUrl(request);
+
+    public String generatePresignedUrlForGet(String objectKey) {
+        GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(bucket, objectKey)
+                .withMethod(HttpMethod.GET)
+                .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
+        URL url = amazonS3.generatePresignedUrl(req);
         return url.toString();
     }
 
