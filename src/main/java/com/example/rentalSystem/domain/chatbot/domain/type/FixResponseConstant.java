@@ -10,4 +10,6 @@ public class FixResponseConstant {
         해당 질문은 로그인을 하셔야 응답이 가능해요!\n
         로그인이 힘드시면, 학부/과별 카테고리를 선택해서 질문을 주세요!
         """;
+
+    public static final String FAIL_PROCESSING_MESSAGE = "죄송합니다. 일시적인 오류로 인해 요청을 처리하지 못했습니다.\n 잠시 후 다시 시도해 주세요";
 }
