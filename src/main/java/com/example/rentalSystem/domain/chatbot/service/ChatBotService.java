@@ -4,6 +4,7 @@ package com.example.rentalSystem.domain.chatbot.service;
 import static com.example.rentalSystem.domain.chatbot.domain.type.FixResponseConstant.NOT_FOUND_AFFILIATION;
 
 import com.example.rentalSystem.domain.chatbot.domain.type.QueryCategory;
+import com.example.rentalSystem.global.util.RequestUtils;
 import com.example.rentalSystem.infrastructure.adapter.openai.dto.ChatBotRequest;
 import com.example.rentalSystem.infrastructure.port.openai.AiTextProcessorPort;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,11 @@ public class ChatBotService {
     public String getChatbotResponse(ChatBotRequest chatBotRequest) {
         QueryCategory queryCategory = chatBotRequest.queryCategory();
         QueryDataService dataService = queryServiceFactory.getDataService(queryCategory);
-        String request = dataService.getDataForQuery(chatBotRequest.question());
-        if (request == null) {
+        String dataForQuery = dataService.getDataForQuery(chatBotRequest.question());
+        if (dataForQuery == null) {
             return NOT_FOUND_AFFILIATION;
         }
-        return aiTextProcessorPort.ask(request);
+        String finalRequest = RequestUtils.merge(dataForQuery, queryCategory, chatBotRequest.question());
+        return aiTextProcessorPort.ask(finalRequest);
     }
 }
