@@ -5,7 +5,7 @@ import static com.example.rentalSystem.domain.chatbot.domain.type.QueryCategory.
 
 import com.example.rentalSystem.domain.chatbot.domain.type.FixResponseConstant;
 import com.example.rentalSystem.domain.chatbot.domain.type.QueryCategory;
-import com.example.rentalSystem.domain.chatbot.service.ChatBotCategoryService;
+import com.example.rentalSystem.domain.chatbot.service.ChatBotDomainService;
 import com.example.rentalSystem.domain.facility.dto.FacilityDto;
 import com.example.rentalSystem.domain.facility.implement.FacilityReader;
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UserChatBotService implements ChatBotCategoryService {
+public class UserChatBotService implements ChatBotDomainService {
 
     private final QueryCategory queryCategory = USER_FACILITY;
     private final FacilityReader facilityReader;
