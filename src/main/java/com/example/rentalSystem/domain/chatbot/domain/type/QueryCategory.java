@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum QueryCategory {
     // 과별 강의실 (전공 강의실)
-    DEPARTMENTAL_FACILITY("학부/과별 시실", DEPARTMENTAL_EXTRACT_PROMPT, DEPARTMENTAL_ASK_PROMPT),
+    DEPARTMENTAL_FACILITY("학부/과별 시설", DEPARTMENTAL_EXTRACT_PROMPT, DEPARTMENTAL_ASK_PROMPT),
 
     // 사용자가 소속된 과에 따라 필터링된 강의실
     USER_FACILITY("유저와 관련된 시설 질문", null, USER_ASK_PROMPT),
