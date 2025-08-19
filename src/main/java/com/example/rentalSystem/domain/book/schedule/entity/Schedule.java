@@ -28,44 +28,44 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Schedule extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Facility facility;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Facility facility;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DayOfWeek dayOfWeek;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private DayOfWeek dayOfWeek;
 
-    @Column(nullable = false)
-    private LocalTime rentalStartTime;
+  @Column(nullable = false)
+  private LocalTime rentalStartTime;
 
-    @Column(nullable = false)
-    private LocalTime rentalEndTime;
+  @Column(nullable = false)
+  private LocalTime rentalEndTime;
 
-    @Column(nullable = false)
-    private LocalDate validStartDate;
+  @Column(nullable = false)
+  private LocalDate validStartDate;
 
-    @Column(nullable = false)
-    private LocalDate validEndDate;
+  @Column(nullable = false)
+  private LocalDate validEndDate;
 
-    @Column(nullable = false)
-    private String organization;
+  @Column(nullable = false)
+  private String organization;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ScheduleType scheduleType;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private ScheduleType scheduleType;
 
-    @Column(name = "schedule_name", nullable = true)
+  @Column(name = "schedule_name", nullable = true)
 
-    private String scheduleName;
+  private String scheduleName;
 
-    @Column(name = "professor_name")
-    private String professorName;
+  @Column(name = "professor_name", nullable = true)
+  private String professorName;
 
-    @Column(name = "course_capacity")
-    private Integer courseCapacity;
+  @Column(name = "course_capacity", nullable = true)
+  private Integer courseCapacity;
 
 }
