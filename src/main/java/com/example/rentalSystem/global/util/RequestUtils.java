@@ -23,7 +23,7 @@ public class RequestUtils {
     }
 
     public static String merge(String dataForQuery, QueryCategory queryCategory, String question) {
-        return queryCategory.getAskPrompt().formatted(dataForQuery, queryCategory);
+        return queryCategory.getAskPrompt().formatted(dataForQuery, question);
 
     }
 }
