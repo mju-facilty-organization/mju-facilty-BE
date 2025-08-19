@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalTime;
 import java.util.List;
 
+import static com.example.rentalSystem.domain.facility.importer.util.FacilityNumberNormalizer.normalize;
+
 @Component
 @RequiredArgsConstructor
 public class FacilityRowMapper {
@@ -20,9 +22,6 @@ public class FacilityRowMapper {
     private final FacilityTypeResolver typeResolver;
     private final AffiliationLookup affiliationLookup;
 
-    /**
-     * 신규 엔티티 생성
-     */
     public Facility toNewEntity(FacilityRowDto row) {
         FacilityType type = typeResolver.resolveLoose(row.getFacilityTypeKo())
                 .orElseThrow(() -> new IllegalArgumentException("시설유형 매핑 실패: " + row.getFacilityTypeKo()));
@@ -36,16 +35,15 @@ public class FacilityRowMapper {
 
         List<AffiliationType> boundary = affiliationLookup.resolveMajorsOrDefault(row.getAllowedRangeKo(), row.getCollegeKo());
         if (boundary.isEmpty()) {
-            throw new IllegalArgumentException("이용범위(allowedBoundary) 결과 비어있음");
+            throw new IllegalArgumentException("이용범위 결과 비어있음");
         }
 
         List<String> supports = FacilityFieldParsers.parseSupportFacilities(row.getSupportFacilitiesKo());
         boolean available = FacilityFieldParsers.parseAvailability(row.getAvailableKo());
 
-        // 주의: Facility.builder는 facilityType을 "한글값 String"으로 받음
         return Facility.builder()
                 .facilityType(type.getValue())
-                .facilityNumber(row.getFacilityNumber())
+                .facilityNumber(normalize(row.getFacilityNumber())) // ★ 정규화
                 .images(List.of())
                 .capacity(capacity)
                 .supportFacilities(supports)
@@ -56,9 +54,6 @@ public class FacilityRowMapper {
                 .build();
     }
 
-    /**
-     * 기존 엔티티 갱신
-     */
     public void applyToExisting(Facility target, FacilityRowDto row) {
         long capacity = FacilityFieldParsers.parseCapacity(row.getCapacityKo());
         LocalTime start = FacilityFieldParsers.parseTime(row.getStartTime());
@@ -69,12 +64,15 @@ public class FacilityRowMapper {
 
         List<AffiliationType> boundary = affiliationLookup.resolveMajorsOrDefault(row.getAllowedRangeKo(), row.getCollegeKo());
         if (boundary.isEmpty()) {
-            throw new IllegalArgumentException("이용범위(allowedBoundary) 결과 비어있음");
+            throw new IllegalArgumentException("이용범위 결과 비어있음");
         }
 
         List<String> supports = FacilityFieldParsers.parseSupportFacilities(row.getSupportFacilitiesKo());
         boolean available = FacilityFieldParsers.parseAvailability(row.getAvailableKo());
 
-        target.updateMeta(capacity, start, end, supports, boundary, available);
+        // 번호 변경 정책이 필요하면 아래 주석 해제 (보통 키는 바꾸지 않음)
+        // target.setFacilityNumber(normalize(row.getFacilityNumber()));
+
+//        target.updateAll(capacity, start, end, supports, boundary, available);
     }
 }

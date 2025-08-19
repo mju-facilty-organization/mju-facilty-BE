@@ -33,7 +33,7 @@ public enum ErrorType {
     RENTAL_HISTORY_CONFLICT(400, "이미 대여 신청이 된 시간이 있습니다"),
     INVALID_DATE_RANGE(400, "유효 날짜가 올바르지 않습니다."),
     FAIL_MAKE_EMAIL(500, "이메일 만들기를 실패했습니다."),
-    FAIL_JSON_PARSING(500, "json 파싱을 실패하였습니다.");
+    FAIL_JSON_PARSING(500, "json 파싱을 실패하였습니다."), DUPLICATE_RESOURCE(409, "이미 등록된 시설(시설유형 + 시설번호) 입니다.");
 
     private final int httpStatusCode;
     private final String message;
