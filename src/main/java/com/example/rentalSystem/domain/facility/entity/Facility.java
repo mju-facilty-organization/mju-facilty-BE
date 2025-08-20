@@ -1,18 +1,22 @@
 package com.example.rentalSystem.domain.facility.entity;
 
+import com.example.rentalSystem.domain.book.schedule.entity.Schedule;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.common.convert.AffiliationListConverter;
 import com.example.rentalSystem.domain.common.convert.FacilityTypeConverter;
 import com.example.rentalSystem.domain.common.convert.StringListConverter;
 import com.example.rentalSystem.domain.facility.entity.type.FacilityType;
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.time.LocalTime;
@@ -70,6 +74,9 @@ public class Facility extends BaseTimeEntity {
     @Column
     @Convert(converter = AffiliationListConverter.class)
     private List<AffiliationType> allowedBoundary;
+
+    @OneToMany(mappedBy = "facility", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Schedule> schedules;
 
     @Builder
     public Facility(
