@@ -1,11 +1,9 @@
 package com.example.rentalSystem.domain.book.rentalhistory.service;
 
-import static com.example.rentalSystem.domain.book.rentalhistory.entity.type.RentalApplicationResult.PROFESSOR_DENIED;
-import static com.example.rentalSystem.domain.book.rentalhistory.entity.type.RentalApplicationResult.WAITING;
-
 import com.example.rentalSystem.domain.book.approval.entity.ProfessorApproval;
 import com.example.rentalSystem.domain.book.approval.implement.ProfessorApprovalImpl;
 import com.example.rentalSystem.domain.book.rentalhistory.dto.request.CreateRentalRequest;
+import com.example.rentalSystem.domain.book.rentalhistory.dto.response.CurrentInUseGroupResponse;
 import com.example.rentalSystem.domain.book.rentalhistory.dto.response.RentalHistoryDetailResponseDto;
 import com.example.rentalSystem.domain.book.rentalhistory.dto.response.RentalHistoryResponseDto;
 import com.example.rentalSystem.domain.book.rentalhistory.entity.RentalHistory;
@@ -18,12 +16,19 @@ import com.example.rentalSystem.domain.member.professor.entity.Professor;
 import com.example.rentalSystem.domain.member.professor.implement.ProfessorManager;
 import com.example.rentalSystem.domain.member.student.entity.Student;
 import com.example.rentalSystem.domain.member.student.implement.StudentImpl;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.List;
+
+import static com.example.rentalSystem.domain.book.rentalhistory.entity.type.RentalApplicationResult.PROFESSOR_DENIED;
+import static com.example.rentalSystem.domain.book.rentalhistory.entity.type.RentalApplicationResult.WAITING;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,23 +42,24 @@ public class RentalService {
     private final ProfessorApprovalImpl professorApprovalImpl;
     private final FacilityScheduleManager facilityScheduleManager;
     private final EmailService emailService;
+    private static final ZoneId ZONE_SEOUL = ZoneId.of("Asia/Seoul");
 
     @Transactional
     public void create(Student student, CreateRentalRequest createRentalRequest) {
         Facility facility = facilityImpl.findById(
-            Long.parseLong(createRentalRequest.facilityId()));
+                Long.parseLong(createRentalRequest.facilityId()));
 
         facilityScheduleManager.checkAvailabilityAndReserve(
-            facility,
-            createRentalRequest.startDateTime(),
-            createRentalRequest.endDateTime()
+                facility,
+                createRentalRequest.startDateTime(),
+                createRentalRequest.endDateTime()
         );
 
         Professor professor = professorManager.findById(createRentalRequest.professorId());
         RentalHistory rentalHistory = createRentalRequest.toEntity(student, facility);
 
         ProfessorApproval professorApproval = createRentalRequest.toEntity(rentalHistory,
-            professor);
+                professor);
 
         rentalHistoryImpl.save(rentalHistory);
         professorApprovalImpl.save(professorApproval);
@@ -69,23 +75,36 @@ public class RentalService {
         Student student = studentImpl.findById(studentId);
         List<RentalHistory> rentalHistories = rentalHistoryImpl.findAllByStudent(student);
         return rentalHistories.stream()
-            .map(RentalHistoryResponseDto::from)
-            .toList();
+                .map(RentalHistoryResponseDto::from)
+                .toList();
     }
 
     public RentalHistoryDetailResponseDto getRentalHistoryDetailById(Long rentalHistoryId) {
         RentalHistory rentalHistory = rentalHistoryImpl.findById(rentalHistoryId);
         ProfessorApproval professorApproval = professorApprovalImpl.findByRentalHistory(
-            rentalHistory);
+                rentalHistory);
         Student student = rentalHistory.getStudent();
 
         if (
-            rentalHistory.getRentalApplicationResult() == WAITING ||
-                rentalHistory.getRentalApplicationResult() == PROFESSOR_DENIED
+                rentalHistory.getRentalApplicationResult() == WAITING ||
+                        rentalHistory.getRentalApplicationResult() == PROFESSOR_DENIED
         ) {
             return RentalHistoryDetailResponseDto.of(rentalHistory, professorApproval, student);
         }
         return RentalHistoryDetailResponseDto.of(rentalHistory, professorApproval, student,
-            rentalHistory.getPic());
+                rentalHistory.getPic());
     }
+
+    public List<CurrentInUseGroupResponse> getCurrentInUseByFacility(Long facilityId) {
+        LocalDate today = LocalDate.now(ZONE_SEOUL);
+        LocalTime nowTime = LocalTime.now(ZONE_SEOUL);
+
+        List<RentalHistory> inUse = rentalHistoryImpl.findCurrentlyInUseByFacility(
+                facilityId, today, nowTime
+        );
+        return inUse.stream()
+                .map(CurrentInUseGroupResponse::from)
+                .toList();
+    }
+
 }

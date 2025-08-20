@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -33,6 +34,7 @@ public class Schedule extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "facility_id")
     private Facility facility;
 
     @Enumerated(EnumType.STRING)
@@ -57,5 +59,14 @@ public class Schedule extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ScheduleType scheduleType;
+
+    @Column(name = "schedule_name", nullable = true)
+    private String scheduleName;
+
+    @Column(name = "professor_name", nullable = true)
+    private String professorName;
+
+    @Column(name = "course_capacity", nullable = true)
+    private Integer courseCapacity;
 
 }

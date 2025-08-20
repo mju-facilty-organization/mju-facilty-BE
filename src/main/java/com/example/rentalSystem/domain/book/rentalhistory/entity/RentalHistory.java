@@ -6,23 +6,12 @@ import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.facility.entity.Facility;
 import com.example.rentalSystem.domain.member.pic.entity.Pic;
 import com.example.rentalSystem.domain.member.student.entity.Student;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -77,8 +66,8 @@ public class RentalHistory extends BaseTimeEntity {
     private String reason;
 
     public void registerApplicationResult(
-        Pic pic,
-        RegisterRentalResultRequest registerRentalResultRequest
+            Pic pic,
+            RegisterRentalResultRequest registerRentalResultRequest
     ) {
         this.pic = pic;
         setApplicationResult(registerRentalResultRequest.rentalApplicationResult());
@@ -88,7 +77,7 @@ public class RentalHistory extends BaseTimeEntity {
     }
 
     public void registerApplicationResult(
-        RentalApplicationResult rentalApplicationResult
+            RentalApplicationResult rentalApplicationResult
     ) {
 
         setApplicationResult(rentalApplicationResult);

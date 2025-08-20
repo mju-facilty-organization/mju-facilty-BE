@@ -46,13 +46,17 @@ public class TimeTableService {
             LocalTime currentTime = startTime;
             while (currentTime.isBefore(endTime)) {
                 timeTable.updateStatus(currentTime, status);
+                timeTable.updateBookInfo(currentTime, rh);
                 currentTime = currentTime.plusMinutes(30);
             }
         }
     }
 
-    public List<TimeTable> getPeriodTimeTables(Facility facility, LocalDate startDate,
-        LocalDate endDate) {
+    public List<TimeTable> getPeriodTimeTables(
+        Facility facility,
+        LocalDate startDate,
+        LocalDate endDate
+    ) {
         List<TimeTable> timeTables = new ArrayList<>();
 
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
@@ -70,6 +74,7 @@ public class TimeTableService {
             LocalTime currentTime = startTime;
             while (currentTime.isBefore(endTime)) {
                 timeTable.updateStatus(currentTime, TimeStatus.UNAVAILABLE);
+                timeTable.updateBookInfo(currentTime, schedule);
                 currentTime = currentTime.plusMinutes(30);
             }
         }

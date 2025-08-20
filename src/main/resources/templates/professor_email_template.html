@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>시설 대여 승인 요청</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px;">
+<div style="max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
+  <h2 style="color: #004085;">명지대학교 시설 대여 승인 요청</h2>
+  <p style="font-size: 16px;">안녕하세요. 교수님!</p>
+  <p style="font-size: 16px;">
+    명지대학교 시설 대여에 대한 승인 요청이 도착했습니다.
+  </p>
+  <p style="font-size: 16px;">
+    자세한 내용을 확인하시려면 아래 버튼을 클릭해주세요.
+  </p>
+  <div style="text-align: center; margin: 30px 0;">
+    <a th:href="${confirmationUrl}"
+       style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+      요청 확인하기
+    </a>
+  </div>
+  <p style="font-size: 14px; color: #888;">
+    위 버튼이 작동하지 않을 경우, 아래 링크를 복사하여 브라우저에 붙여넣어주세요.
+  </p>
+  <p style="font-size: 14px; word-break: break-all;">
+    <a th:href="${confirmationUrl}" th:text="${confirmationUrl}"></a>
+  </p>
+  <hr style="border: 0; border-top: 1px solid #eee; margin-top: 40px;">
+  <p style="font-size: 14px; text-align: center; color: #aaa;">명지대학교 Rental Service</p>
+</div>
+</body>
+</html>

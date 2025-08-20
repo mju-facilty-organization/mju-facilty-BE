@@ -1,18 +1,24 @@
 package com.example.rentalSystem.domain.facility.entity;
 
+import com.example.rentalSystem.domain.book.schedule.entity.Schedule;
 import com.example.rentalSystem.domain.common.BaseTimeEntity;
 import com.example.rentalSystem.domain.common.convert.AffiliationListConverter;
 import com.example.rentalSystem.domain.common.convert.FacilityTypeConverter;
 import com.example.rentalSystem.domain.common.convert.StringListConverter;
 import com.example.rentalSystem.domain.facility.entity.type.FacilityType;
 import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.time.LocalTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -22,12 +28,14 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLRestriction;
 
 @Entity
-
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 //@SQLDelete(sql = "update facility set is_deleted = true where id=?")
 @SQLRestriction("is_deleted = false")
-@Table(name = "facility")
+@Table(
+    name = "facility",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"facility_number"})
+)
 public class Facility extends BaseTimeEntity {
 
     @Id
@@ -41,6 +49,7 @@ public class Facility extends BaseTimeEntity {
     @Column(nullable = false)
     private String facilityNumber;
 
+    @Lob
     @Convert(converter = StringListConverter.class)
     private List<String> images;
 
@@ -66,6 +75,9 @@ public class Facility extends BaseTimeEntity {
     @Convert(converter = AffiliationListConverter.class)
     private List<AffiliationType> allowedBoundary;
 
+    @OneToMany(mappedBy = "facility", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Schedule> schedules;
+
     @Builder
     public Facility(
         String facilityType,
@@ -89,12 +101,44 @@ public class Facility extends BaseTimeEntity {
         this.isDeleted = false;
     }
 
-    public void update(Facility updateFacility) {
-        this.facilityType = updateFacility.getFacilityType();
-        this.facilityNumber = updateFacility.getFacilityNumber();
-        this.images = updateFacility.getImages();
-        this.capacity = updateFacility.getCapacity();
-        this.supportFacilities = updateFacility.getSupportFacilities();
-        this.isAvailable = updateFacility.isAvailable();
+    public void updateAll(
+        FacilityType newType,           // 키 변경: null 이면 유지
+        String newNumber,               // 키 변경: null 이면 유지
+        Long capacity,                  // null 유지
+        LocalTime startTime,            // null 유지
+        LocalTime endTime,              // null 유지
+        List<String> supportFacilities, // null 유지
+        List<AffiliationType> boundary, // null 유지
+        Boolean available               // null 유지
+    ) {
+        if (newType != null) {
+            this.facilityType = newType;
+        }
+        if (newNumber != null && !newNumber.isBlank()) {
+            this.facilityNumber = newNumber;
+        }
+        if (capacity != null) {
+            this.capacity = capacity;
+        }
+        if (startTime != null) {
+            this.startTime = startTime;
+        }
+        if (endTime != null) {
+            this.endTime = endTime;
+        }
+        if (supportFacilities != null) {
+            this.supportFacilities = supportFacilities;
+        }
+        if (boundary != null) {
+            this.allowedBoundary = boundary;
+        }
+        if (available != null) {
+            this.isAvailable = available;
+        }
     }
+
+    public void replaceImages(List<String> newImages) {
+        this.images = (newImages == null) ? new java.util.ArrayList<>() : new java.util.ArrayList<>(newImages);
+    }
+
 }

@@ -45,8 +45,8 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**").permitAll()
                         // USER 권한이 있어야 요청할 수 있음
                         .requestMatchers("/members/test").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.GET, "/suggestions").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/suggestions").permitAll()
                         // 건의함 STUDENT 권한
                         .requestMatchers(HttpMethod.POST, "/suggestions").hasRole("STUDENT")
                         .requestMatchers(HttpMethod.PATCH, "/suggestions/*").hasRole("STUDENT")

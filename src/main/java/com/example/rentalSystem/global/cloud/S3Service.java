@@ -21,10 +21,14 @@ public class S3Service {
     private String bucket;
 
     private final AmazonS3 amazonS3;
-    private final long expirationTimeMillis = 1000 * 60 * 5; // 5분 동안 유효한 URL
+    private final long expirationTimeMillis = 1000 * 60 * 5;
 
     public String generateFacilityS3Key(String fileName) {
         return "facility/" + UUID.randomUUID() + "_" + fileName;
+    }
+    
+    public String generateNoticesS3Key(String fileName) {
+        return "notices/" + UUID.randomUUID() + "_" + fileName;
     }
 
     public String generatePresignedUrlForPut(String fileName) {
@@ -32,24 +36,42 @@ public class S3Service {
             new GeneratePresignedUrlRequest(bucket, fileName)
                 .withMethod(HttpMethod.PUT)
                 .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
+        URL url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
+        return url.toString();
+    }
 
-        // Presigned URL 생성
-        return amazonS3.generatePresignedUrl(generatePresignedUrlRequest).toString();
+    public String generateFacilityS3Key(String originalFileName, Long facilityId) {
+        return "facilities/" + facilityId + "/images/" + UUID.randomUUID() + "_" + originalFileName;
     }
 
     public List<String> generatePresignedUrlsForGet(Facility facility) {
         return facility.getImages().stream()
-            .map(this::generatePresignedUrl)
+            .map(this::generatePresignedUrlForGet)
             .collect(Collectors.toList());
     }
 
-    private String generatePresignedUrl(String objectKey) {
-        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket, objectKey)
+    public String generatePresignedUrlForGet(String objectKey) {
+        GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(bucket, objectKey)
             .withMethod(HttpMethod.GET)
             .withExpiration(new Date(System.currentTimeMillis() + expirationTimeMillis));
-
-        URL url = amazonS3.generatePresignedUrl(request);
+        URL url = amazonS3.generatePresignedUrl(req);
         return url.toString();
     }
 
+    public boolean objectExists(String objectKey) {
+        try {
+            return amazonS3.doesObjectExist(bucket, objectKey);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void deleteObjectIfExists(String objectKey) {
+        try {
+            if (amazonS3.doesObjectExist(bucket, objectKey)) {
+                amazonS3.deleteObject(bucket, objectKey);
+            }
+        } catch (Exception ignore) {
+        }
+    }
 }
