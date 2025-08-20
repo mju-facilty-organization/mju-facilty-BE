@@ -24,9 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.example.rentalSystem.domain.facility.importer.util.FacilityNumberNormalizer.normalize;
 
@@ -42,155 +40,162 @@ public class FacilityService {
     private final S3Service s3Service;
     private final TimeTableService timeTableService;
 
+    // ---------- create ----------
     @Transactional
     public PreSignUrlListResponse create(CreateFacilityRequestDto dto) {
         String normalizedNo = normalize(dto.facilityNumber());
 
         facilityJpaRepository.findByFacilityNumber(normalizedNo)
-                .ifPresent(f -> {
-                    throw new CustomException(ErrorType.DUPLICATE_RESOURCE);
-                });
+            .ifPresent(f -> {
+                throw new CustomException(ErrorType.DUPLICATE_RESOURCE);
+            });
 
         List<String> imageUrlList = (dto.fileNames() == null)
-                ? List.of()
-                : dto.fileNames().stream().map(s3Service::generateFacilityS3Key).toList();
+            ? List.of()
+            : dto.fileNames().stream().map(s3Service::generateFacilityS3Key).toList();
 
         List<AffiliationType> boundary = AffiliationType.getChildList(dto.college());
 
         Facility facility = Facility.builder()
-                .facilityType(dto.facilityType())
-                .facilityNumber(normalizedNo)
-                .images(imageUrlList)
-                .capacity(dto.capacity())
-                .supportFacilities(dto.supportFacilities())
-                .startTime(dto.startTime())
-                .endTime(dto.endTime())
-                .allowedBoundary(boundary)
-                .isAvailable(dto.isAvailable())
-                .build();
+            .facilityType(dto.facilityType())
+            .facilityNumber(normalizedNo)
+            .images(imageUrlList)
+            .capacity(dto.capacity())
+            .supportFacilities(dto.supportFacilities())
+            .startTime(dto.startTime())
+            .endTime(dto.endTime())
+            .allowedBoundary(boundary)
+            .isAvailable(dto.isAvailable())
+            .build();
 
         facilitySaver.save(facility);
 
         List<String> presigned = imageUrlList.stream()
-                .map(s3Service::generatePresignedUrlForPut)
-                .toList();
+            .map(s3Service::generatePresignedUrlForPut)
+            .toList();
         return PreSignUrlListResponse.from(presigned);
     }
 
     private static String baseName(String name) {
-        if (name == null) return null;
+        if (name == null) {
+            return null;
+        }
         String only = name.replace("\\", "/");
-        only = only.substring(only.lastIndexOf('/') + 1); // 경로 제거
-        return only.trim().toLowerCase(); // 대소문자/공백 차이 제거
+        only = only.substring(only.lastIndexOf('/') + 1);
+        return only.trim().toLowerCase();
     }
 
-    /**
-     * 🔧 update가 이미지 처리 + PUT presign URL 목록을 반환
-     */
+    // ---------- update ----------
     @Transactional
     public PreSignUrlListResponse update(UpdateFacilityRequestDto dto, Long facilityId) {
         Facility origin = facilityImpl.findById(facilityId);
 
-        // ===== 1) 메타 갱신 =====
+        // 1) 메타 갱신 + 중복번호 체크
         String newNumber = (dto.facilityNumber() != null) ? normalize(dto.facilityNumber()) : null;
-
         boolean willChangeNumber = newNumber != null && !newNumber.equals(origin.getFacilityNumber());
         if (willChangeNumber) {
-            facilityJpaRepository.findByFacilityNumber(newNumber)
-                    .ifPresent(dup -> {
-                        if (!dup.getId().equals(origin.getId()))
-                            throw new CustomException(ErrorType.DUPLICATE_RESOURCE);
-                    });
+            facilityJpaRepository.findByFacilityNumber(newNumber).ifPresent(dup -> {
+                if (!dup.getId().equals(origin.getId())) {
+                    throw new CustomException(ErrorType.DUPLICATE_RESOURCE);
+                }
+            });
         }
 
         FacilityType newType = (dto.facilityType() != null)
-                ? FacilityType.getInstanceByValue(dto.facilityType())
-                : null;
+            ? FacilityType.getInstanceByValue(dto.facilityType())
+            : null;
 
         origin.updateAll(
-                newType,
-                newNumber,
-                dto.capacity(),
-                dto.startTime(),
-                dto.endTime(),
-                dto.supportFacilities(),
-                dto.allowedBoundary(),
-                dto.isAvailable()
+            newType,
+            newNumber,
+            dto.capacity(),
+            dto.startTime(),
+            dto.endTime(),
+            dto.supportFacilities(),
+            dto.allowedBoundary(),
+            dto.isAvailable()
         );
 
-        // ===== 2) 이미지 삭제/추가/정렬 =====
+        // 2) 이미지 삭제/추가/정렬 및 PUT presign 발급
         List<String> images = new ArrayList<>(origin.getImages() == null ? List.of() : origin.getImages());
 
-        // 2-1) 삭제
+        // 삭제
         if (dto.removeKeys() != null && !dto.removeKeys().isEmpty()) {
             for (String rk : dto.removeKeys()) {
                 if (images.remove(rk) && Boolean.TRUE.equals(dto.hardDelete())) {
-                    s3Service.deleteObjectIfExists(rk); // 실패 무시(로그 권장)
+                    s3Service.deleteObjectIfExists(rk);
                 }
             }
         }
 
-        // 2-2) 파일명 중복 방지 준비
-        java.util.Set<String> existingNames = new java.util.HashSet<>();
+        // 파일명 중복 방지 셋업
+        Set<String> existingNames = new HashSet<>();
         for (String key : images) {
-            String tail = key.substring(key.lastIndexOf('/') + 1); // {UUID}_{original}
+            String tail = key.substring(key.lastIndexOf('/') + 1);
             int idx = tail.indexOf('_');
-            String original = (idx >= 0) ? tail.substring(idx + 1) : tail; // 원본파일명
+            String original = (idx >= 0) ? tail.substring(idx + 1) : tail;
             existingNames.add(baseName(original));
         }
 
-        // 2-3) 추가 (중복 파일명 스킵 + presign 발급)
+        // 추가 + presign
         List<String> presignedPutUrls = new ArrayList<>();
         if (dto.addFileNames() != null) {
             for (String fileName : dto.addFileNames()) {
                 String bn = baseName(fileName);
-                if (bn == null || bn.isEmpty()) continue;
-                if (existingNames.contains(bn)) {
-                    // log.info("[facility:{}] Skip duplicate image by filename: {}", origin.getId(), fileName);
+                if (bn == null || bn.isEmpty() || existingNames.contains(bn)) {
                     continue;
                 }
                 String key = s3Service.generateFacilityS3Key(fileName, origin.getId());
                 String putUrl = s3Service.generatePresignedUrlForPut(key);
                 presignedPutUrls.add(putUrl);
-
                 images.add(key);
                 existingNames.add(bn);
             }
         }
 
-        // 2-4) 정렬
+        // 정렬
         if (dto.newOrder() != null && !dto.newOrder().isEmpty()) {
-            java.util.LinkedHashSet<String> ord = new java.util.LinkedHashSet<>(dto.newOrder());
+            LinkedHashSet<String> ord = new LinkedHashSet<>(dto.newOrder());
             List<String> reordered = new ArrayList<>();
-            for (String k : images) if (ord.contains(k) && !reordered.contains(k)) reordered.add(k);
-            for (String k : images) if (!ord.contains(k) && !reordered.contains(k)) reordered.add(k);
+            for (String k : images) {
+                if (ord.contains(k) && !reordered.contains(k)) {
+                    reordered.add(k);
+                }
+            }
+            for (String k : images) {
+                if (!ord.contains(k) && !reordered.contains(k)) {
+                    reordered.add(k);
+                }
+            }
             images = reordered;
         } else {
-            images = new ArrayList<>(new java.util.LinkedHashSet<>(images)); // 중복 키 제거
+            images = new ArrayList<>(new LinkedHashSet<>(images)); // 중복 제거
         }
 
-        // 2-5) 엔티티 반영 (NPE 안전)
         origin.replaceImages(images);
-
         return PreSignUrlListResponse.from(presignedPutUrls);
     }
 
-    @Transactional
-    public void delete(Long facilityId) {
-        Facility facility = facilityImpl.findById(facilityId);
-        facilityRemover.delete(facility);
-    }
-
+    // ---------- getAll (리포지토리의 String 시그니처에 맞춤) ----------
     @Transactional(readOnly = true)
     public Page<FacilityResponse> getAll(Pageable pageable, String facilityType) {
-        Page<Facility> page = (Objects.isNull(facilityType))
-                ? facilityJpaRepository.findAll(pageable)
-                : facilityJpaRepository.findByFacilityType(FacilityType.getInstanceByValue(facilityType), pageable);
+        String typeValue = (facilityType == null)
+            ? null
+            : FacilityType.getInstanceByValue(facilityType).getValue();
+
+        Page<Facility> page = facilityJpaRepository.findByFacilityType(typeValue, pageable);
 
         return page.map(facility -> {
             List<String> presignedUrls = s3Service.generatePresignedUrlsForGet(facility);
             return FacilityResponse.fromFacility(facility, presignedUrls);
         });
+    }
+
+    // ---------- delete / detail / weekly ----------
+    @Transactional
+    public void delete(Long facilityId) {
+        Facility facility = facilityImpl.findById(facilityId);
+        facilityRemover.delete(facility);
     }
 
     @Transactional(readOnly = true)
@@ -203,12 +208,14 @@ public class FacilityService {
 
     private Facility findFacilityById(Long id) {
         return facilityJpaRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
     public List<TimeTable> getFacilityWeeklySchedule(Long facilityId, LocalDate startDate, LocalDate endDate) {
-        if (startDate.isAfter(endDate)) throw new CustomException(ErrorType.INVALID_DATE_RANGE);
+        if (startDate.isAfter(endDate)) {
+            throw new CustomException(ErrorType.INVALID_DATE_RANGE);
+        }
         Facility facility = facilityImpl.findById(facilityId);
         return timeTableService.getPeriodTimeTables(facility, startDate, endDate);
     }
