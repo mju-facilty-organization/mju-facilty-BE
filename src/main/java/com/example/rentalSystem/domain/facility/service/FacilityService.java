@@ -109,7 +109,8 @@ public class FacilityService {
   // ---------- update ----------
   @Transactional
   public PreSignUrlListResponse update(UpdateFacilityRequestDto dto, Long facilityId) {
-    Facility origin = facilityImpl.findById(facilityId);
+    Facility origin = facilityJpaRepository.findById(facilityId)
+        .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
 
     // 1) 번호 변경 감지 + 자기자신 제외 중복 검사
     String reqNumber = dto.facilityNumber();

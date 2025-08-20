@@ -38,107 +38,108 @@ import org.hibernate.annotations.SQLRestriction;
 )
 public class Facility extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false)
-    @Convert(converter = FacilityTypeConverter.class)
-    private FacilityType facilityType;
+  @Column(nullable = false)
+  @Convert(converter = FacilityTypeConverter.class)
+  private FacilityType facilityType;
 
-    @Column(nullable = false)
-    private String facilityNumber;
+  @Column(nullable = false)
+  private String facilityNumber;
 
-    @Lob
-    @Convert(converter = StringListConverter.class)
-    private List<String> images;
+  @Lob
+  @Column(columnDefinition = "LONGTEXT")
+  @Convert(converter = StringListConverter.class)
+  private List<String> images;
 
-    @Column(nullable = false)
-    private Long capacity;
+  @Column(nullable = false)
+  private Long capacity;
 
-    @Convert(converter = StringListConverter.class)
-    private List<String> supportFacilities;
+  @Convert(converter = StringListConverter.class)
+  private List<String> supportFacilities;
 
-    @Column
-    private LocalTime startTime;
+  @Column
+  private LocalTime startTime;
 
-    @Column
-    private LocalTime endTime;
+  @Column
+  private LocalTime endTime;
 
-    @Column
-    private boolean isAvailable;
+  @Column
+  private boolean isAvailable;
 
-    @Column
-    private boolean isDeleted;
+  @Column
+  private boolean isDeleted;
 
-    @Column
-    @Convert(converter = AffiliationListConverter.class)
-    private List<AffiliationType> allowedBoundary;
+  @Column
+  @Convert(converter = AffiliationListConverter.class)
+  private List<AffiliationType> allowedBoundary;
 
-    @OneToMany(mappedBy = "facility", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Schedule> schedules;
+  @OneToMany(mappedBy = "facility", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+  private List<Schedule> schedules;
 
-    @Builder
-    public Facility(
-        String facilityType,
-        String facilityNumber,
-        List<String> images,
-        Long capacity,
-        List<String> supportFacilities,
-        LocalTime startTime,
-        LocalTime endTime,
-        List<AffiliationType> allowedBoundary,
-        boolean isAvailable) {
-        this.facilityType = FacilityType.getInstanceByValue(facilityType);
-        this.facilityNumber = facilityNumber;
-        this.images = images;
-        this.capacity = capacity;
-        this.supportFacilities = supportFacilities;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.isAvailable = isAvailable;
-        this.allowedBoundary = allowedBoundary;
-        this.isDeleted = false;
+  @Builder
+  public Facility(
+      String facilityType,
+      String facilityNumber,
+      List<String> images,
+      Long capacity,
+      List<String> supportFacilities,
+      LocalTime startTime,
+      LocalTime endTime,
+      List<AffiliationType> allowedBoundary,
+      boolean isAvailable) {
+    this.facilityType = FacilityType.getInstanceByValue(facilityType);
+    this.facilityNumber = facilityNumber;
+    this.images = images;
+    this.capacity = capacity;
+    this.supportFacilities = supportFacilities;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.isAvailable = isAvailable;
+    this.allowedBoundary = allowedBoundary;
+    this.isDeleted = false;
+  }
+
+  public void updateAll(
+      FacilityType newType,           // 키 변경: null 이면 유지
+      String newNumber,               // 키 변경: null 이면 유지
+      Long capacity,                  // null 유지
+      LocalTime startTime,            // null 유지
+      LocalTime endTime,              // null 유지
+      List<String> supportFacilities, // null 유지
+      List<AffiliationType> boundary, // null 유지
+      Boolean available               // null 유지
+  ) {
+    if (newType != null) {
+      this.facilityType = newType;
     }
-
-    public void updateAll(
-        FacilityType newType,           // 키 변경: null 이면 유지
-        String newNumber,               // 키 변경: null 이면 유지
-        Long capacity,                  // null 유지
-        LocalTime startTime,            // null 유지
-        LocalTime endTime,              // null 유지
-        List<String> supportFacilities, // null 유지
-        List<AffiliationType> boundary, // null 유지
-        Boolean available               // null 유지
-    ) {
-        if (newType != null) {
-            this.facilityType = newType;
-        }
-        if (newNumber != null && !newNumber.isBlank()) {
-            this.facilityNumber = newNumber;
-        }
-        if (capacity != null) {
-            this.capacity = capacity;
-        }
-        if (startTime != null) {
-            this.startTime = startTime;
-        }
-        if (endTime != null) {
-            this.endTime = endTime;
-        }
-        if (supportFacilities != null) {
-            this.supportFacilities = supportFacilities;
-        }
-        if (boundary != null) {
-            this.allowedBoundary = boundary;
-        }
-        if (available != null) {
-            this.isAvailable = available;
-        }
+    if (newNumber != null && !newNumber.isBlank()) {
+      this.facilityNumber = newNumber;
     }
-
-    public void replaceImages(List<String> newImages) {
-        this.images = (newImages == null) ? new java.util.ArrayList<>() : new java.util.ArrayList<>(newImages);
+    if (capacity != null) {
+      this.capacity = capacity;
     }
+    if (startTime != null) {
+      this.startTime = startTime;
+    }
+    if (endTime != null) {
+      this.endTime = endTime;
+    }
+    if (supportFacilities != null) {
+      this.supportFacilities = supportFacilities;
+    }
+    if (boundary != null) {
+      this.allowedBoundary = boundary;
+    }
+    if (available != null) {
+      this.isAvailable = available;
+    }
+  }
+
+  public void replaceImages(List<String> newImages) {
+    this.images = (newImages == null) ? new java.util.ArrayList<>() : new java.util.ArrayList<>(newImages);
+  }
 
 }
