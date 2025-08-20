@@ -86,6 +86,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     // HTML 템플릿 엔진 (Thymeleaf)
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // Web Client 의존성
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
