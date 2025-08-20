@@ -30,89 +30,89 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FacilityService {
 
-    private final FacilityJpaRepository facilityJpaRepository;
-    private final FacilitySaver facilitySaver;
-    private final FacilityImpl facilityImpl;
-    private final FacilityRemover facilityRemover;
+  private final FacilityJpaRepository facilityJpaRepository;
+  private final FacilitySaver facilitySaver;
+  private final FacilityImpl facilityImpl;
+  private final FacilityRemover facilityRemover;
 
-    private final S3Service s3Service;
-    private final TimeTableService timeTableService;
+  private final S3Service s3Service;
+  private final TimeTableService timeTableService;
 
-    @Transactional
-    public PreSignUrlListResponse create(CreateFacilityRequestDto createFacilityRequestDto) {
-        List<String> imageUrlList =
-            createFacilityRequestDto
-                .fileNames()
-                .stream()
-                .map(s3Service::generateFacilityS3Key)
-                .toList();
-
-        List<AffiliationType> affiliationTypes = AffiliationType.getChildList(
-            createFacilityRequestDto.college()
-        );
-
-        Facility facility = createFacilityRequestDto.toFacility(imageUrlList, affiliationTypes);
-        facilitySaver.save(facility);
-
-        List<String> presignedUrlList = imageUrlList
+  @Transactional
+  public PreSignUrlListResponse create(CreateFacilityRequestDto createFacilityRequestDto) {
+    List<String> imageUrlList =
+        createFacilityRequestDto
+            .fileNames()
             .stream()
-            .map(s3Service::generatePresignedUrlForPut)
+            .map(s3Service::generateFacilityS3Key)
             .toList();
-        return PreSignUrlListResponse.from(presignedUrlList);
-    }
+
+    List<AffiliationType> affiliationTypes = AffiliationType.getChildList(
+        createFacilityRequestDto.college()
+    );
+
+    Facility facility = createFacilityRequestDto.toFacility(imageUrlList, affiliationTypes);
+    facilitySaver.save(facility);
+
+    List<String> presignedUrlList = imageUrlList
+        .stream()
+        .map(s3Service::generatePresignedUrlForPut)
+        .toList();
+    return PreSignUrlListResponse.from(presignedUrlList);
+  }
 
 
-    @Transactional
-    public void update(UpdateFacilityRequestDto requestDto, Long facilityId) {
-        Facility originFacility = facilityImpl.findById(facilityId);
-        Facility updateFacility = requestDto.toFacility();
-        originFacility.update(updateFacility);
-    }
+  @Transactional
+  public void update(UpdateFacilityRequestDto requestDto, Long facilityId) {
+    Facility originFacility = facilityImpl.findById(facilityId);
+    Facility updateFacility = requestDto.toFacility();
+    originFacility.update(updateFacility);
+  }
 
-    @Transactional
-    public void delete(Long facilityId) {
-        Facility facility = facilityImpl.findById(facilityId);
-        facilityRemover.delete(facility);
-    }
+  @Transactional
+  public void delete(Long facilityId) {
+    Facility facility = facilityImpl.findById(facilityId);
+    facilityRemover.delete(facility);
+  }
 
-    @Transactional(readOnly = true)
-    public Page<FacilityResponse> getAll(Pageable pageable, String facilityType) {
-        Page<Facility> page;
-        if (Objects.isNull(facilityType)) {
-            page = facilityJpaRepository.findAll(pageable);
-        } else {
-            page = facilityJpaRepository.findByFacilityType(
-                FacilityType.getInstanceByValue(facilityType),
-                pageable);
-        }
-        return page.map(facility -> {
-            List<String> presignedUrls = s3Service.generatePresignedUrlsForGet(facility);
-            return FacilityResponse.fromFacility(facility, presignedUrls);
-        });
-    }
+  @Transactional(readOnly = true)
+  public Page<FacilityResponse> getAll(Pageable pageable, String facilityType) {
+    // facilityType 문자열(컬럼 값)로 변환
+    String typeValue = (facilityType == null)
+        ? null
+        : FacilityType.getInstanceByValue(facilityType).getValue();
 
-    @Transactional(readOnly = true)
-    public FacilityDetailResponse getFacilityDetail(Long facilityId, LocalDate localDate) {
-        Facility facility = findFacilityById(facilityId);
-        TimeTable timeTable = timeTableService.getTimeTable(facility, localDate);
-        List<String> presignedUrls = s3Service.generatePresignedUrlsForGet(facility);
-        return FacilityDetailResponse.of(facility, timeTable, presignedUrls);
-    }
+    // 네이티브 쿼리에서 숫자 자연 정렬 + 타입 필터 처리
+    Page<Facility> page = facilityJpaRepository.findByFacilityType(typeValue, pageable);
 
-    private Facility findFacilityById(Long id) {
-        return facilityJpaRepository.findById(id)
-            .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
-    }
+    return page.map(facility -> {
+      List<String> presignedUrls = s3Service.generatePresignedUrlsForGet(facility);
+      return FacilityResponse.fromFacility(facility, presignedUrls);
+    });
+  }
 
-    @Transactional(readOnly = true)
-    public List<TimeTable> getFacilityWeeklySchedule(
-        Long facilityId, LocalDate startDate, LocalDate endDate
-    ) {
-        if (startDate.isAfter(endDate)) {
-            throw new CustomException(ErrorType.INVALID_DATE_RANGE);
-        }
-        Facility facility = facilityImpl.findById(facilityId);
-        return timeTableService.getPeriodTimeTables(facility,
-            startDate, endDate);
+  @Transactional(readOnly = true)
+  public FacilityDetailResponse getFacilityDetail(Long facilityId, LocalDate localDate) {
+    Facility facility = findFacilityById(facilityId);
+    TimeTable timeTable = timeTableService.getTimeTable(facility, localDate);
+    List<String> presignedUrls = s3Service.generatePresignedUrlsForGet(facility);
+    return FacilityDetailResponse.of(facility, timeTable, presignedUrls);
+  }
+
+  private Facility findFacilityById(Long id) {
+    return facilityJpaRepository.findById(id)
+        .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
+  }
+
+  @Transactional(readOnly = true)
+  public List<TimeTable> getFacilityWeeklySchedule(
+      Long facilityId, LocalDate startDate, LocalDate endDate
+  ) {
+    if (startDate.isAfter(endDate)) {
+      throw new CustomException(ErrorType.INVALID_DATE_RANGE);
     }
+    Facility facility = facilityImpl.findById(facilityId);
+    return timeTableService.getPeriodTimeTables(facility,
+        startDate, endDate);
+  }
 }
