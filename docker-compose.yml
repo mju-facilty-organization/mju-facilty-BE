@@ -1,34 +1,15 @@
-#services: # 컨테이너 정의(컨테이너의 집합체를 보주로 서비스라고 함)
-#  server:
-#    image: "${SERVER_IMAGE_URL}"
-#    container_name: rentalServer-container
-#    ports:
-#      - "80:8080"
-#    environment:
-#      - TZ=Asia/Seoul
-#    volumes:
-#      - /etc/localtime:/etc/localtime:ro
-#    networks:
-#      - ddingGi_network
-#
-#networks: #네트워크 설정
-#  ddingGi_network:
-
-version: '3.8'
-
-services:
-  mysql:
-    image: mysql:8
-    container_name: mju-facility-mysql
+services: # 컨테이너 정의(컨테이너의 집합체를 보주로 서비스라고 함)
+  server:
+    image: "${SERVER_IMAGE_URL}"
+    container_name: rentalServer-container
     ports:
-      - "3307:3306"
+      - "80:8080"
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: mju_facility_db
-      TZ: Asia/Seoul
+      - TZ=Asia/Seoul
     volumes:
-      - mysql-data:/var/lib/mysql
-    restart: unless-stopped
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - ddingGi_network
 
-volumes:
-  mysql-data:
+networks: #네트워크 설정
+  ddingGi_network:
