@@ -22,37 +22,38 @@ public record ApiResponse<T>(
     T data
 ) {
 
-    public static <T> ApiResponse<T> success(SuccessType successType, T data) {
-        return ApiResponse.<T>builder()
-            .resultType(ResultType.SUCCESS)
-            .httpStatusCode(successType.getHttpStatusCode())
-            .message(successType.getMessage())
-            .data(data)
-            .build();
-    }
+  public static <T> ApiResponse<T> success(SuccessType successType, T data) {
+    return ApiResponse.<T>builder()
+        .resultType(ResultType.SUCCESS)
+        .httpStatusCode(successType.getHttpStatusCode())
+        .message(successType.getMessage())
+        .data(data)
+        .build();
+  }
 
-    public static ApiResponse<?> success(SuccessType successType) {
-        return success(successType, null);
-    }
+  public static ApiResponse<?> success(SuccessType successType) {
+    return success(successType, null);
+  }
 
-    public static <T> ApiResponse<T> error(ErrorType errorType, String message, T data) {
-        return ApiResponse.<T>builder()
-            .resultType(ResultType.FAIL)
-            .httpStatusCode(errorType.getHttpStatusCode())
-            .message(message)
-            .data(data)
-            .build();
-    }
+  public static <T> ApiResponse<T> error(ErrorType errorType, String message, T data) {
+    return ApiResponse.<T>builder()
+        .resultType(ResultType.FAIL)
+        .httpStatusCode(errorType.getHttpStatusCode())
+        .message(message)
+        .data(data)
+        .build();
+  }
 
-    public static ApiResponse<?> error(ErrorType errorType) {
-        return error(errorType, errorType.getMessage(), null);
-    }
+  public static ApiResponse<?> error(ErrorType errorType) {
+    return error(errorType, errorType.getMessage(), null);
+  }
 
-    public static ApiResponse<?> error(ErrorType errorType, String message) {
-        return error(errorType, message, null);
-    }
+  public static ApiResponse<?> error(ErrorType errorType, String message) {
+    return error(errorType, message, null);
+  }
 
-    public static <T> ApiResponse<T> error(ErrorType errorType, T data) {
-        return error(errorType, errorType.getMessage(), data);
-    }
+  public static <T> ApiResponse<T> error(ErrorType errorType, T data) {
+    return error(errorType, errorType.getMessage(), data);
+  }
+
 }

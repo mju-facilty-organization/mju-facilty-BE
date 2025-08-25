@@ -49,8 +49,9 @@ public class FacilityController implements FacilityControllerDocs {
   @Override
   @PostMapping
   public ApiResponse<PreSignUrlListResponse> createFacility(
-      @Valid @RequestBody CreateFacilityRequestDto requestDto) {
-    PreSignUrlListResponse presignUrlListResponse = facilityService.create(requestDto);
+      @Valid @RequestBody CreateFacilityRequestDto requestDto,
+      @RequestParam(value = "overwrite", defaultValue = "false") boolean overwrite) {
+    PreSignUrlListResponse presignUrlListResponse = facilityService.create(requestDto, overwrite);
     return ApiResponse.success(SuccessType.CREATED, presignUrlListResponse);
   }
 
