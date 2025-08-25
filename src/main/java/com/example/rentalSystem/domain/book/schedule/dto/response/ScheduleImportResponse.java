@@ -14,7 +14,8 @@ public record ScheduleImportResponse(
     return new ScheduleImportResponse(total, success, total - success, errors);
   }
 
-  public record RowError(int rowIndex, String reason, ExcelScheduleRow raw) {
+  public record RowError(int rowIndex, String field, String reason, ExcelScheduleRow raw) {
 
   }
+
 }
