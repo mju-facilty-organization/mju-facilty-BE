@@ -13,6 +13,7 @@ public class TimeNormalizer {
   private static final DateTimeFormatter H_MMA = DateTimeFormatter.ofPattern("h:mma", Locale.KOREA);
   private static final DateTimeFormatter HA = DateTimeFormatter.ofPattern("ha", Locale.KOREA);
 
+
   public LocalTime toLocalTime(Object any) {
     if (any == null) {
       return null;
@@ -85,5 +86,9 @@ public class TimeNormalizer {
 
   public String formatHHmm(LocalTime time) {
     return time == null ? null : time.format(HHMM);
+  }
+  
+  public String formatHColonMm(LocalTime time) {
+    return time == null ? null : time.format(H_MM); // "H:mm"
   }
 }

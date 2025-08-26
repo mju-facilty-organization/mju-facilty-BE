@@ -58,6 +58,7 @@ public class ScheduleExcelImporter implements ExcelImporter<ExcelScheduleRow> {
       if (wb == null || wb.getNumberOfSheets() == 0) {
         return false;
       }
+
       Sheet sheet = wb.getSheetAt(0);
       if (sheet == null) {
         return false;
@@ -112,13 +113,13 @@ public class ScheduleExcelImporter implements ExcelImporter<ExcelScheduleRow> {
   public ImportParseResult<ExcelScheduleRow> parse(Workbook wb, ImportContext ctx, ErrorCollector errors) {
     Sheet sheet = wb.getSheetAt(0);
 
-    int headerRowIdx = sheet.getFirstRowNum();
+    // 🔧 헤더 행 탐지 통일
+    int headerRowIdx = headerMapper.headerRowIndexDetect(sheet, sheet.getFirstRowNum());
     Row header = sheet.getRow(headerRowIdx);
     Map<String, Integer> col = headerMapper.map(header, REQUIRED_HEADERS, OPTIONAL_HEADERS);
 
     List<ExcelScheduleRow> out = new ArrayList<>();
     List<ImportError> err = new ArrayList<>();
-
     int totalRows = 0;
 
     for (int r = headerRowIdx + 1; r <= sheet.getLastRowNum(); r++) {
@@ -159,7 +160,6 @@ public class ScheduleExcelImporter implements ExcelImporter<ExcelScheduleRow> {
         addErr(errors, err, r, H_CAP, "수용인원은 음수가 될 수 없습니다.", String.valueOf(capacity));
         rowHasError = true;
       }
-
       if (rowHasError) {
         continue;
       }
@@ -168,7 +168,6 @@ public class ScheduleExcelImporter implements ExcelImporter<ExcelScheduleRow> {
       String end = timeNormalizer.formatHHmm(endLt);
 
       List<String> days = splitDays(dayRaw);
-
       if (days.isEmpty()) {
         addErr(errors, err, r, H_DAY, "요일을 해석할 수 없습니다.", dayRaw);
         continue;
@@ -224,8 +223,10 @@ public class ScheduleExcelImporter implements ExcelImporter<ExcelScheduleRow> {
 
   private void addErr(ErrorCollector ec, List<ImportError> err, int rowIndex,
       String field, String message, String raw) {
-    ec.add(rowIndex, field, message, raw, null);
-    err.add(new ImportError(rowIndex, field, message, raw, null));
+    // 🔧 엑셀 표기(1-base)로 보정
+    int displayRow = rowIndex + 1;
+    ec.add(displayRow, field, message, raw, null);
+    err.add(new ImportError(displayRow, field, message, raw, null));
   }
 
   private String trimOrNull(String s) {
