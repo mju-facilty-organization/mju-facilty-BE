@@ -46,6 +46,13 @@ public class FacilityController implements FacilityControllerDocs {
     return ApiResponse.success(SuccessType.SUCCESS);
   }
 
+  // ★ 전체 삭제 API 추가
+  @DeleteMapping("/all")
+  public ApiResponse<?> deleteAllFacilities() {
+    facilityService.deleteAllFacilities();
+    return ApiResponse.success(SuccessType.SUCCESS);
+  }
+
   @Override
   @PostMapping
   public ApiResponse<PreSignUrlListResponse> createFacility(
