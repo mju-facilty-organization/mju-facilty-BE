@@ -25,19 +25,33 @@ public record FacilityDetailResponse(
 
 ) {
 
-    public static FacilityDetailResponse of(Facility facility, TimeTable timeTable,
-        List<String> presignedUrls) {
-        return FacilityDetailResponse
-            .builder()
-            .id(facility.getId())
-            .facilityType(facility.getFacilityType())
-            .facilityNumber(facility.getFacilityNumber())
-            .images(presignedUrls)
-            .capacity(facility.getCapacity())
-            .supportFacilities(facility.getSupportFacilities())
-            .date(timeTable.date().toString())
-            .timeSlot(timeTable.timeTable())
-            .allowedBoundary(facility.getAllowedBoundary())
-            .build();
-    }
+  public static FacilityDetailResponse of(Facility facility, TimeTable timeTable,
+      
+      List<String> presignedUrls) {
+    return FacilityDetailResponse
+        .builder()
+        .id(facility.getId())
+        .facilityType(facility.getFacilityType())
+        .facilityNumber(facility.getFacilityNumber())
+        .images(presignedUrls)
+        .capacity(facility.getCapacity())
+        .supportFacilities(facility.getSupportFacilities())
+        .date(timeTable.date().toString())
+        .timeSlot(timeTable.timeTable())
+        .allowedBoundary(facility.getAllowedBoundary())
+        .build();
+  }
+
+  public static FacilityDetailResponse fromFacilityOnly(Facility facility, List<String> presignedUrls) {
+    return FacilityDetailResponse.builder()
+        .id(facility.getId())
+        .facilityType(facility.getFacilityType())
+        .facilityNumber(facility.getFacilityNumber())
+        .images(presignedUrls)
+        .capacity(facility.getCapacity())
+        .allowedBoundary(facility.getAllowedBoundary())
+        .supportFacilities(facility.getSupportFacilities())
+        // pic/date/timeSlot 은 null (단일 등록 충돌 응답용 요약)
+        .build();
+  }
 }

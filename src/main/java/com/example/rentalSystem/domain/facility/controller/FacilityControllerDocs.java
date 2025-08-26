@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FacilityControllerDocs {
 
   @Operation(summary = "시설 등록 API")
-  ApiResponse<PreSignUrlListResponse> createFacility(CreateFacilityRequestDto requestDto);
+  ApiResponse<PreSignUrlListResponse> createFacility(CreateFacilityRequestDto requestDto, boolean overwrite);
 
   @ApiErrorCodeExample(ErrorType.ENTITY_NOT_FOUND)
   @Operation(summary = "시설 수정 API")

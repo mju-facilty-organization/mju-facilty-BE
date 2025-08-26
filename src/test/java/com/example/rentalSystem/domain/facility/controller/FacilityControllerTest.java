@@ -37,128 +37,131 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 class FacilityControllerTest extends ApiTestSupport {
 
 
-    @MockBean
-    private FacilityService facilityService;
+  @MockBean
+  private FacilityService facilityService;
 
-    @Test
-    @WithMockUser
-    @DisplayName("시설을 생성할 수 있다.")
-    void 시설_생성_API() throws Exception {
-        // Given
-        CreateFacilityRequestDto requestDto = FacilityFixture.createFacilityRequestDto();
-        PreSignUrlListResponse presignUrlListResponse = FacilityFixture.createFacilityResponseDto();
+  @Test
+  @WithMockUser
+  @DisplayName("시설을 생성할 수 있다.")
+  void 시설_생성_API() throws Exception {
+    // Given
+    CreateFacilityRequestDto requestDto = FacilityFixture.createFacilityRequestDto();
+    PreSignUrlListResponse presignUrlListResponse = FacilityFixture.createFacilityResponseDto();
 
-        doReturn(presignUrlListResponse)
-            .when(facilityService)
-            .create(any(CreateFacilityRequestDto.class));
-        // When
-        ResultActions resultActions = mockMvc.perform(
-            MockMvcRequestBuilders.post("/admin/facilities")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(requestDto)));
-        // Then
-        resultActions
-            .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
-            .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.CREATED.getHttpStatusCode()));
-    }
+    doReturn(presignUrlListResponse)
+        .when(facilityService)
+        .create(any(CreateFacilityRequestDto.class), any(Boolean.class)); // ★ 수정
 
-    @Test
-    @DisplayName("시설을 수정할 수 있다.")
-    void 시설_수정_API() throws Exception {
-        // Given
-        Long facilityId = 1L;
-        Facility facility = FacilityFixture.createFacility();
+    // When
+    ResultActions resultActions = mockMvc.perform(
+        MockMvcRequestBuilders.post("/admin/facilities")
+            .with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("overwrite", "false") // ★ 명시적으로 overwrite 추가
+            .content(toJson(requestDto)));
+
+    // Then
+    resultActions
+        .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
+        .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.CREATED.getHttpStatusCode()));
+  }
+
+  @Test
+  @DisplayName("시설을 수정할 수 있다.")
+  void 시설_수정_API() throws Exception {
+    // Given
+    Long facilityId = 1L;
+    Facility facility = FacilityFixture.createFacility();
 //        facilityJpaRepository.save(facility);
 
-        UpdateFacilityRequestDto requestDto = FacilityFixture.createUpdateFacilityRequestDto();
+    UpdateFacilityRequestDto requestDto = FacilityFixture.createUpdateFacilityRequestDto();
 
-        // When
-        ResultActions resultActions = mockMvc.perform(
-            put("/api/admin/facilities/{facilityId}", facilityId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(requestDto)));
+    // When
+    ResultActions resultActions = mockMvc.perform(
+        put("/api/admin/facilities/{facilityId}", facilityId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(toJson(requestDto)));
 
-        // Then
-        resultActions
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
-            .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.SUCCESS.getHttpStatusCode()));
-    }
+    // Then
+    resultActions
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
+        .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.SUCCESS.getHttpStatusCode()));
+  }
 
-    @Test
-    @DisplayName("시설을 삭제할 수 있다.")
-    void 시설_삭제_API() throws Exception {
-        // Given
-        Long facilityId = 1L;
-        Facility facility = FacilityFixture.createFacility();
+  @Test
+  @DisplayName("시설을 삭제할 수 있다.")
+  void 시설_삭제_API() throws Exception {
+    // Given
+    Long facilityId = 1L;
+    Facility facility = FacilityFixture.createFacility();
 //        facilityJpaRepository.save(facility);
-        // When
-        ResultActions resultActions = mockMvc.perform(
-            delete("/api/admin/facilities/{facilityId}", facilityId));
+    // When
+    ResultActions resultActions = mockMvc.perform(
+        delete("/api/admin/facilities/{facilityId}", facilityId));
 
-        // Then
-        resultActions
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
-            .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.SUCCESS.getHttpStatusCode()));
-    }
+    // Then
+    resultActions
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.resultType").value(String.valueOf(ResultType.SUCCESS)))
+        .andExpect(jsonPath("$.httpStatusCode").value(SuccessType.SUCCESS.getHttpStatusCode()));
+  }
 
-    @Test
-    @WithMockUser
-    void 시설_전체_조회() throws Exception {
-        //given
-        Pageable pageable = PageRequest.of(0, 10);
-        doReturn(FacilityFixture.getAllFacilityList(pageable))
-            .when(facilityService)
-            .getAll(any(Pageable.class), any(String.class));
+  @Test
+  @WithMockUser
+  void 시설_전체_조회() throws Exception {
+    //given
+    Pageable pageable = PageRequest.of(0, 10);
+    doReturn(FacilityFixture.getAllFacilityList(pageable))
+        .when(facilityService)
+        .getAll(any(Pageable.class), any(String.class));
 
-        //when
-        ResultActions resultActions = mockMvc.perform(
-            get("/admin/facilities")
-                .param("page", "1")
-                .param("size", "10")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON));
-        resultActions.andExpect(status().isOk());
-    }
+    //when
+    ResultActions resultActions = mockMvc.perform(
+        get("/admin/facilities")
+            .param("page", "1")
+            .param("size", "10")
+            .with(csrf())
+            .contentType(MediaType.APPLICATION_JSON));
+    resultActions.andExpect(status().isOk());
+  }
 
-    @Test
-    @WithMockUser
-    void 타입별_시설_전체_조회() throws Exception {
-        //given
-        Pageable pageable = PageRequest.of(0, 10);
-        doReturn(FacilityFixture.getAllFacilityList(pageable))
-            .when(facilityService)
-            .getAll(any(Pageable.class), any(String.class));
+  @Test
+  @WithMockUser
+  void 타입별_시설_전체_조회() throws Exception {
+    //given
+    Pageable pageable = PageRequest.of(0, 10);
+    doReturn(FacilityFixture.getAllFacilityList(pageable))
+        .when(facilityService)
+        .getAll(any(Pageable.class), any(String.class));
 
-        //when
-        ResultActions resultActions = mockMvc.perform(
-            get("/admin/facilities")
-                .param("page", "1")
-                .param("size", "10")
-                .param("facility_type", "본관")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON));
-        resultActions.andExpect(status().isOk());
-    }
+    //when
+    ResultActions resultActions = mockMvc.perform(
+        get("/admin/facilities")
+            .param("page", "1")
+            .param("size", "10")
+            .param("facility_type", "본관")
+            .with(csrf())
+            .contentType(MediaType.APPLICATION_JSON));
+    resultActions.andExpect(status().isOk());
+  }
 
-    @Test
-    @WithMockUser
-    void 시설_상세_조회() throws Exception {
-        //given
-        Long facilityId = 1L;
+  @Test
+  @WithMockUser
+  void 시설_상세_조회() throws Exception {
+    //given
+    Long facilityId = 1L;
 
-        doReturn(FacilityFixture.getFacilityDetail())
-            .when(facilityService)
-            .getFacilityDetail(any(Long.class), any(LocalDate.class));
+    doReturn(FacilityFixture.getFacilityDetail())
+        .when(facilityService)
+        .getFacilityDetail(any(Long.class), any(LocalDate.class));
 
-        //when
-        ResultActions resultActions = mockMvc.perform(
-            get("/admin/facilities/{facilityId}", facilityId)
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("date", LocalDate.now().toString()));
-        resultActions.andExpect(status().isOk());
-    }
+    //when
+    ResultActions resultActions = mockMvc.perform(
+        get("/admin/facilities/{facilityId}", facilityId)
+            .with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("date", LocalDate.now().toString()));
+    resultActions.andExpect(status().isOk());
+  }
 }
