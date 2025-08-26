@@ -35,6 +35,9 @@ public interface FacilityControllerDocs {
   @ApiErrorCodeExample(ErrorType.ENTITY_NOT_FOUND)
   ApiResponse<?> deleteFacility(Long facilityId);
 
+  @Operation(summary = "시설 전체 삭제 API")
+  ApiResponse<?> deleteAllFacilities();
+
   @Operation(summary = "시설 전체 조회 API")
   @ApiErrorCodeExample(ErrorType.INVALID_FACILITY_TYPE)
   ApiResponse<Page<FacilityResponse>> getAllFacility(

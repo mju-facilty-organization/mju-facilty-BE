@@ -248,8 +248,40 @@ public class FacilityService {
   // ---------- delete ----------
   @Transactional
   public void delete(Long facilityId) {
+    // 1) 엔티티 조회 (없으면 404 예외 발생)
     Facility facility = facilityImpl.findById(facilityId);
+
+    // 2) 이미지 키 백업 (DB 삭제 후에도 S3 키를 써야 하므로 미리 복사)
+    List<String> imageKeys = facility.getImages() == null
+        ? List.of()
+        : List.copyOf(facility.getImages());
+
+    // 3) DB 삭제 (예약 등 FK 제약은 facilityRemover 내부 정책에 따름)
     facilityRemover.delete(facility);
+
+    // 4) S3 삭제
+    for (String key : imageKeys) {
+      s3Service.deleteObjectIfExists(key); // 없으면 조용히 무시
+    }
+  }
+
+  @Transactional
+  public void deleteAllFacilities() {
+    // 1) 모든 시설 로드
+    List<Facility> all = facilityJpaRepository.findAll();
+
+    // 2) 모든 이미지 키 수집
+    List<String> allKeys = all.stream()
+        .flatMap(f -> (f.getImages() == null ? List.<String>of().stream() : f.getImages().stream()))
+        .toList();
+
+    // 3) DB 일괄 삭제
+    facilityJpaRepository.deleteAllInBatch(); // FK 제약 고려해서 batch delete
+
+    // 4) S3 일괄 삭제
+    for (String key : allKeys) {
+      s3Service.deleteObjectIfExists(key);
+    }
   }
 
   // ---------- detail ----------
