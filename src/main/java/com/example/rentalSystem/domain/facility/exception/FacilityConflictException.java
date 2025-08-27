@@ -1,4 +1,3 @@
-// src/main/java/com/example/rentalSystem/domain/facility/exception/FacilityConflictException.java
 package com.example.rentalSystem.domain.facility.exception;
 
 import com.example.rentalSystem.domain.facility.dto.response.FacilityDetailResponse;

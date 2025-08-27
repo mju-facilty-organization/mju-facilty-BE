@@ -18,9 +18,7 @@ public record UpdateFacilityRequestDto(
     List<String> allowedBoundary,
     List<String> addFileNames,
     List<String> removeKeys,
-    List<String> newOrder,
-    Boolean hardDelete
-
+    List<String> newOrder
 ) {
 
 }
