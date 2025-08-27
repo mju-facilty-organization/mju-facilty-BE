@@ -56,70 +56,64 @@ public class FacilityService {
   public PreSignUrlListResponse create(CreateFacilityRequestDto dto, boolean overwrite) {
     final String normalizedNo = normalize(dto.facilityNumber());
 
-    // 0) allowedBoundary 우선 사용, 없으면 college 전체 전공으로 대체
+    // allowedBoundary: 선택 학과 우선, 없으면 단과대 하위 전공 전체
     final List<AffiliationType> boundary =
         (dto.allowedBoundary() != null && !dto.allowedBoundary().isEmpty())
-            ? dto.allowedBoundary().stream()
-            .map(AffiliationType::getInstance) // "행정학과" -> AffiliationType
-            .toList()
-            : AffiliationType.getChildList(dto.college()); // 단과대학 하위 전공 전체
+            ? dto.allowedBoundary().stream().map(AffiliationType::getInstance).toList()
+            : AffiliationType.getChildList(dto.college());
 
     Optional<Facility> existingOpt = facilityJpaRepository.findByFacilityNumber(normalizedNo);
 
-    // 1) 이미 존재 + overwrite=false → 409 with 요약 payload
+    // 이미 존재 + overwrite=false -> 409
     if (existingOpt.isPresent() && !overwrite) {
       Facility existing = existingOpt.get();
       FacilityDetailResponse payload = FacilityDetailResponse.fromFacilityOnly(
-          existing,
-          s3Service.generatePresignedUrlsForGet(existing)
+          existing, s3Service.generatePresignedUrlsForGet(existing)
       );
       throw new FacilityConflictException(payload);
     }
 
-    // 2) 이미 존재 + overwrite=true → 덮어쓰기(update 흐름으로 위임)
+    // 이미 존재 + overwrite=true -> update 위임
     if (existingOpt.isPresent()) {
       Facility existing = existingOpt.get();
       UpdateFacilityRequestDto updateDto = new UpdateFacilityRequestDto(
-          dto.facilityType(),
-          normalizedNo,
-          dto.supportFacilities(),
-          dto.startTime(),
-          dto.endTime(),
-          dto.capacity(),
-          dto.isAvailable(),
-          boundary,                                 // ★ 선택 전공 반영
-          dto.fileNames(),
-          (existing.getImages() == null) ? List.of() : new ArrayList<>(existing.getImages()),
-          null,
-          false
+          dto.facilityType(), normalizedNo, dto.supportFacilities(),
+          dto.startTime(), dto.endTime(), dto.capacity(), dto.isAvailable(),
+          boundary, dto.fileNames(),
+          existing.getImages() == null ? List.of() : new ArrayList<>(existing.getImages()),
+          null, false
       );
       return update(updateDto, existing.getId());
     }
 
-    // 3) 신규 생성
     try {
-      // 같은 파일명을 중복으로 보내도 presigned 1개만 발급
-      List<String> imageKeys = (dto.fileNames() == null)
-          ? List.of()
-          : dto.fileNames().stream()
-              .distinct()
-              .map(s3Service::generateFacilityS3Key) // UUID_prefix + 원본파일명
-              .toList();
-
+      // 1) 먼저 엔티티 저장하여 id 확보 (이미지는 일단 빈 배열)
       Facility facility = Facility.builder()
           .facilityType(dto.facilityType())
           .facilityNumber(normalizedNo)
-          .images(imageKeys)
+          .images(List.of())
           .capacity(dto.capacity())
           .supportFacilities(dto.supportFacilities())
           .startTime(dto.startTime())
           .endTime(dto.endTime())
-          .allowedBoundary(boundary)                // ★ 선택 전공 반영
+          .allowedBoundary(boundary)
           .isAvailable(dto.isAvailable())
           .build();
 
+      facilitySaver.save(facility); // 여기서 facility.getId() 생성
+
+      // 2) fileNames 중복 제거 → facilityId 기반 S3 키 생성
+      List<String> imageKeys = (dto.fileNames() == null) ? List.of()
+          : dto.fileNames().stream()
+              .distinct()
+              .map(name -> s3Service.generateFacilityS3Key(name, facility.getId())) // ★ id 포함
+              .toList();
+
+      // 3) 엔티티에 이미지 키 세팅 후 저장
+      facility.replaceImages(imageKeys);
       facilitySaver.save(facility);
 
+      // 4) 업로드용 presigned PUT URL 반환
       List<String> presigned = imageKeys.stream()
           .map(s3Service::generatePresignedUrlForPut)
           .toList();
@@ -127,7 +121,6 @@ public class FacilityService {
       return PreSignUrlListResponse.from(presigned);
 
     } catch (DataIntegrityViolationException e) {
-      // 동시 등록으로 인한 DB 유니크 제약 충돌
       throw new CustomException(ErrorType.DUPLICATE_RESOURCE);
     }
   }
