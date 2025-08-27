@@ -59,7 +59,7 @@ public class FacilityService {
     // allowedBoundary: 선택 학과 우선, 없으면 단과대 하위 전공 전체
     final List<AffiliationType> boundary =
         (dto.allowedBoundary() != null && !dto.allowedBoundary().isEmpty())
-            ? dto.allowedBoundary().stream().map(AffiliationType::getInstance).toList()
+            ? mapMajors(dto.allowedBoundary())      // ← 여기
             : AffiliationType.getChildList(dto.college());
 
     Optional<Facility> existingOpt = facilityJpaRepository.findByFacilityNumber(normalizedNo);
@@ -79,7 +79,7 @@ public class FacilityService {
       UpdateFacilityRequestDto updateDto = new UpdateFacilityRequestDto(
           dto.facilityType(), normalizedNo, dto.supportFacilities(),
           dto.startTime(), dto.endTime(), dto.capacity(), dto.isAvailable(),
-          boundary, dto.fileNames(),
+          dto.allowedBoundary(), dto.fileNames(),
           existing.getImages() == null ? List.of() : new ArrayList<>(existing.getImages()),
           null, false
       );
@@ -137,30 +137,34 @@ public class FacilityService {
     return only.trim().toLowerCase();
   }
 
-  // ---------- update (기존 로직 유지) ----------
   @Transactional
   public PreSignUrlListResponse update(UpdateFacilityRequestDto dto, Long facilityId) {
+    // 0) 대상 조회
     Facility origin = facilityJpaRepository.findById(facilityId)
         .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
 
-    // 1) 번호 변경 감지 (현재 정책상 번호 변경은 사실상 금지 흐름이지만, 기존 로직 존중)
-    String reqNumber = dto.facilityNumber();
-    String newNumber = (reqNumber != null) ? normalize(reqNumber) : origin.getFacilityNumber();
-    boolean numberChanged = !newNumber.equals(origin.getFacilityNumber());
+    // 1) 시설번호는 수정 금지 → DTO 값이 와도 무시
+    //    (필요하면 여기서 변경 시도 시 예외 던지도록 바꿀 수 있음)
+    String keepNumber = origin.getFacilityNumber();
 
     // 2) 타입 등 메타 필드 덮어쓰기(값이 오면 교체, null이면 유지)
     FacilityType newType = (dto.facilityType() != null)
         ? FacilityType.getInstanceByValue(dto.facilityType())
         : null;
 
+    // allowedBoundary: null이면 유지, 값이 오면 AffiliationType으로 변환해서 교체
+    List<AffiliationType> newBoundary = (dto.allowedBoundary() != null)
+        ? mapMajors(dto.allowedBoundary())          // ← 여기
+        : null;
+
     origin.updateAll(
         newType,
-        numberChanged ? newNumber : null,          // null이면 유지
+        null,                         // 번호는 변경 금지 → null 유지
         dto.capacity(),
         dto.startTime(),
         dto.endTime(),
         dto.supportFacilities(),
-        dto.allowedBoundary(),
+        newBoundary,                  // null이면 기존 유지
         dto.isAvailable()
     );
 
@@ -171,28 +175,30 @@ public class FacilityService {
     if (dto.removeKeys() != null && !dto.removeKeys().isEmpty()) {
       for (String rk : dto.removeKeys()) {
         if (images.remove(rk) && Boolean.TRUE.equals(dto.hardDelete())) {
-          s3Service.deleteObjectIfExists(rk);
+          s3Service.deleteObjectIfExists(rk); // 없으면 조용히 무시
         }
       }
     }
 
-    // (2) 추가: 파일명 중복 방지(원본파일명 기준)
+    // (2) 추가: 파일명(원본) 중복 방지
+    //     기존 키들에서 "uuid_" 이후의 원본파일명만 뽑아 소문자로 보관
     Set<String> existingNames = new HashSet<>();
     for (String key : images) {
       String tail = key.substring(key.lastIndexOf('/') + 1);
       int idx = tail.indexOf('_');
       String original = (idx >= 0) ? tail.substring(idx + 1) : tail;
-      existingNames.add(baseName(original));
+      existingNames.add(baseName(original));  // baseName = 소문자 + 경로삭제
     }
 
     List<String> presignedPutUrls = new ArrayList<>();
-    if (dto.addFileNames() != null) {
-      for (String fileName : dto.addFileNames()) {
+    if (dto.addFileNames() != null && !dto.addFileNames().isEmpty()) {
+      // 요청 내 중복도 제거
+      for (String fileName : dto.addFileNames().stream().distinct().toList()) {
         String bn = baseName(fileName);
         if (bn == null || bn.isEmpty() || existingNames.contains(bn)) {
-          continue;
+          continue; // 기존에 같은 원본파일명이 있으면 스킵
         }
-        String key = s3Service.generateFacilityS3Key(fileName, origin.getId());
+        String key = s3Service.generateFacilityS3Key(fileName, origin.getId()); // facilities/{id}/images/{uuid}_{원본}
         String putUrl = s3Service.generatePresignedUrlForPut(key);
         presignedPutUrls.add(putUrl);
         images.add(key);
@@ -216,12 +222,16 @@ public class FacilityService {
       }
       images = reordered;
     } else {
-      images = new ArrayList<>(new LinkedHashSet<>(images)); // 중복 제거
+      // 혹시 모를 중복 키 제거(보수적)
+      images = new ArrayList<>(new LinkedHashSet<>(images));
     }
 
     origin.replaceImages(images);
+
+    // 업로드해야 할 것만 presigned 반환
     return PreSignUrlListResponse.from(presignedPutUrls);
   }
+
 
   // ---------- getAll ----------
   @Transactional(readOnly = true)
@@ -299,5 +309,53 @@ public class FacilityService {
     }
     Facility facility = facilityImpl.findById(facilityId);
     return timeTableService.getPeriodTimeTables(facility, startDate, endDate);
+  }
+
+  // FacilityService 하단 헬퍼 교체
+  private static List<AffiliationType> mapMajors(List<String> majors) {
+    if (majors == null) {
+      return null;
+    }
+
+    List<String> invalid = new ArrayList<>();
+    List<AffiliationType> out = new ArrayList<>();
+
+    for (String raw : majors) {
+      if (raw == null) {
+        continue;
+      }
+      String v = raw.trim();
+
+      AffiliationType resolved = null;
+
+      // 1) 표시 이름(한글)으로 매칭
+      try {
+        resolved = AffiliationType.getInstance(v);
+      } catch (CustomException ignore) {
+        // 2) enum 상수 이름으로 매칭 (대소문자 무시)
+        for (AffiliationType t : AffiliationType.values()) {
+          if (t.name().equalsIgnoreCase(v)) {
+            resolved = t;
+            break;
+          }
+        }
+      }
+
+      if (resolved == null) {
+        invalid.add(v);
+      } else {
+        out.add(resolved);
+      }
+    }
+
+    if (!invalid.isEmpty()) {
+      throw new CustomException(
+          ErrorType.INVALID_AFFILIATION_TYPE,
+          "유효하지 않은 전공: " + String.join(", ", invalid)
+      );
+    }
+
+    // 중복 제거 + 순서 유지
+    return new ArrayList<>(new LinkedHashSet<>(out));
   }
 }

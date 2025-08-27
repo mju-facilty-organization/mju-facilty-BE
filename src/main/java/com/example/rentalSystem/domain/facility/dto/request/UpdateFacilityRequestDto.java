@@ -1,7 +1,5 @@
 package com.example.rentalSystem.domain.facility.dto.request;
 
-import com.example.rentalSystem.domain.member.base.entity.type.AffiliationType;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalTime;
@@ -17,7 +15,7 @@ public record UpdateFacilityRequestDto(
     LocalTime endTime,
     Long capacity,
     Boolean isAvailable,
-    List<AffiliationType> allowedBoundary,
+    List<String> allowedBoundary,
     List<String> addFileNames,
     List<String> removeKeys,
     List<String> newOrder,
