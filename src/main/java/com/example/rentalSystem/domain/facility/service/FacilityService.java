@@ -127,28 +127,35 @@ public class FacilityService {
 
   @Transactional
   public PreSignUrlListResponse update(UpdateFacilityRequestDto dto, Long facilityId) {
-    // 0) 대상 조회
     Facility origin = facilityJpaRepository.findById(facilityId)
         .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
 
-    // 1) 타입 등 메타 필드 덮어쓰기(값이 오면 교체, null이면 유지)
-    FacilityType newType = (dto.facilityType() != null)
-        ? FacilityType.getInstanceByValue(dto.facilityType())
-        : null;
+    // 🚫 시설유형은 불변: 값이 왔고 기존과 다르면 예외
+    if (dto.facilityType() != null) {
+      FacilityType requested = FacilityType.getInstanceByValue(dto.facilityType());
+      if (requested != origin.getFacilityType()) {
+        throw new CustomException(
+            ErrorType.INVALID_REQUEST,     // 없으면 새 에러타입 하나 추가해도 OK (e.g. FACILITY_TYPE_IMMUTABLE)
+            "시설 유형은 수정할 수 없습니다."
+        );
+      }
+    }
 
-    // allowedBoundary: null이면 유지, 값이 오면 AffiliationType으로 변환해서 교체
+    // 유형은 항상 유지 (변경 안 함)
+    FacilityType newType = null;
+
     List<AffiliationType> newBoundary = (dto.allowedBoundary() != null)
-        ? mapMajors(dto.allowedBoundary())          // ← 여기
+        ? mapMajors(dto.allowedBoundary())
         : null;
 
     origin.updateAll(
         newType,
-        null,                         // 번호는 변경 금지 → null 유지
+        null,              // 시설번호도 불변
         dto.capacity(),
         dto.startTime(),
         dto.endTime(),
         dto.supportFacilities(),
-        newBoundary,                  // null이면 기존 유지
+        newBoundary,
         dto.isAvailable()
     );
 
