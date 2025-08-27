@@ -259,22 +259,15 @@ public class FacilityService {
     }
   }
 
+  // 단건삭제 재활용, 퍼포먼스 고려해서 리펙토링 필요
   @Transactional
   public void deleteAllFacilities() {
-    // 1) 모든 시설 로드
+    // 모든 시설 조회
     List<Facility> all = facilityJpaRepository.findAll();
 
-    // 2) 모든 이미지 키 수집
-    List<String> allKeys = all.stream()
-        .flatMap(f -> (f.getImages() == null ? List.<String>of().stream() : f.getImages().stream()))
-        .toList();
-
-    // 3) DB 일괄 삭제
-    facilityJpaRepository.deleteAllInBatch(); // FK 제약 고려해서 batch delete
-
-    // 4) S3 일괄 삭제
-    for (String key : allKeys) {
-      s3Service.deleteObjectIfExists(key);
+    // 기존 단건 삭제 로직 재사용 (자식/FK/S3 정리 포함)
+    for (Facility f : all) {
+      delete(f.getId());
     }
   }
 
