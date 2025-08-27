@@ -125,29 +125,13 @@ public class FacilityService {
     }
   }
 
-  /**
-   * 경로 제거 + 파일명만 소문자화(중복 비교용)
-   */
-  private static String baseName(String name) {
-    if (name == null) {
-      return null;
-    }
-    String only = name.replace("\\", "/");
-    only = only.substring(only.lastIndexOf('/') + 1);
-    return only.trim().toLowerCase();
-  }
-
   @Transactional
   public PreSignUrlListResponse update(UpdateFacilityRequestDto dto, Long facilityId) {
     // 0) 대상 조회
     Facility origin = facilityJpaRepository.findById(facilityId)
         .orElseThrow(() -> new CustomException(ErrorType.ENTITY_NOT_FOUND));
 
-    // 1) 시설번호는 수정 금지 → DTO 값이 와도 무시
-    //    (필요하면 여기서 변경 시도 시 예외 던지도록 바꿀 수 있음)
-    String keepNumber = origin.getFacilityNumber();
-
-    // 2) 타입 등 메타 필드 덮어쓰기(값이 오면 교체, null이면 유지)
+    // 1) 타입 등 메타 필드 덮어쓰기(값이 오면 교체, null이면 유지)
     FacilityType newType = (dto.facilityType() != null)
         ? FacilityType.getInstanceByValue(dto.facilityType())
         : null;
@@ -309,6 +293,18 @@ public class FacilityService {
     }
     Facility facility = facilityImpl.findById(facilityId);
     return timeTableService.getPeriodTimeTables(facility, startDate, endDate);
+  }
+
+  /**
+   * 경로 제거 + 파일명만 소문자화(중복 비교용)
+   */
+  private static String baseName(String name) {
+    if (name == null) {
+      return null;
+    }
+    String only = name.replace("\\", "/");
+    only = only.substring(only.lastIndexOf('/') + 1);
+    return only.trim().toLowerCase();
   }
 
   // FacilityService 하단 헬퍼 교체

@@ -86,8 +86,12 @@ public class FacilityController implements FacilityControllerDocs {
   @GetMapping("/{facilityId}")
   public ApiResponse<FacilityDetailResponse> getFacilityDetail(
       @PathVariable("facilityId") Long facilityId,
-      @RequestParam(name = "date") LocalDate date
+      @RequestParam(name = "date", required = false) LocalDate date
   ) {
+    if (date == null) {
+      date = LocalDate.now();
+    }
+
     FacilityDetailResponse facilityDetailResponse = facilityService.getFacilityDetail(
         facilityId, date
     );
