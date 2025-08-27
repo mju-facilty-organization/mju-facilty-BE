@@ -1,5 +1,6 @@
 package com.example.rentalSystem.global.exception;
 
+import com.example.rentalSystem.domain.facility.exception.FacilityConflictException;
 import com.example.rentalSystem.global.exception.custom.CustomException;
 import com.example.rentalSystem.global.response.ApiResponse;
 import com.example.rentalSystem.global.response.type.ErrorType;
@@ -41,5 +42,15 @@ public class GlobalExceptionHandler {
         .findFirst()
         .orElse("잘못된 요청입니다.");
     return ApiResponse.error(ErrorType.INVALID_REQUEST, errorMessage);
+  }
+
+  @ExceptionHandler(FacilityConflictException.class)
+  public ApiResponse<?> handleFacilityConflict(FacilityConflictException e) {
+    log.warn("FacilityConflictException", e);
+    return ApiResponse.error(
+        ErrorType.DUPLICATE_RESOURCE,
+        ErrorType.DUPLICATE_RESOURCE.getMessage(),
+        e.getConflictFacility()   // 기존 시설 상세 스냅샷
+    );
   }
 }
