@@ -81,7 +81,7 @@ public class FacilityService {
           dto.startTime(), dto.endTime(), dto.capacity(), dto.isAvailable(),
           dto.allowedBoundary(), dto.fileNames(),
           existing.getImages() == null ? List.of() : new ArrayList<>(existing.getImages()),
-          null, false
+          null
       );
       return update(updateDto, existing.getId());
     }
@@ -160,13 +160,14 @@ public class FacilityService {
     );
 
     // 3) 이미지 처리: remove → add → 정렬
+    // FacilityService.update(...)
     List<String> images = new ArrayList<>(origin.getImages() == null ? List.of() : origin.getImages());
 
-    // (1) 삭제
+// (1) 삭제: 무조건 S3에서도 제거
     if (dto.removeKeys() != null && !dto.removeKeys().isEmpty()) {
       for (String rk : dto.removeKeys()) {
-        if (images.remove(rk) && Boolean.TRUE.equals(dto.hardDelete())) {
-          s3Service.deleteObjectIfExists(rk); // 없으면 조용히 무시
+        if (images.remove(rk)) {
+          s3Service.deleteObjectIfExists(rk); // <- 항상 하드 삭제
         }
       }
     }
